@@ -1,0 +1,70 @@
+<div class="expenses-container">
+    <div class="modal-header">
+        <h2>Transaction</h2>
+
+        <mat-icon (click)="dialogRef.close()" class="close-icon">close</mat-icon>
+    </div>
+
+    <div class="modal-body" [formGroup]="transactionForm">
+        <p>Type</p>
+        <mat-radio-group
+            aria-labelledby="example-radio-group-label"
+            class="example-radio-group"
+            formControlName="type">
+            @for (type of typeOptions; track type) {
+                <mat-radio-button [value]="type.value">{{type.type}}</mat-radio-button>
+            }
+        </mat-radio-group>
+        
+        <p>Choose the date</p>
+        <mat-form-field appearance="outline">
+            <mat-label>date</mat-label>
+            <input matInput [matDatepicker]="datepicker" formControlName="date" placeholder="MM/DD/YYYY"/>
+            <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker>
+                <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button matDatepickerApply>Apply</button>
+                </mat-datepicker-actions>
+            </mat-datepicker>
+        </mat-form-field>
+
+        <p>Enter the amount</p>
+        <mat-form-field appearance="outline">
+            <input
+                matInput
+                formControlName="amount"
+                placeholder="5000"
+                (blur)="formatAmount()"
+            />
+        </mat-form-field>
+
+        <p>Enter the description</p>
+        <mat-form-field appearance="outline">
+            <textarea 
+                matInput
+                formControlName="description"
+                placeholder="House payment"
+                (blur)="formatAmount()"
+            ></textarea>
+        </mat-form-field>
+
+        <p>Choose the source</p>
+        <mat-form-field appearance="outline">
+            <mat-select formControlName="source">
+                
+            @for (source of sourceOptions; track source) {
+                <mat-option [value]="source">{{source}}</mat-option>
+            }
+            </mat-select>
+        </mat-form-field>
+    </div>
+    
+    <div class="modal-footer">
+        <mat-divider></mat-divider>
+        <div class="modal-actions">
+            <button mat-raised-button color="secondary" (click)="dialogRef.close()">Cancel</button>
+            <button mat-raised-button color="primary" (click)="saveExpense()">Save</button>
+        </div>
+    </div>
+</div>

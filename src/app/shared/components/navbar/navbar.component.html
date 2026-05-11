@@ -1,0 +1,7 @@
+<div class="navbar-container">
+    @for (option of navbarOption; track option) {
+        <div class="option" [routerLink]="option.path">
+            {{option.label}}
+        </div>
+    }
+</div>
