@@ -1,0 +1,22 @@
+@use '@angular/material' as mat;
+
+:root {
+  @include mat.theme((
+    color: (
+      theme-type: dark,
+      primary: mat.$green-palette,
+      tertiary: mat.$cyan-palette,
+    ),
+    typography: "Inter",
+    density: -2,
+  ));
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+}
