@@ -1,0 +1,78 @@
+<div class="expenses-container">
+    <div class="modal-header">
+        <h2>Account</h2>
+
+        <mat-icon (click)="dialogRef.close()" class="close-icon">close</mat-icon>
+    </div>
+
+    <div class="modal-body" [formGroup]="accountForm">
+        <p>Creation date</p>
+        <mat-form-field appearance="outline">
+            <mat-label>date</mat-label>
+            <input matInput [matDatepicker]="datepicker" formControlName="created_at" placeholder="MM/DD/YYYY"/>
+            <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker>
+                <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button matDatepickerApply>Apply</button>
+                </mat-datepicker-actions>
+            </mat-datepicker>
+        </mat-form-field>
+
+        <p>Enter the name</p>
+        <mat-form-field appearance="outline">
+            <textarea 
+                matInput
+                formControlName="name"
+                placeholder="Scotiabank"
+            ></textarea>
+        </mat-form-field>
+
+        <p>Type</p>
+        <mat-radio-group
+            formControlName="type">
+            @for (type of accountTypes; track type) {
+                <mat-radio-button [value]="type.value">{{type.type}}</mat-radio-button>
+            }
+        </mat-radio-group>
+
+        <p>Enter the currency</p>
+        <mat-form-field appearance="outline">
+            <mat-label>Choose a currency</mat-label>
+            <mat-select formControlName="currency">
+                
+            @for (source of CURRENCIES; track source) {
+                <mat-option [value]="source.code">{{source.name}}</mat-option>
+            }
+            </mat-select>
+        </mat-form-field>
+
+        <p>Enter the initial balance</p>
+        <mat-form-field appearance="outline">
+            <textarea 
+                matInput
+                formControlName="initial_balance"
+                placeholder="10000"
+                (blur)="formatAmount()"
+            ></textarea>
+        </mat-form-field>
+
+        <p>Enter the description</p>
+        <mat-form-field appearance="outline">
+            <textarea 
+                matInput
+                formControlName="description"
+                placeholder="Bank account, etc"
+                (blur)="formatAmount()"
+            ></textarea>
+        </mat-form-field>
+    </div>
+    
+    <div class="modal-footer">
+        <mat-divider></mat-divider>
+        <div class="modal-actions">
+            <button mat-raised-button color="secondary" (click)="dialogRef.close()">Cancel</button>
+            <button mat-raised-button color="primary" (click)="saveAccount()">Save</button>
+        </div>
+    </div>
+</div>

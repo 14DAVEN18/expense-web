@@ -10,11 +10,11 @@ export class TransactionsService {
 
   constructor(private readonly expensesWebDb: ExpenseTrackerDbService) { }
 
-  public async saveExpense(expense: ITransaction) {
-    return this.expensesWebDb.transactions.add(expense)    
+  public async saveTransaction(transaction: ITransaction) {
+    return this.expensesWebDb.transactions.add(transaction)    
   }
 
-  public async getExpenses() {
+  public async getTransactions() {
     return this.expensesWebDb.transactions.toArray()
   }
 

@@ -2,8 +2,8 @@ import { Component } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
-import { TransactionsComponent } from '@modules/expenses/components/transactions.component';
-import { TransactionsService } from '@modules/expenses/services/transactions.service';
+import { TransactionsComponent } from '@modules/transactions/components/transactions/transactions.component';
+import { TransactionsService } from '@modules/transactions/services/transactions.service';
 
 @Component({
   selector: 'our-expense-list',

@@ -12,6 +12,7 @@ export class NavbarComponent {
 
   public navbarOption: INavbar[] = [
     { path: '/home', label: 'home' },
+    { path: '/accounts', label: 'accounts' },
     { path: '/transactions', label: 'transactions' }
   ]
 }
