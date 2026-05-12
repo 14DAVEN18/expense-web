@@ -1,12 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button'
-import { RouterLink } from "@angular/router";
-import { NavbarComponent } from '@shared/components/navbar/navbar.component';
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'our-home',
-  imports: [CommonModule, MatButtonModule, RouterLink, NavbarComponent],
+  imports: [CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.sass'
 })

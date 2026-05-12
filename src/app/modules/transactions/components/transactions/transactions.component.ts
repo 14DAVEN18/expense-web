@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core'
-import { TransactionsService } from '../services/transactions.service'
+import { TransactionsService } from '@modules/transactions/services/transactions.service'
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -9,10 +9,11 @@ import { MatInputModule } from '@angular/material/input'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatSelectModule } from '@angular/material/select'
 import { MatRadioModule } from '@angular/material/radio'
-import { ITransaction } from '../interfaces/transactions'
-import { TransactionMapper } from '../mappers/transaction.mapper'
+import { ITransaction } from '@modules/transactions/interfaces/transactions'
+import { TransactionMapper } from '@modules/transactions/mappers/transaction.mapper'
 import { MatIconModule } from '@angular/material/icon'
 import { MatDialogRef } from '@angular/material/dialog'
+import { IType } from '@shared/interfaces/type'
 
 
 @Component({
@@ -42,7 +43,7 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
     'washing machine'
   ]
 
-  public readonly typeOptions: {value: number, type: string}[] = [
+  public readonly typeOptions: IType[] = [
     { value: 1, type: 'expense' },
     { value: 2, type: 'income' }
   ]
@@ -74,15 +75,21 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
   }
 
   // ******************************* MAIN METHODS *******************************
-  public async saveExpense() {
+  /**
+   * Sends the value to be saved in the indexedDB table
+   */
+  public async saveTransaction() {
     const formValue = this.transactionForm.value
-    const expense: ITransaction = TransactionMapper.fromForm(formValue)
+    const transaction: ITransaction = TransactionMapper.fromForm(formValue)
 
-    await this.transactionsService.saveExpense(expense)
+    await this.transactionsService.saveTransaction(transaction)
     this.transactionForm.reset()
   }
 
   // ******************************* HELPERS *******************************
+  /**
+   * Formats the amount entered to add decimal point and 2 decimal positions
+   */
   formatAmount() {
     const value = this.transactionForm.get('amount')?.value;
     if(!value) return

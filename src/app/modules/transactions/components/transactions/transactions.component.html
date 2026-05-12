@@ -8,8 +8,6 @@
     <div class="modal-body" [formGroup]="transactionForm">
         <p>Type</p>
         <mat-radio-group
-            aria-labelledby="example-radio-group-label"
-            class="example-radio-group"
             formControlName="type">
             @for (type of typeOptions; track type) {
                 <mat-radio-button [value]="type.value">{{type.type}}</mat-radio-button>
@@ -64,7 +62,7 @@
         <mat-divider></mat-divider>
         <div class="modal-actions">
             <button mat-raised-button color="secondary" (click)="dialogRef.close()">Cancel</button>
-            <button mat-raised-button color="primary" (click)="saveExpense()">Save</button>
+            <button mat-raised-button color="primary" (click)="saveTransaction()">Save</button>
         </div>
     </div>
 </div>
