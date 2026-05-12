@@ -74,11 +74,22 @@ export class AccountComponent implements OnInit, AfterViewInit {
    * Sends the value to be saved in the indexedDB table
    */
   public async saveAccount() {
-    const formValue = this.accountForm.value
-    const account: IAccount = AccountMapper.fromForm(formValue)
+    try {
+      const formValue = this.accountForm.value
+      const account: IAccount = AccountMapper.fromForm(formValue)
 
-    await this.accountService.saveAccount(account)
-    this.accountForm.reset()
+      await this.accountService.saveAccount(account)
+      this.accountForm.reset()
+      this.close(true)
+    }
+    catch (error) {
+      console.warn("Error saving account", error)
+      this.close(false)
+    }
+  }
+
+  public close(success: boolean) {
+    this.dialogRef.close(success)
   }
 
   // ******************************* HELPERS *******************************
