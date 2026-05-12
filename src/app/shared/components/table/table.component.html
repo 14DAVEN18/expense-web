@@ -1,0 +1,35 @@
+<div class="table-container">
+    <table mat-table [dataSource]="dataSource">
+        @for (column of realColumnNames; let i = $index; track column) {
+            {{column | json }}
+            <ng-container [matColumnDef]="column">
+                <!-- header -->
+                <mat-header-cell 
+                    *matHeaderCellDef
+                    mat-sort-header
+                    class="mat-cell--styles"
+                    [ngClass]="{'mat-header-cell-first': noDataColumn && emptyDataColumnName.includes(column)}"
+                >
+                    {{ displayHeaders[i] | uppercase }}
+                </mat-header-cell>
+
+                <!-- Cell -->
+                <mat-cell 
+                    *matCellDef="let element; let rowIndex = index"
+                    class="mat-cell--styles"
+                    [ngClass]="{'mat-header-cell-first': noDataColumn && emptyDataColumnName.includes(column)}"
+                >
+                    <ng-container
+                        *ngTemplateOutlet="cellTemplate; context: {element: element, column: column, index: rowIndex}">
+                    </ng-container>
+                </mat-cell>
+            </ng-container>    
+        }
+        <mat-header-row *matHeaderRowDef="realColumnNames"></mat-header-row>
+        <mat-row *matRowDef="let row; let i = index; columns: realColumnNames;"></mat-row>
+    </table>
+</div>
+
+<ng-template #defaultCellTemplate let-element='element' let-column="column">
+    {{element[column]}} 
+</ng-template>
