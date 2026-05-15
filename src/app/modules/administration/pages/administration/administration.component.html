@@ -1,0 +1,113 @@
+    <div class="administration-container">
+        <div class="header">
+            <h1>Administration</h1>
+        </div>
+
+        <div class="content">
+            <div class="card">
+                <div class="card-title">
+                    <h2>Account types</h2>
+                    <button mat-mini-fab (click)="openAccountTypeCreationModal()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+
+                <div class="card-content">
+                    @if(loadingAccountTypes) {
+                        <h1>loading...</h1>
+                    } @else {
+                        @if(accountTypes.length) {
+                            <div class="row-header">
+                                <span>id</span>
+                                <span>name</span>
+                                <span>created at</span>
+                                <span>updated at</span>
+                            </div>
+                            @for(type of accountTypes; let i = $index; track type) {
+                                <div class="row">
+                                    <span>{{type.id}}</span>
+                                    <span>{{type.name}}</span>
+                                    <span>{{type.created_at}}</span>
+                                    <span>{{type.updated_at ? type.updated_at : 'Unchanged'}}</span>
+                                </div>
+                            }
+                        } @else {
+                            <h1>There are not any types created. Create one to begin.</h1>
+                        }
+                    }
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <h2>transaction types</h2>
+                    <button mat-mini-fab (click)="openTransactionTypeCreationModal()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+
+                <div class="card-content">
+                    @if(loadingTransactionTypes) {
+                        <h1>loading...</h1>
+                    } @else {
+                        @if(transactionTypes.length) {
+                            <div class="row-header">
+                                <span>id</span>
+                                <span>name</span>
+                                <span>created at</span>
+                                <span>updated at</span>
+                            </div>
+                            @for(type of transactionTypes; let i = $index; track type) {
+                                <div class="row">
+                                    <span>{{type.id}}</span>
+                                    <span>{{type.name}}</span>
+                                    <span>{{type.created_at}}</span>
+                                    <span>{{type.updated_at ? type.updated_at : 'Unchanged'}}</span>
+                                </div>
+                            }
+                        } @else {
+                            <h1>There are not any types created. Create one to begin.</h1>
+                        }
+                    }
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <h2>Currencies</h2>
+                    <button mat-mini-fab (click)="openCurrencyCreationModal()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+
+                <div class="card-content">
+                    @if(loadingCurrencies) {
+                        <h1>loading...</h1>
+                    } @else {
+                        @if(currencies.length) {
+                            <div class="currency-row-header">
+                                <span>id</span>
+                                <span>symbol</span>
+                                <span>code</span>
+                                <span>name</span>
+                                <span>created at</span>
+                                <span>updated at</span>
+                            </div>
+                            @for(type of currencies; let i = $index; track type) {
+                                <div class="currency-row">
+                                    <span>{{type.id}}</span>
+                                    <span>{{type.symbol}}</span>
+                                    <span>{{type.code}}</span>
+                                    <span>{{type.name}}</span>
+                                    <span>{{type.created_at}}</span>
+                                    <span>{{type.updated_at ? type.updated_at : 'Unchanged'}}</span>
+                                </div>
+                            }
+                        } @else {
+                            <h1>There are not any currencies created. Create one to begin.</h1>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>

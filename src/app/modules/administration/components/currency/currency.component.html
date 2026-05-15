@@ -1,0 +1,55 @@
+<div class="expenses-container">
+    <div class="modal-header">
+        <h2>Currency</h2>
+
+        <mat-icon (click)="dialogRef.close()" class="close-icon">close</mat-icon>
+    </div>
+
+    <div class="modal-body" [formGroup]="currencyForm">
+        <p>Enter the code</p>
+        <mat-form-field appearance="outline">
+            <input 
+                matInput
+                formControlName="code"
+                placeholder="COP, USD, etc"
+            />
+        </mat-form-field>
+
+        <p>Enter the name</p>
+        <mat-form-field appearance="outline">
+            <input 
+                matInput
+                formControlName="name"
+                placeholder="peso colombia, dolar, etc"
+            />
+        </mat-form-field>
+
+        <p>Enter the symbol</p>
+        <mat-form-field appearance="outline">
+            <input 
+                matInput
+                formControlName="symbol"
+                placeholder="$"
+            />
+        </mat-form-field>
+
+
+        <p>Enter the description</p>
+        <mat-form-field appearance="outline">
+            <textarea 
+                matInput
+                formControlName="description"
+                placeholder="Currency used in..."
+            ></textarea>
+        </mat-form-field> 
+    </div>
+    
+    <mat-divider></mat-divider>
+
+    <div class="modal-footer">
+        <div class="modal-actions">
+            <button mat-raised-button color="secondary" (click)="dialogRef.close()">Cancel</button>
+            <button mat-raised-button color="primary" (click)="saveCurrency()">Save</button>
+        </div>
+    </div>
+</div>

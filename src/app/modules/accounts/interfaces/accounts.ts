@@ -10,7 +10,7 @@ export interface IAccount {
 }
 
 export interface IAccountFormModel {
-    created_date: Date
+    created_at: Date
     name: string
     type: string
     currency: string

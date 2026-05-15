@@ -4,7 +4,7 @@ import { IAccount, IAccountFormModel } from "@modules/accounts/interfaces/accoun
 export class AccountMapper {
     static fromForm(expense: IAccountFormModel) {
         const newAccount: IAccount = {
-            created_at: AccountMapper.dateToString(expense.created_date),
+            created_at: AccountMapper.dateToString(expense.created_at),
             name: expense.name,
             type: expense.type,
             currency: expense.currency,
