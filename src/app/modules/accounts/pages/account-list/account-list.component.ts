@@ -10,7 +10,7 @@ import { TableComponent } from '@shared/components/table/table.component';
 import { ToastService } from '@shared/services/toast.service';
 
 @Component({
-  selector: 'app-account-list',
+  selector: 'our-account-list',
   imports: [
     CommonModule,
     MatButtonModule,
@@ -43,6 +43,9 @@ export class AccountListComponent implements OnInit {
   }
 
   // ******************************* MAIN METHODS *******************************
+  /**
+   * Fetches the existing accounts of the user from indexedDB
+   */
   private async getAccounts() {
     this.isLoadingAccounts = true
     this.data = await this.accountService.getAccounts()

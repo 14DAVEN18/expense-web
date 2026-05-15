@@ -52,6 +52,19 @@ export class AccountComponent implements OnInit, AfterViewInit {
 
   // ******************************* HOOKS *******************************
   ngOnInit(): void {
+    this.createAccountForm()
+    this.accountForm.valueChanges.subscribe(() => console.log(this.accountForm.getRawValue()))
+  }
+
+  ngAfterViewInit(): void {
+    this.accountForm.enable()
+  }
+
+  // ******************************* MAIN METHODS *******************************
+  /**
+   * Creates the fields for the account form
+   */
+  private createAccountForm() {
     this.accountForm = this.fb.group({
       created_at: new FormControl({ value: null, disabled: true }),
       name: new FormControl({ value: null, disabled: true }),
@@ -61,15 +74,8 @@ export class AccountComponent implements OnInit, AfterViewInit {
       description: new FormControl({ value: null, disabled: true }),
       active: new FormControl({ value: true, disabled: true })
     })
-
-    this.accountForm.valueChanges.subscribe(() => console.log(this.accountForm.getRawValue()))
   }
 
-  ngAfterViewInit(): void {
-    this.accountForm.enable()
-  }
-
-  // ******************************* MAIN METHODS *******************************
   /**
    * Sends the value to be saved in the indexedDB table
    */
@@ -88,6 +94,10 @@ export class AccountComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Closes the modal
+   * @param success Indicates whether the operation was successful or not
+   */
   public close(success: boolean) {
     this.dialogRef.close(success)
   }

@@ -21,11 +21,11 @@
 
         <p>Enter the name</p>
         <mat-form-field appearance="outline">
-            <textarea 
+            <input 
                 matInput
                 formControlName="name"
                 placeholder="Scotiabank"
-            ></textarea>
+            />
         </mat-form-field>
 
         <p>Type</p>
@@ -40,21 +40,20 @@
         <mat-form-field appearance="outline">
             <mat-label>Choose a currency</mat-label>
             <mat-select formControlName="currency">
-                
-            @for (source of CURRENCIES; track source) {
-                <mat-option [value]="source.code">{{source.name}}</mat-option>
-            }
+                @for (source of CURRENCIES; track source) {
+                    <mat-option [value]="source.code">{{source.name}}</mat-option>
+                }
             </mat-select>
         </mat-form-field>
 
         <p>Enter the initial balance</p>
         <mat-form-field appearance="outline">
-            <textarea 
+            <input 
                 matInput
                 formControlName="initial_balance"
                 placeholder="10000"
                 (blur)="formatAmount()"
-            ></textarea>
+            />
         </mat-form-field>
 
         <p>Enter the description</p>
@@ -63,13 +62,13 @@
                 matInput
                 formControlName="description"
                 placeholder="Bank account, etc"
-                (blur)="formatAmount()"
             ></textarea>
         </mat-form-field>
     </div>
+
+    <mat-divider></mat-divider>
     
     <div class="modal-footer">
-        <mat-divider></mat-divider>
         <div class="modal-actions">
             <button mat-raised-button color="secondary" (click)="dialogRef.close()">Cancel</button>
             <button mat-raised-button color="primary" (click)="saveAccount()">Save</button>

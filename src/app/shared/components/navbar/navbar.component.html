@@ -1,6 +1,6 @@
 <div class="navbar-container">
     @for (option of navbarOption; track option) {
-        <div class="option" [routerLink]="option.path">
+        <div class="option" [routerLink]="option.path" routerLinkActive="active-option">
             {{option.label}}
         </div>
     }
