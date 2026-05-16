@@ -10,25 +10,25 @@ export class AccountsService {
 
   constructor(private readonly expensesWebDb: ExpenseTrackerDbService) { }
   
-    public async saveAccount(account: IAccount) {
-      return this.expensesWebDb.accounts.add(account)    
-    }
-  
     public async getAccounts() {
       return this.expensesWebDb.accounts.toArray()
+    }
+
+    public async saveAccount(account: IAccount) {
+      return this.expensesWebDb.accounts.put(account)    
     }
   
     public async exportAccountsToCSV() {
       const accounts = await this.expensesWebDb.accounts.toArray()
   
-      const headers = [ 'id', 'created_at', 'name', 'type', 'currency', 'initial_balance', 'description', 'active' ]
+      const headers = [ 'id', 'created_at', 'name', 'type_id', 'currency_code', 'initial_balance', 'description', 'active' ]
   
       const rows = accounts.map(account => [
         account.id,
         account.created_at,
         account.name,
-        account.type,
-        account.currency,
+        account.type_id,
+        account.currency_code,
         account.initial_balance,
         account.description,
         account.active

@@ -2,7 +2,11 @@
     <div class="modal-header">
         <h2>Account</h2>
 
-        <mat-icon (click)="dialogRef.close()" class="close-icon">close</mat-icon>
+        <mat-icon 
+            (click)="this.close()"
+            (keydown.enter)="this.close()"
+            class="close-icon"
+        >close</mat-icon>
     </div>
 
     <div class="modal-body" [formGroup]="accountForm">
@@ -30,18 +34,18 @@
 
         <p>Type</p>
         <mat-radio-group
-            formControlName="type">
+            formControlName="type_id">
             @for (type of accountTypes; track type) {
-                <mat-radio-button [value]="type.value">{{type.type}}</mat-radio-button>
+                <mat-radio-button [value]="type.id">{{type.name}}</mat-radio-button>
             }
         </mat-radio-group>
 
         <p>Enter the currency</p>
         <mat-form-field appearance="outline">
             <mat-label>Choose a currency</mat-label>
-            <mat-select formControlName="currency">
-                @for (source of CURRENCIES; track source) {
-                    <mat-option [value]="source.code">{{source.name}}</mat-option>
+            <mat-select formControlName="currency_code">
+                @for (currency of currencies; track currency) {
+                    <mat-option [value]="currency.code">{{currency.name}} [{{currency.code}}]</mat-option>
                 }
             </mat-select>
         </mat-form-field>
@@ -50,6 +54,7 @@
         <mat-form-field appearance="outline">
             <input 
                 matInput
+                type="number"
                 formControlName="initial_balance"
                 placeholder="10000"
                 (blur)="formatAmount()"
@@ -70,7 +75,7 @@
     
     <div class="modal-footer">
         <div class="modal-actions">
-            <button mat-raised-button color="secondary" (click)="dialogRef.close()">Cancel</button>
+            <button mat-raised-button color="secondary" (click)="this.close()">Cancel</button>
             <button mat-raised-button color="primary" (click)="saveAccount()">Save</button>
         </div>
     </div>
