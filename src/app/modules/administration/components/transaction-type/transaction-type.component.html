@@ -31,7 +31,7 @@
         
         <div class="modal-actions">
             <button mat-raised-button color="secondary" (click)="dialogRef.close()">Cancel</button>
-            <button mat-raised-button color="primary" (click)="saveTransactionType()">Save</button>
+            <button mat-raised-button color="primary" (click)="saveTransactionType()">{{ this.row ? 'Edit' : 'Save'}}</button>
         </div>
     </div>
 </div>

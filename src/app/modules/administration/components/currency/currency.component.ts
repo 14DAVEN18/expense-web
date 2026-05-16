@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ICurrency } from '@modules/administration/interfaces/creation-type';
 import { CurrencyMapper } from '@modules/administration/mappers/currency.mapper';
 import { AdministrationService } from '@modules/administration/services/administration.service';
+import { DateUtil } from '@shared/utils/date.util';
 
 @Component({
   selector: 'app-currency',
@@ -28,7 +29,7 @@ import { AdministrationService } from '@modules/administration/services/administ
 export class CurrencyComponent implements OnInit, AfterViewInit{
   // ******************************* PROPERTIES *******************************
   public currencyForm!: FormGroup
-  public creationMode: boolean = false
+  public row!: ICurrency
 
   constructor(
     @Inject(MAT_DIALOG_DATA) data: any,
@@ -36,7 +37,7 @@ export class CurrencyComponent implements OnInit, AfterViewInit{
     private readonly fb: FormBuilder,
     private readonly administrationService: AdministrationService)
   {
-    this.creationMode = data.creationMode
+    this.row = data
   }
 
   // ******************************* HOOKS *******************************
@@ -51,23 +52,27 @@ export class CurrencyComponent implements OnInit, AfterViewInit{
   // ******************************* MAIN METHODS *******************************
   private createAccountTypeForm() {
     this.currencyForm = this.fb.group({
-      created_at: new FormControl({value: null, disabled: true}),
-      code: new FormControl({value: null, disabled: true}),
-      name: new FormControl({value: null, disabled: true}),
-      symbol: new FormControl({value: null, disabled: true}), 
-      description: new FormControl({value: null, disabled: true}),
-      updated_at: new FormControl({value: null, disabled: true})
+      code: new FormControl({value: this.row?.code ?? null, disabled: true}),
+      name: new FormControl({value: this.row?.name ?? null, disabled: true}),
+      symbol: new FormControl({value: this.row?.symbol ?? null, disabled: true}), 
+      description: new FormControl({value: this.row?.description ?? null, disabled: true}),
     })
   }
   /**
    * Sends the account type data to be saved in the indexedDB table
    */
   public async saveCurrency() {
-    if(this.creationMode) this.currencyForm.get('created_ad')?.setValue(new Date)
-    
     try {
-      const formValue = this.currencyForm.value
-      const currency: ICurrency = CurrencyMapper.fromForm(formValue)
+      const formValue = this.currencyForm.getRawValue()
+      const currency: ICurrency = {
+        ...this.row,
+        code: formValue.code.toUpperCase(),
+        name: formValue.name.toUpperCase(),
+        symbol: formValue.symbol.toUpperCase(),
+        description: formValue.description.toUpperCase(),
+        created_at: this.row?.created_at ?? DateUtil.dateToString(),
+        updated_at: this.row ? DateUtil.dateToString() : ''
+      }
 
       await this.administrationService.saveCurrency(currency)
       this.currencyForm.reset()
