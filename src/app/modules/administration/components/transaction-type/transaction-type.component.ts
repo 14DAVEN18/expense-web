@@ -10,8 +10,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ITransactionType } from '@modules/administration/interfaces/creation-type';
-import { TransactionTypeMapper } from '@modules/administration/mappers/transaction-type.mapper';
 import { AdministrationService } from '@modules/administration/services/administration.service';
+import { DateUtil } from '@shared/utils/date.util';
 
 @Component({
   selector: 'app-transaction-type',
@@ -33,15 +33,15 @@ export class TransactionTypeComponent implements OnInit, AfterViewInit {
 
   // ******************************* PROPERTIES *******************************
   public transactionTypeForm!: FormGroup
-  public creationMode: boolean = false
+  public row!: ITransactionType
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) data: any,
+    @Inject(MAT_DIALOG_DATA) public data: ITransactionType,
     public dialogRef: MatDialogRef<TransactionTypeComponent>,
     private readonly fb: FormBuilder,
     private readonly administrationService: AdministrationService)
   {
-    this.creationMode = data.creationMode
+    this.row = data
   }
 
   // ******************************* HOOKS *******************************
@@ -56,23 +56,25 @@ export class TransactionTypeComponent implements OnInit, AfterViewInit {
   // ******************************* MAIN METHODS *******************************
   private createAccountTypeForm() {
     this.transactionTypeForm = this.fb.group({
-      created_at: new FormControl({value: null, disabled: true}),
-      name: new FormControl({value: null, disabled: true}),
-      description: new FormControl({value: null, disabled: true}),
-      update_at: new FormControl({value: null, disabled: true})
+      name: new FormControl({value: this.row?.name ?? null, disabled: true}),
+      description: new FormControl({value: this.row?.description ?? null, disabled: true}),
     })
   }
   /**
    * Sends the account type data to be saved in the indexedDB table
    */
   public async saveTransactionType() {
-    if(this.creationMode) this.transactionTypeForm.get('created_at')?.setValue(new Date)
-
     try {
-      const formValue = this.transactionTypeForm.value
-      const accountType: ITransactionType = TransactionTypeMapper.fromForm(formValue)
+      const formValue = this.transactionTypeForm.getRawValue()
+      const transactionType: ITransactionType = {
+        ...this.row,
+        name: formValue.name.toUpperCase(),
+        description: formValue.description.toUpperCase(),
+        created_at: this.row?.created_at ?? DateUtil.dateToString(),
+        updated_at: this.row ? DateUtil.dateToString() : ''
+      }
 
-      await this.administrationService.saveTransactionType(accountType)
+      await this.administrationService.saveTransactionType(transactionType)
       this.transactionTypeForm.reset()
       this.dialogRef.close({success: true})
     }

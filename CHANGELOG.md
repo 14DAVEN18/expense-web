@@ -2,6 +2,13 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.4.0] 2026-05-17 ?
+### Added
+- floating container for row actions in the Administration page.
+
+### Changed
+- Account type, transaction type and currency mappers were deleted.
+
 ## [0.3.0] 2026-05-15
 ### Added
 - Administration Page.

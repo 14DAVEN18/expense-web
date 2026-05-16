@@ -9,10 +9,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
 import { IAccountType } from '@modules/administration/interfaces/creation-type';
-import { AccountTypeMapper } from '@modules/administration/mappers/account-type.mapper';
 import { AdministrationService } from '@modules/administration/services/administration.service';
+import { DateUtil } from '@shared/utils/date.util';
 
 @Component({
   selector: 'app-account-type',
@@ -34,15 +33,15 @@ export class AccountTypeComponent implements OnInit, AfterViewInit {
 
   // ******************************* PROPERTIES *******************************
   public accountTypeForm!: FormGroup
-  public creationMode: boolean = false
+  public row!: IAccountType
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) data: any,
+    @Inject(MAT_DIALOG_DATA) data: IAccountType,
     public dialogRef: MatDialogRef<AccountTypeComponent>,
     private readonly fb: FormBuilder,
     private readonly administrationService: AdministrationService
   ) {
-    this.creationMode = data.creationMode
+    this.row = data
   }
 
   // ******************************* HOOKS *******************************
@@ -57,22 +56,25 @@ export class AccountTypeComponent implements OnInit, AfterViewInit {
   // ******************************* MAIN METHODS *******************************
   private createAccountTypeForm() {
     this.accountTypeForm = this.fb.group({
-      created_at: new FormControl({value: null, disabled: true}),
-      name: new FormControl({value: null, disabled: true}),
-      description: new FormControl({value: null, disabled: true})
+      name: new FormControl({value: this.row?.name ??  null, disabled: true}),
+      description: new FormControl({value: this.row?.description ?? null, disabled: true})
     })
   }
   /**
    * Sends the account type data to be saved in the indexedDB table
    */
   public async saveAccountType() {
-    if(this.creationMode) this.accountTypeForm.get('created_at')?.setValue(new Date)
-
     try {
-      const formValue = this.accountTypeForm.value
-      const account: IAccountType = AccountTypeMapper.fromForm(formValue)
+      const formValue = this.accountTypeForm.getRawValue()
+      const accountType: IAccountType = {
+        ...this.row,
+        name: formValue.name.toUpperCase(),
+        description: formValue.description.toUpperCase(),
+        created_at: this.row?.created_at ?? DateUtil.dateToString(),
+        updated_at: this.row ? DateUtil.dateToString() : ''
+      }
 
-      await this.administrationService.saveAccountType(account)
+      await this.administrationService.saveAccountType(accountType)
       this.accountTypeForm.reset()
       this.dialogRef.close({success: true})
     }

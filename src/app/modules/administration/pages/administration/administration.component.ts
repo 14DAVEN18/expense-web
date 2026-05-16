@@ -11,13 +11,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { ToastService } from '@shared/services/toast.service';
 import { TransactionTypeComponent } from '@modules/administration/components/transaction-type/transaction-type.component';
 import { CurrencyComponent } from '@modules/administration/components/currency/currency.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'our-administration',
   imports: [
     CommonModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatDividerModule
   ],
   templateUrl: './administration.component.html',
   styleUrl: './administration.component.sass'
@@ -62,7 +64,6 @@ export class AdministrationComponent implements OnInit {
   private async getTransactionTypes() {
     this.loadingTransactionTypes = true
     this.transactionTypes = await this.administrationService.getTransactionTypes()
-    console.log(this.transactionTypes)
     this.loadingTransactionTypes = false
   }
 
@@ -76,59 +77,103 @@ export class AdministrationComponent implements OnInit {
   }
 
   /**
-   * Sends account type modal settings to the openModal function
-   * @param creationMode indicates whether the modal is for creation (true) or update (false)
+   * Sends account type modal settings to the openModal function or creation
    */
-  public openAccountTypeCreationModal(creationMode: boolean = true) {
+  public openAccountTypeCreationModal() {
     this.openModal({
       component: AccountTypeComponent,
       successMessage: 'The account type was successfully created',
       errorMessage: 'There was an error creating the account type',
       reload: () => this.getAccountTypes()
-    },
-    creationMode)
+    })
   }
 
   /**
-   * Sends transaction type modal settings to the openModal function
-   * @param creationMode indicates whether the modal is for creation (true) or update (false)
+   * Sends account type modal settings to the openModal function for edition
    */
-  public openTransactionTypeCreationModal(creationMode: boolean = true) {
+  public openAccountTypeEditModal(row: IAccountType) {
+    console.log(row)
+    this.openModal({
+      component: AccountTypeComponent,
+      successMessage: 'The account type was successfully updated',
+      errorMessage: 'There was an error updating the account type',
+      reload: () => this.getAccountTypes(),
+      data: row
+    })
+  }
+
+  /**
+   * Sends transaction type modal settings to the openModal function for creation
+   */
+  public openTransactionTypeCreationModal() {
     this.openModal({
       component: TransactionTypeComponent,
       successMessage: 'The transaction type was successfully created',
       errorMessage: 'There was an error creating the transaction type',
       reload: () => this.getTransactionTypes()
-    },
-    creationMode)
+    })
   }
 
-   /**
+  /**
+   * Sends transaction type modal settings to the openModal function for edition
+   */
+  public openTransactionTypeEditModal(row: ITransactionType) {
+    this.openModal({
+      component: TransactionTypeComponent,
+      successMessage: 'The transaction type was successfully updated',
+      errorMessage: 'There was an error updating the transaction type',
+      reload: () => this.getTransactionTypes(),
+      data: row
+    })
+  }
+
+  /**
    * Sends currency modal settings to the openModal function
    * @param creationMode indicates whether the modal is for creation (true) or update (false)
    */
-  public openCurrencyCreationModal(creationMode: boolean = true) {
+  public openCurrencyCreationModal() {
     this.openModal({
       component: CurrencyComponent,
       successMessage: 'The currency was successfully created',
       errorMessage: 'There was an error creating the currency',
       reload: () => this.getCurrencies()
-    },
-    creationMode)
+    })
   }
 
+  /**
+   * Sends currency modal settings to the openModal function
+   * @param creationMode indicates whether the modal is for creation (true) or update (false)
+   */
+  public openCurrencyEditModal(row: ICurrency) {
+    this.openModal({
+      component: CurrencyComponent,
+      successMessage: 'The currency was successfully updated',
+      errorMessage: 'There was an error updating the currency',
+      reload: () => this.getCurrencies(),
+      data: row
+    })
+  }
+
+  /**
+   * Opens the modal depending on the component type
+   * @param config receives a component type, success and error messages and a function to execute after closing
+   * @param creationMode creation or edition
+   */
   public openModal(
-    config: {component: ComponentType<any>, successMessage: string, errorMessage: string, reload?: () => void},
-    creationMode: boolean = false  
+    config: {
+      component: ComponentType<any>,
+      successMessage: string,
+      errorMessage: string,
+      reload?: () => void,
+      data?: any
+    }
   ) {
     const dialogRef = this.dialog.open(config.component, {
       height: '60vh',
       width: '30vw',
       enterAnimationDuration: environment.enterAnimationDuration,
       exitAnimationDuration: environment.exitAnimationDuration,
-      data: {
-        creationMode
-      }
+      data: config.data
     })
 
     dialogRef.afterClosed().subscribe(result => {

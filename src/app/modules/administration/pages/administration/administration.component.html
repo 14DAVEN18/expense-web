@@ -23,13 +23,24 @@
                                 <span>created at</span>
                                 <span>updated at</span>
                             </div>
+                            <mat-divider></mat-divider>
                             @for(type of accountTypes; let i = $index; track type) {
                                 <div class="row">
                                     <span>{{type.id}}</span>
                                     <span>{{type.name}}</span>
                                     <span>{{type.created_at}}</span>
                                     <span>{{type.updated_at ? type.updated_at : 'Unchanged'}}</span>
+
+                                    <div class="row-actions">
+                                        <button mat-mini-fab title="Read description">
+                                            <mat-icon>chrome_reader_mode</mat-icon>
+                                        </button>
+                                        <button mat-mini-fab [title]="`Edit ${type.name}`" (click)="openAccountTypeEditModal(type)">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </div>
                                 </div>
+                                <mat-divider></mat-divider>
                             }
                         } @else {
                             <h1>There are not any types created. Create one to begin.</h1>
@@ -57,13 +68,24 @@
                                 <span>created at</span>
                                 <span>updated at</span>
                             </div>
+                            <mat-divider></mat-divider>
                             @for(type of transactionTypes; let i = $index; track type) {
                                 <div class="row">
                                     <span>{{type.id}}</span>
                                     <span>{{type.name}}</span>
                                     <span>{{type.created_at}}</span>
                                     <span>{{type.updated_at ? type.updated_at : 'Unchanged'}}</span>
+
+                                    <div class="row-actions">
+                                        <button mat-mini-fab title="Read description">
+                                            <mat-icon>chrome_reader_mode</mat-icon>
+                                        </button>
+                                        <button mat-mini-fab [title]="`Edit ${type.name}`" (click)="openTransactionTypeEditModal(type)">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </div>
                                 </div>
+                                <mat-divider></mat-divider>
                             }
                         } @else {
                             <h1>There are not any types created. Create one to begin.</h1>
@@ -93,15 +115,26 @@
                                 <span>created at</span>
                                 <span>updated at</span>
                             </div>
-                            @for(type of currencies; let i = $index; track type) {
+                            <mat-divider></mat-divider>
+                            @for(currency of currencies; let i = $index; track currency) {
                                 <div class="currency-row">
-                                    <span>{{type.id}}</span>
-                                    <span>{{type.symbol}}</span>
-                                    <span>{{type.code}}</span>
-                                    <span>{{type.name}}</span>
-                                    <span>{{type.created_at}}</span>
-                                    <span>{{type.updated_at ? type.updated_at : 'Unchanged'}}</span>
+                                    <span>{{currency.id}}</span>
+                                    <span>{{currency.symbol}}</span>
+                                    <span>{{currency.code}}</span>
+                                    <span>{{currency.name}}</span>
+                                    <span>{{currency.created_at}}</span>
+                                    <span>{{currency.updated_at ? currency.updated_at : 'Unchanged'}}</span>
+
+                                    <div class="row-actions">
+                                        <button mat-mini-fab title="Read description">
+                                            <mat-icon>chrome_reader_mode</mat-icon>
+                                        </button>
+                                        <button mat-mini-fab [title]="`Edit ${currency.code}`" (click)="openCurrencyEditModal(currency)">
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </div>
                                 </div>
+                                <mat-divider></mat-divider>
                             }
                         } @else {
                             <h1>There are not any currencies created. Create one to begin.</h1>

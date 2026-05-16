@@ -22,14 +22,14 @@ export class AdministrationService {
   }
 
   public async saveAccountType(accountType: IAccountType) {
-    return this.expensesWebDb.account_types.add(accountType)    
+    return this.expensesWebDb.account_types.put(accountType)    
   }
 
   public async saveTransactionType(transactionType: ITransactionType) {
-    return this.expensesWebDb.transaction_types.add(transactionType)
+    return this.expensesWebDb.transaction_types.put(transactionType)
   }
 
   public async saveCurrency(currency: ICurrency) {
-    return this.expensesWebDb.currencies.add(currency)
+    return this.expensesWebDb.currencies.put(currency)
   }
 }

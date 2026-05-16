@@ -71,16 +71,41 @@
     display: grid
     grid-template-columns: 1fr 2fr 3fr 3fr
     font-size: 1.5rem
-    border-bottom: 2px solid lightgrey
     justify-content: space-around
 
 .currency-row, .currency-row-header
     display: grid
     grid-template-columns: 1fr 1fr 1fr 3fr 3fr 3fr
     font-size: 1.5rem
-    border-bottom: 2px solid lightgrey
     justify-content: space-around
     span
         align-items: center
         display: flex
         justify-content: center
+
+.row, .currency-row
+    position: relative
+    &:hover 
+        cursor: pointer
+        z-index: 1
+        .row-actions
+            opacity: 1
+            pointer-events: auto
+        
+    
+.row-actions
+    background: white
+    border-radius: 10px
+    box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.2)
+    display: flex
+    flex-direction: row
+    gap: 1rem
+    height: auto
+    opacity: 0
+    padding: 0.5rem
+    position: absolute
+    right: 0.5rem
+    top: 50%
+    transform: translateY(-50%)
+    transition: opacity 0.2s ease
+    width: auto
