@@ -4,8 +4,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { AccountComponent } from '@modules/accounts/components/account/account.component';
-import { IAccount } from '@modules/accounts/interfaces/accounts';
+import { IAccount, IAccountDisplay } from '@modules/accounts/interfaces/accounts';
 import { AccountsService } from '@modules/accounts/services/accounts.service';
+import { IAccountType } from '@modules/administration/interfaces/creation-type';
+import { AdministrationService } from '@modules/administration/services/administration.service';
 import { TableComponent } from '@shared/components/table/table.component';
 import { ToastService } from '@shared/services/toast.service';
 
@@ -23,33 +25,56 @@ import { ToastService } from '@shared/services/toast.service';
 export class AccountListComponent implements OnInit {
 
   // ******************************* TABLE RELATED PROPERTIES *******************************
-  public realColumnNames: string[] = ['active', 'currency', 'created_at', 'name', 'description', 'initial_balance', 'type']
+  public realColumnNames: string[] = ['active', 'currency_code', 'created_at', 'name', 'description', 'initial_balance', 'type_name']
   public displayHeaders: string[] = ['', 'cur', 'created at', 'name', 'description', 'balance', 'type']
   public shortColumns: string[] = ['active', 'currency']
-  public data: IAccount[] = []
+  private accounts: IAccount[] = []
+  public data: IAccountDisplay[] = []
 
   // ******************************* OTHER PROPERTIES *******************************
   public isLoadingAccounts: boolean = false
+  private accountTypes: IAccountType[] = []
 
   constructor(
     private readonly dialog: MatDialog,
+    private readonly administrationService: AdministrationService,
     private readonly accountService: AccountsService,
     private readonly toastService: ToastService
   ) {}
 
   // ******************************* HOOKS *******************************
   ngOnInit(): void {
+    this.getAccountTypes()
     this.getAccounts()
   }
 
   // ******************************* MAIN METHODS *******************************
   /**
+   * Fetches the existing account types
+   */
+  private async getAccountTypes() {
+    this.accountTypes = await this.administrationService.getAccountTypes()
+  }
+
+  /**
    * Fetches the existing accounts of the user from indexedDB
    */
   private async getAccounts() {
     this.isLoadingAccounts = true
-    this.data = await this.accountService.getAccounts()
+    this.accounts = await this.accountService.getAccounts()
+    this.mapAccountTypes()
     this.isLoadingAccounts = false
+  }
+
+  private mapAccountTypes() {
+    this.data = this.accounts.map(account => {
+      const type = this.accountTypes.find(t => t.id === account.type_id)
+      
+      return {
+        ...account,
+        type_name: type?.name ?? 'Unknown'
+      }
+    })
   }
 
   /**
@@ -65,12 +90,14 @@ export class AccountListComponent implements OnInit {
       exitAnimationDuration
     })
 
-    dialogRef.afterClosed().subscribe(success => {
-      if(success){
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result) return
+      
+      if(result.success) {
         this.toastService.showSuccess('The account was successfully created')
         this.getAccounts()
-      } else
-        this.toastService.showError('There was an error creating the account')
+      } 
+      else this.toastService.showError('There was an error creating the account')
     })
   }
 

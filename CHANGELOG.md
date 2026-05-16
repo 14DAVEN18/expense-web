@@ -2,7 +2,19 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
-## [0.4.0] 2026-05-17 ?
+## [0.4.1] 2026-05-17
+### Added
+- IAccountDisplay created for account display in table.
+- Implemented the account types and currencies from indexedDB in the form for account creation.
+
+### Changed
+- Deleted the currency mapper.
+- Added property updated_at in accounts for future implementation of edition
+
+### Fixed
+- Changed if/else notation in the table component to match the current Angular syntax.
+
+## [0.4.0] 2026-05-17
 ### Added
 - floating container for row actions in the Administration page.
 

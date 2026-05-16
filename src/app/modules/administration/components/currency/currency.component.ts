@@ -8,7 +8,6 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ICurrency } from '@modules/administration/interfaces/creation-type';
-import { CurrencyMapper } from '@modules/administration/mappers/currency.mapper';
 import { AdministrationService } from '@modules/administration/services/administration.service';
 import { DateUtil } from '@shared/utils/date.util';
 
