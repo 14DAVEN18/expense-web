@@ -2,7 +2,16 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
-## [0.4.1] 2026-05-17
+## [0.4.2] 2026-05-17
+### Added
+- destination account field added to the transaction creation form.
+
+### Changed
+- Visual distribution of fields in the transaction creation from.
+- Placeholder deleted from form fields
+- Changed transaction name fields (type, source_id) to (transaction_type_id, source_account_id)
+
+## [0.4.1] 2026-05-16
 ### Added
 - IAccountDisplay created for account display in table.
 - Implemented the account types and currencies from indexedDB in the form for account creation.
@@ -14,7 +23,7 @@ This document contains the change log of the Expenses Web App. from its very fir
 ### Fixed
 - Changed if/else notation in the table component to match the current Angular syntax.
 
-## [0.4.0] 2026-05-17
+## [0.4.0] 2026-05-16
 ### Added
 - floating container for row actions in the Administration page.
 

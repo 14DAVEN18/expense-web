@@ -21,15 +21,16 @@ export class TransactionsService {
   public async exportTransactionsToCSV() {
     const transactions = await this.expensesWebDb.transactions.toArray()
 
-    const headers = [ 'id', 'date', 'amount', 'description', 'type', 'source' ]
+    const headers = [ 'id', 'date', 'amount', 'description', 'type', 'source_account_id', 'destination_account_id' ]
 
     const rows = transactions.map(transaction => [
       transaction.id,
       transaction.date,
       transaction.amount,
       transaction.description,
-      transaction.type,
-      transaction.source
+      transaction.transaction_type_id,
+      transaction.source_account_id,
+      transaction.destination_account_id
     ])
 
     const csvContent = [
