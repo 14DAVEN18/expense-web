@@ -13,7 +13,10 @@ import { ITransaction } from '@modules/transactions/interfaces/transactions'
 import { TransactionMapper } from '@modules/transactions/mappers/transaction.mapper'
 import { MatIconModule } from '@angular/material/icon'
 import { MatDialogRef } from '@angular/material/dialog'
-import { IType } from '@shared/interfaces/type'
+import { AdministrationService } from '@modules/administration/services/administration.service'
+import { ITransactionType } from '@modules/administration/interfaces/creation-type'
+import { IAccount } from '@modules/accounts/interfaces/accounts'
+import { AccountsService } from '@modules/accounts/services/accounts.service'
 
 
 @Component({
@@ -36,37 +39,28 @@ import { IType } from '@shared/interfaces/type'
 export class TransactionsComponent implements OnInit, AfterViewInit {
 
   // ******************************* PROVISIONAL PROPERTIES *******************************
-  public readonly sourceOptions: string[] = [
-    'spendable money',
-    'monthly expenses',
-    'that',
-    'washing machine'
-  ]
+  public showDestinationAccount: boolean = true
+  public transactionTypeMap: Record<string, number> = {}
 
-  public readonly typeOptions: IType[] = [
-    { value: 1, type: 'expense' },
-    { value: 2, type: 'income' }
-  ]
-
-  // ******************************* FORM RELATED PROPERTIES *******************************
+  // ******************************* PROPERTIES *******************************
+  public transactionTypes: ITransactionType[] = []
+  public accounts: IAccount[] = []
   public transactionForm!: FormGroup
 
   constructor(
     public dialogRef: MatDialogRef<TransactionsComponent>,
     private readonly fb: FormBuilder,
-    private readonly transactionsService: TransactionsService
+    private readonly transactionsService: TransactionsService,
+    private readonly administrationService: AdministrationService,
+    private readonly accountService: AccountsService
   ) {}
 
   // ******************************* HOOKS *******************************
   ngOnInit(): void {
-    this.transactionForm = this.fb.group({
-      type: new FormControl({ value: null, disabled: true}),
-      date: new FormControl({ value: null, disabled: true}),
-      amount: new FormControl({ value: null, disabled: true}),
-      description: new FormControl({ value: null, disabled: true }),
-      source: new FormControl({ value: null, disabled: true })
-    })
-
+    this.getTransactionTypes()
+    this.getAccounts()
+    this.createTransactionForm()
+    this.listenToTransactionType()
     this.transactionForm.valueChanges.subscribe(() => console.log(this.transactionForm.getRawValue()))
   }
 
@@ -76,14 +70,72 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
 
   // ******************************* MAIN METHODS *******************************
   /**
+   * Fetches the existing transaction types
+   */
+  private async getTransactionTypes() {
+    this.transactionTypes = await this.administrationService.getTransactionTypes()
+    this.generateTransactionTypeMap()
+  }
+
+  /**
+   * Fetches the existing accounts created by the user
+   */
+  private async getAccounts() {
+    this.accounts = await this.accountService.getAccounts()
+  }
+
+  /**
+   * Creates the transaction form
+   */
+  private createTransactionForm() {
+    this.transactionForm = this.fb.group({
+      transaction_type_id: new FormControl({ value: null, disabled: true}),
+      date: new FormControl({ value: null, disabled: true}),
+      amount: new FormControl({ value: null, disabled: true}),
+      description: new FormControl({ value: null, disabled: true }),
+      source_account_id: new FormControl({ value: null, disabled: true }),
+      destination_account_id: new FormControl({ value: null, disabled: true})
+    })
+  }
+
+  private generateTransactionTypeMap() {
+    this.transactionTypes.forEach(type => {
+      if(type.id) {
+        this.transactionTypeMap[type.name.toUpperCase().replaceAll(' ', '_')] = type.id
+      }
+    })
+  }
+
+    private listenToTransactionType() {
+      this.transactionForm.get('transaction_type_id')?.valueChanges.subscribe(value => 
+        this.showDestinationAccount = value === this.transactionTypeMap['TRANSFER']
+      )
+    }
+
+  /**
    * Sends the value to be saved in the indexedDB table
    */
   public async saveTransaction() {
-    const formValue = this.transactionForm.value
-    const transaction: ITransaction = TransactionMapper.fromForm(formValue)
+    try {
+      const formValue = this.transactionForm.getRawValue()
+      const transaction: ITransaction = TransactionMapper.fromForm(formValue)
 
-    await this.transactionsService.saveTransaction(transaction)
-    this.transactionForm.reset()
+      await this.transactionsService.saveTransaction(transaction)
+      this.transactionForm.reset()
+      this.dialogRef.close({success: true})
+    }
+    catch (error) {
+      console.warn("Error saving account", error)
+      this.dialogRef.close({success: false})
+    }
+  }
+
+  /**
+   * Closes the modal
+   * @param success Indicates whether the operation was successful or not
+   */
+  public close() {
+    this.dialogRef.close()
   }
 
   // ******************************* HELPERS *******************************

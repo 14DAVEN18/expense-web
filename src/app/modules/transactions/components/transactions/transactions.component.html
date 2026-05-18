@@ -2,37 +2,42 @@
     <div class="modal-header">
         <h2>Transaction</h2>
 
-        <mat-icon (click)="dialogRef.close()" class="close-icon">close</mat-icon>
+        <mat-icon (click)="this.close()" class="close-icon">close</mat-icon>
     </div>
 
     <div class="modal-body" [formGroup]="transactionForm">
-        <p>Type</p>
-        <mat-radio-group
-            formControlName="type">
-            @for (type of typeOptions; track type) {
-                <mat-radio-button [value]="type.value">{{type.type}}</mat-radio-button>
-            }
-        </mat-radio-group>
-        
-        <p>Choose the date</p>
-        <mat-form-field appearance="outline">
-            <mat-label>date</mat-label>
-            <input matInput [matDatepicker]="datepicker" formControlName="date" placeholder="MM/DD/YYYY"/>
-            <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
-            <mat-datepicker #datepicker>
-                <mat-datepicker-actions>
-                    <button mat-button matDatepickerCancel>Cancel</button>
-                    <button mat-raised-button matDatepickerApply>Apply</button>
-                </mat-datepicker-actions>
-            </mat-datepicker>
-        </mat-form-field>
+        <div class="two-column-row">
+            <div>
+                <p>Type</p>
+                <mat-form-field appearance="outline">
+                    <mat-select formControlName="transaction_type_id">
+                        @for (type of transactionTypes; track type) {
+                            <mat-option [value]="type.id">{{type.name}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
 
+            <div>
+                <p>Choose the date</p>
+                <mat-form-field appearance="outline">
+                    <input matInput [matDatepicker]="datepicker" formControlName="date"/>
+                    <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                    <mat-datepicker #datepicker>
+                        <mat-datepicker-actions>
+                            <button mat-button matDatepickerCancel>Cancel</button>
+                            <button mat-raised-button matDatepickerApply>Apply</button>
+                        </mat-datepicker-actions>
+                    </mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+        
         <p>Enter the amount</p>
         <mat-form-field appearance="outline">
             <input
                 matInput
                 formControlName="amount"
-                placeholder="5000"
                 (blur)="formatAmount()"
             />
         </mat-form-field>
@@ -42,26 +47,43 @@
             <textarea 
                 matInput
                 formControlName="description"
-                placeholder="House payment"
                 (blur)="formatAmount()"
             ></textarea>
         </mat-form-field>
 
-        <p>Choose the source</p>
-        <mat-form-field appearance="outline">
-            <mat-select formControlName="source">
-                
-            @for (source of sourceOptions; track source) {
-                <mat-option [value]="source">{{source}}</mat-option>
+        <div class="two-column-row">
+            <div>
+                <p>source account</p>
+                <mat-form-field appearance="outline">
+                    <mat-select formControlName="source_account_id">
+                        @for (account of accounts; track account) {
+                            <mat-option [value]="account.id">{{account.name}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            @if(showDestinationAccount) {
+                <div>
+                    <p>destination account</p>
+                    <mat-form-field appearance="outline">
+                        <mat-select formControlName="destination_account_id">
+                            @for (account of accounts; track account) {
+                                <mat-option [value]="account.id">{{account.name}}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                </div>
             }
-            </mat-select>
-        </mat-form-field>
+        </div>
     </div>
+
+    <mat-divider></mat-divider>
     
     <div class="modal-footer">
-        <mat-divider></mat-divider>
+        
         <div class="modal-actions">
-            <button mat-raised-button color="secondary" (click)="dialogRef.close()">Cancel</button>
+            <button mat-raised-button color="secondary" (click)="this.close()">Cancel</button>
             <button mat-raised-button color="primary" (click)="saveTransaction()">Save</button>
         </div>
     </div>
