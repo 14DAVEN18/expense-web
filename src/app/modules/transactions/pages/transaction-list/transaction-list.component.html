@@ -12,4 +12,56 @@
             </button>
         </div>
     </div>
+
+    <div class="content">
+        @if (!isLoadingTransactions) {
+            <our-table
+                [realColumnNames]="realColumnNames"
+                [displayHeaders]="displayHeaders"
+                [data]="data"
+                [emptyDataColumnName]="shortColumns"
+                [noDataColumn]="true"
+            >
+                <ng-template #cellTemplate let-element='element' let-column="column" let-index="index">
+                    <ng-container [ngSwitch]="column">
+                        <ng-container *ngSwitchCase="'date'">
+                            <span> {{ element.date }} </span>
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="'amount'">
+                            <span 
+                                [ngClass]="{
+                                    'expense': element.transaction_type_name === 'EXPENSE',
+                                    'income': element.transaction_type_name === 'INCOME',
+                                }"
+                            > {{ element.amount | currency: 'COP' : 'symbol-narrow':'1.2-2' }} </span>
+                            
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="'description'">
+                            <span> {{ element.description }} </span>
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="'source_account_name'">
+                            <span> {{ element.source_account_name }} </span>
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="'destination_account_name'">
+                            @if(element.transaction_type_name === 'TRANSFER') {
+                                <span> {{ element.destination_account_name }} </span>
+                            }
+                        </ng-container>
+                        <ng-container *ngSwitchDefault> {{element[column]}} </ng-container>
+                    </ng-container>
+                </ng-template>
+            </our-table>
+        }
+        @else {
+            <ng-template>
+                <div class="loading-message">
+                    LOADING ACCOUNTS...
+                </div>
+            </ng-template>
+        }
+    </div>
 </div>

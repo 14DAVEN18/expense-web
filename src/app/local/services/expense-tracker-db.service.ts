@@ -16,9 +16,9 @@ export class ExpenseTrackerDbService extends Dexie {
 
   constructor() {
     super('ExpenseWebDatabase')
-
-    this.version(1).stores({
-      transactions: '++id, date, category',
+    
+    this.version(2).stores({
+      transactions: '++id, date',
       accounts: '++id, date, name',
       account_types: '++id',
       transaction_types: '++id',

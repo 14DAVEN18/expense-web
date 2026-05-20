@@ -1,4 +1,3 @@
-import { DatePipe } from "@angular/common";
 import { ITransaction, ITransactionFormModel } from "../interfaces/transactions";
 import { DateUtil } from "@shared/utils/date.util";
 
@@ -8,7 +7,7 @@ export class TransactionMapper {
             transaction_type_id: transaction.transaction_type_id,
             date: DateUtil.dateToString(transaction.date),
             amount: transaction.amount,
-            description: transaction.description,
+            description: transaction.description.toUpperCase(),
             source_account_id: transaction.source_account_id,
             destination_account_id: transaction.destination_account_id
         }
