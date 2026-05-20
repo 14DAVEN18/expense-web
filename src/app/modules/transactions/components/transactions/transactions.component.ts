@@ -106,11 +106,11 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
     })
   }
 
-    private listenToTransactionType() {
-      this.transactionForm.get('transaction_type_id')?.valueChanges.subscribe(value => 
-        this.showDestinationAccount = value === this.transactionTypeMap['TRANSFER']
-      )
-    }
+  private listenToTransactionType() {
+    this.transactionForm.get('transaction_type_id')?.valueChanges.subscribe(value => 
+      this.showDestinationAccount = value === this.transactionTypeMap['TRANSFER']
+    )
+  }
 
   /**
    * Sends the value to be saved in the indexedDB table

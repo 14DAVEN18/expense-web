@@ -48,8 +48,8 @@
                             <span> {{ element.initial_balance | currency: 'COP' : 'symbol-narrow':'1.2-2' }} </span>
                         </ng-container>
 
-                        <ng-container *ngSwitchCase="'type'">
-                            <span> {{ element.type }} </span>
+                        <ng-container *ngSwitchCase="'type_name'">
+                            <span> {{ element.type_name }} </span>
                         </ng-container>
                         <ng-container *ngSwitchDefault> {{element[column]}} </ng-container>
                     </ng-container>

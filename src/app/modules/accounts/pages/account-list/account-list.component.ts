@@ -75,6 +75,7 @@ export class AccountListComponent implements OnInit {
         type_name: type?.name ?? 'Unknown'
       }
     })
+    console.log(this.data)
   }
 
   /**

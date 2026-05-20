@@ -2,6 +2,13 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.5.0] 2026-05-20
+### Added
+- Table to display all transactions not making distinction between specific accounts.
+
+### Changed
+- Converting transaction description to upper case before saving.
+
 ## [0.4.2] 2026-05-17
 ### Added
 - destination account field added to the transaction creation form.
