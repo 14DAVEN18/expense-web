@@ -2,6 +2,10 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.6.0] 2026-07-09
+## Changed
+- Account table show current balance based on transactions made.
+
 ## [0.5.0] 2026-05-20
 ### Added
 - Table to display all transactions not making distinction between specific accounts.

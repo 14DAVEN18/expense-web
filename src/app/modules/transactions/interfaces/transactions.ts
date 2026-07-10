@@ -17,7 +17,7 @@ export interface ITransactionDisplay extends ITransaction {
 export interface ITransactionFormModel {
     transaction_type_id: number
     date: Date
-    amount: number
+    amount: string
     description: string
     source_account_id: number
     destination_account_id: number

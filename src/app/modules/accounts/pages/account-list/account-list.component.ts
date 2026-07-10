@@ -8,6 +8,8 @@ import { IAccount, IAccountDisplay } from '@modules/accounts/interfaces/accounts
 import { AccountsService } from '@modules/accounts/services/accounts.service';
 import { IAccountType } from '@modules/administration/interfaces/creation-type';
 import { AdministrationService } from '@modules/administration/services/administration.service';
+import { ITransaction } from '@modules/transactions/interfaces/transactions';
+import { TransactionsService } from '@modules/transactions/services/transactions.service';
 import { TableComponent } from '@shared/components/table/table.component';
 import { ToastService } from '@shared/services/toast.service';
 
@@ -34,26 +36,53 @@ export class AccountListComponent implements OnInit {
   // ******************************* OTHER PROPERTIES *******************************
   public isLoadingAccounts: boolean = false
   private accountTypes: IAccountType[] = []
+  private transactions: ITransaction[] = []
+
 
   constructor(
     private readonly dialog: MatDialog,
     private readonly administrationService: AdministrationService,
     private readonly accountService: AccountsService,
+    private readonly transactionService: TransactionsService,
     private readonly toastService: ToastService
   ) {}
 
   // ******************************* HOOKS *******************************
   ngOnInit(): void {
-    this.getAccountTypes()
-    this.getAccounts()
+   this.getData()
   }
 
   // ******************************* MAIN METHODS *******************************
+  /**
+   * 
+   */
+  private async getData() {
+    this.isLoadingAccounts = true
+
+    await Promise.all([
+      this.getAccountTypes(),
+      this.getTransactions(),
+      this.getAccounts()
+    ])
+
+    this.mapAccountTypes()
+    this.calculateBalances()
+
+    this.isLoadingAccounts = false
+  }
+
   /**
    * Fetches the existing account types
    */
   private async getAccountTypes() {
     this.accountTypes = await this.administrationService.getAccountTypes()
+  }
+
+  /**
+   * Fetches the existing transactions
+   */
+  private async getTransactions() {
+    this.transactions = await this.transactionService.getTransactions()
   }
 
   /**
@@ -66,16 +95,37 @@ export class AccountListComponent implements OnInit {
     this.isLoadingAccounts = false
   }
 
+  /**
+   * Maps the type name to the data array sent to the table
+   */
   private mapAccountTypes() {
     this.data = this.accounts.map(account => {
       const type = this.accountTypes.find(t => t.id === account.type_id)
       
       return {
         ...account,
-        type_name: type?.name ?? 'Unknown'
+        type_name: type?.name ?? 'Unknown',
+        current_balance: 0
       }
     })
-    console.log(this.data)
+  }
+
+  /**
+   * Calculates the balance of each account
+   */
+  private calculateBalances() {
+    this.data = this.data.map(account => {
+      const accountTransactions = this.transactions.filter(t =>
+          t.source_account_id === account.id
+        );
+      const currentBalance = account.initial_balance - accountTransactions.reduce(
+          (sum, t) => sum + Number.parseFloat(t.amount.toString()), 0);
+      return {
+        ...account,
+        current_balance: currentBalance
+      };
+
+    });
   }
 
   /**

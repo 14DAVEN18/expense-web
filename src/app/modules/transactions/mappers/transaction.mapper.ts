@@ -6,7 +6,7 @@ export class TransactionMapper {
         const newTransaction: ITransaction = {
             transaction_type_id: transaction.transaction_type_id,
             date: DateUtil.dateToString(transaction.date),
-            amount: transaction.amount,
+            amount: Number.parseFloat(transaction.amount),
             description: transaction.description.toUpperCase(),
             source_account_id: transaction.source_account_id,
             destination_account_id: transaction.destination_account_id
