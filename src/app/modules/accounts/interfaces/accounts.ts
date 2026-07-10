@@ -11,7 +11,8 @@ export interface IAccount {
 }
 
 export interface IAccountDisplay extends IAccount {
-    type_name: string
+    type_name: string,
+    current_balance: number
 }
 
 export interface IAccountFormModel {
