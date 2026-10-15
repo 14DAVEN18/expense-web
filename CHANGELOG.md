@@ -2,6 +2,16 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.7.0] 2026-10-14
+### Added
+- Style for transfers in transaction list added
+
+### Changed
+- Logic for balance calculation is changed to include the different transaction types
+
+### Fixed
+- Fixed typo in styles for incomes in transaction list
+
 ## [0.6.0] 2026-07-09
 ## Changed
 - Account table show current balance based on transactions made.

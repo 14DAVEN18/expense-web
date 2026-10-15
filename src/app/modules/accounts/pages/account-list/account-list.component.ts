@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AccountComponent } from '@modules/accounts/components/account/account.component';
 import { IAccount, IAccountDisplay } from '@modules/accounts/interfaces/accounts';
 import { AccountsService } from '@modules/accounts/services/accounts.service';
-import { IAccountType } from '@modules/administration/interfaces/creation-type';
+import { IAccountType, ITransactionType } from '@modules/administration/interfaces/creation-type';
 import { AdministrationService } from '@modules/administration/services/administration.service';
 import { ITransaction } from '@modules/transactions/interfaces/transactions';
 import { TransactionsService } from '@modules/transactions/services/transactions.service';
@@ -35,6 +35,7 @@ export class AccountListComponent implements OnInit {
 
   // ******************************* OTHER PROPERTIES *******************************
   public isLoadingAccounts: boolean = false
+  private transactionTypes: ITransactionType[] = []
   private accountTypes: IAccountType[] = []
   private transactions: ITransaction[] = []
 
@@ -60,6 +61,7 @@ export class AccountListComponent implements OnInit {
     this.isLoadingAccounts = true
 
     await Promise.all([
+      this.getTransactionTypes(),
       this.getAccountTypes(),
       this.getTransactions(),
       this.getAccounts()
@@ -69,6 +71,13 @@ export class AccountListComponent implements OnInit {
     this.calculateBalances()
 
     this.isLoadingAccounts = false
+  }
+
+  /**
+   * 
+   */
+  private async getTransactionTypes() {
+    this.transactionTypes = await this.administrationService.getTransactionTypes()
   }
 
   /**
@@ -91,7 +100,6 @@ export class AccountListComponent implements OnInit {
   private async getAccounts() {
     this.isLoadingAccounts = true
     this.accounts = await this.accountService.getAccounts()
-    this.mapAccountTypes()
     this.isLoadingAccounts = false
   }
 
@@ -115,16 +123,32 @@ export class AccountListComponent implements OnInit {
    */
   private calculateBalances() {
     this.data = this.data.map(account => {
-      const accountTransactions = this.transactions.filter(t =>
-          t.source_account_id === account.id
-        );
-      const currentBalance = account.initial_balance - accountTransactions.reduce(
-          (sum, t) => sum + Number.parseFloat(t.amount.toString()), 0);
+      const currentBalance = this.transactions.reduce((balance, transaction) => {
+        const transactionType = this.transactionTypes.find(type => type.id === transaction.transaction_type_id)
+        if(!transactionType) return balance
+        
+        const amount = Number(transaction.amount)
+        if(!Number.isFinite(amount)) return balance
+        
+        switch(transactionType.name.toUpperCase()) {
+          case 'INCOME':
+            if(transaction.source_account_id === account.id) return balance + amount
+            break
+          case 'EXPENSE':
+            if(transaction.source_account_id === account.id) return balance - amount
+            break
+          case 'TRANSFER':
+            if(transaction.source_account_id === account.id) balance -= amount
+            if(transaction.destination_account_id === account.id) balance += amount
+            break
+        }
+        return balance
+      }, Number(account.initial_balance))
+
       return {
         ...account,
         current_balance: currentBalance
-      };
-
+      }
     });
   }
 
