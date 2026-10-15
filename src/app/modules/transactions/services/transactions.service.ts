@@ -11,7 +11,6 @@ export class TransactionsService {
   constructor(private readonly expensesWebDb: ExpenseTrackerDbService) { }
 
   public async saveTransaction(transaction: ITransaction) {
-    console.log(transaction)
     return this.expensesWebDb.transactions.add(transaction)    
   }
 

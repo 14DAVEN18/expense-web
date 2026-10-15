@@ -5,7 +5,7 @@ export interface ITransaction {
     amount: number
     description: string
     source_account_id: number
-    destination_account_id: number 
+    destination_account_id: number | null
 }
 
 export interface ITransactionDisplay extends ITransaction {

@@ -33,6 +33,7 @@
                                 [ngClass]="{
                                     'expense': element.transaction_type_name === 'EXPENSE',
                                     'income': element.transaction_type_name === 'INCOME',
+                                    'transfer': element.transaction_type_name === 'TRANSFER'
                                 }"
                             > {{ element.amount | currency: 'COP' : 'symbol-narrow':'1.2-2' }} </span>
                             
