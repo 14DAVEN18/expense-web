@@ -1,0 +1,78 @@
+{
+    "NO_DATA": "No hay datos para mostrar",
+    "BUTTONS": {
+        "CANCEL": "cancelar",
+        "SAVE": "guardar",
+        "APPLY": "aplicar"
+    },
+    "ACCOUNT_TYPES": {
+        "CASH": "efectivo",
+        "DIGITAL_ACCOUNT": "cuenta digital"
+    },
+    "TRANSACTION_TYPES": {
+        "INCOME": "ingreso",
+        "EXPENSE": "egreso",
+        "TRANSFER": "transferencia"
+    },
+    "NAVBAR": {
+        "HOME": "inicio",
+        "ACCOUNTS": "cuentas",
+        "TRANSACTIONS": "transacciones",
+        "ADMINISTRATION": "administración",
+        "SETTINGS": "configuración"
+    },
+
+    "ACCOUNTS": {
+        "TITLE": "cuentas",
+        "COLUMNS": {
+            "CURRENCY": "divisa",
+            "CREATED_AT": "creada en",
+            "NAME": "nombre",
+            "DESCRIPTION": "descripción",
+            "BALANCE": "saldo",
+            "TYPE": "tipo"
+        },
+        "MESSAGES": {
+            "REQUIRED_ERROR": "Todos los campos requeridos deben completarse",
+            "CREATION_SUCCESS": "La cuenta fue creada exitosamente",
+            "CREATION_ERROR": "Ocurrió un problema creando la cuenta"
+        }
+    },
+    "ACCOUNT_FORM": {
+        "TITLE": "cuenta",
+        "CREATION_DATE": "fecha de creación",
+        "DATE_LABEL": "fecha",
+        "NAME": "nombre",
+        "TYPE": "tipo",
+        "CURRENCY": "divisa",
+        "CHOOSE_CURRENCY": "escoja una divisa",
+        "INITIAL_BALANCE": "saldo incial",
+        "DESCRIPTION": "descripción"
+    },
+
+    "TRANSACTIONS": {
+        "TITLE": "transacciones",
+        "COLUMNS": {
+            "DATE": "fecha",
+            "AMOUNT": "monto",
+            "DESCRIPTION": "descripción",
+            "SOURCE": "origen",
+            "DESTINATION": "destino"
+        },
+        "MESSAGES": {
+            "REQUIRED_ERROR": "Todos los campos requeridos deben completarse",
+            "CREATION_SUCCESS": "La transacción se creó exitosamente",
+            "CREATION_ERROR": "Ocurrió un problema creando la transacción"
+        }
+    },
+    "TRANSACTION_FORM": {
+        "TITLE": "transacción",
+        "TYPE": "tipo",
+        "DATE": "fecha",
+        "DATE_LABEL": "fecha",
+        "AMOUNT": "monto",
+        "DESCRIPTION": "descripción",
+        "SOURCE_ACCOUNT": "cuentra de origen",
+        "DESTINATION_ACCOUNT": "cuenta de destino"
+    }
+}

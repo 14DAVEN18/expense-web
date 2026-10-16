@@ -1,7 +1,9 @@
+import { AccountType } from "../../../local/constants/account-type"
+
 export interface IAccount {
     id?: number
     name: string
-    type_id: number
+    type: AccountType
     currency_code: string
     initial_balance: number
     description: string
@@ -11,14 +13,13 @@ export interface IAccount {
 }
 
 export interface IAccountDisplay extends IAccount {
-    type_name: string,
     current_balance: number
 }
 
 export interface IAccountFormModel {
     created_at: Date
     name: string
-    type_id: number
+    type: AccountType
     currency_code: string
     initial_balance: string
     description: string

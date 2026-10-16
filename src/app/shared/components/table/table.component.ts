@@ -1,10 +1,11 @@
-import { Component, ContentChild, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, ContentChild, Input, OnChanges, OnInit, TemplateRef } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table'
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'our-table',
-  imports: [CommonModule, MatTableModule],
+  imports: [CommonModule, MatTableModule, TranslatePipe],
   templateUrl: './table.component.html',
   styleUrl: './table.component.sass'
 })
@@ -18,29 +19,6 @@ export class TableComponent implements OnInit {
   @ContentChild('cellTemplate') cellTemplate!: TemplateRef<any>;
 
   public dataSource!: MatTableDataSource<any>;
-
-  // data = [
-  //   {
-  //     active: true,
-  //     created_at: "2026/05/11",
-  //     currency: "COP",
-  //     description: "Cuenta de ahorros del Banco Caja Social",
-  //     id: 1,
-  //     initial_balance: "5102923.00",
-  //     name: "Banco Caja Social",
-  //     type: 2
-  //   },
-  //   {
-  //     active: false,
-  //     created_at: "2026/05/11",
-  //     currency: "COP",
-  //     description: "Cuenta de ahorros del Banco Caja Social",
-  //     id: 1,
-  //     initial_balance: "5102923.00",
-  //     name: "Banco Caja Social",
-  //     type: 2
-  //   }
-  // ]
 
   constructor() {
     this.dataSource = new MatTableDataSource<any>(this.data);

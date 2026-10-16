@@ -1,0 +1,39 @@
+<div class="settings-container">
+    <div class="header">
+        <h1>Settings</h1>
+    </div>
+
+    <div class="content">
+        @if (!isLoadingSettings) {
+             <div class="section" [formGroup]="languageSettingForm">
+                <h2>Language</h2>
+                <p>Choose your preferred language to visualize the application</p>
+                <mat-form-field appearance="outline">
+                    <mat-label>Language</mat-label>
+                    <mat-select formControlName="language">
+                        @for (language of languages; track language.code) {
+                            <mat-option [value]="language.code">
+                                {{ language.name }}
+                            </mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+
+                <button
+                    mat-mini-fab
+                    aria-label="Save language"
+                    (click)="saveSetting()"
+                >
+                    <mat-icon>save</mat-icon>
+                </button>
+            </div>
+        }
+        @else {
+            <ng-template>
+                <div class="loading-message">
+                    LOADING SETTINGS...
+                </div>
+            </ng-template>
+        } 
+    </div>
+</div>

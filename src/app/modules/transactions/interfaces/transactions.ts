@@ -1,6 +1,8 @@
+import { TransactionType } from "../../../local/constants/transaction-type"
+
 export interface ITransaction {
     id?: string
-    transaction_type_id: number
+    type: TransactionType
     date: string
     amount: number
     description: string
@@ -15,7 +17,7 @@ export interface ITransactionDisplay extends ITransaction {
 }
 
 export interface ITransactionFormModel {
-    transaction_type_id: number
+    type: TransactionType
     date: Date
     amount: string
     description: string

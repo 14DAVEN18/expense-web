@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core'
 import { TransactionsService } from '@modules/transactions/services/transactions.service'
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatDatepickerModule } from '@angular/material/datepicker'
@@ -14,9 +14,10 @@ import { TransactionMapper } from '@modules/transactions/mappers/transaction.map
 import { MatIconModule } from '@angular/material/icon'
 import { MatDialogRef } from '@angular/material/dialog'
 import { AdministrationService } from '@modules/administration/services/administration.service'
-import { ITransactionType } from '@modules/administration/interfaces/creation-type'
 import { IAccount } from '@modules/accounts/interfaces/accounts'
 import { AccountsService } from '@modules/accounts/services/accounts.service'
+import { TRANSACTION_TYPES, TransactionType } from '../../../../local/constants/transaction-type'
+import { TranslatePipe } from '@ngx-translate/core'
 
 
 @Component({
@@ -30,7 +31,8 @@ import { AccountsService } from '@modules/accounts/services/accounts.service'
     MatDatepickerModule,
     MatSelectModule,
     MatRadioModule,
-    MatIconModule
+    MatIconModule,
+    TranslatePipe
   ],
   providers: [ provideNativeDateAdapter() ],
   templateUrl: './transactions.component.html',
@@ -41,11 +43,15 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
   // ******************************* PROVISIONAL PROPERTIES *******************************
   public showDestinationAccount: boolean = true
   public transactionTypeMap: Record<string, number> = {}
+  private readonly requiredValidator = Validators.required
 
   // ******************************* PROPERTIES *******************************
-  public transactionTypes: ITransactionType[] = []
+  public transactionTypes = TRANSACTION_TYPES
   public accounts: IAccount[] = []
   public transactionForm!: FormGroup
+
+  // ******************************* ERROR HANDLING *******************************
+  public creationError: boolean = false
 
   constructor(
     public dialogRef: MatDialogRef<TransactionsComponent>,
@@ -57,11 +63,13 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
 
   // ******************************* HOOKS *******************************
   ngOnInit(): void {
-    this.getTransactionTypes()
     this.getAccounts()
     this.createTransactionForm()
     this.listenToTransactionType()
-    this.transactionForm.valueChanges.subscribe(() => console.log(this.transactionForm.getRawValue()))
+    this.transactionForm.valueChanges.subscribe(() => {
+      this.creationError = false
+      this.transactionForm.markAsUntouched()
+    })
   }
 
   ngAfterViewInit(): void {
@@ -69,14 +77,6 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
   }
 
   // ******************************* MAIN METHODS *******************************
-  /**
-   * Fetches the existing transaction types
-   */
-  private async getTransactionTypes() {
-    this.transactionTypes = await this.administrationService.getTransactionTypes()
-    this.generateTransactionTypeMap()
-  }
-
   /**
    * Fetches the existing accounts created by the user
    */
@@ -89,33 +89,40 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
    */
   private createTransactionForm() {
     this.transactionForm = this.fb.group({
-      transaction_type_id: new FormControl({ value: null, disabled: true}),
-      date: new FormControl({ value: null, disabled: true}),
-      amount: new FormControl({ value: null, disabled: true}),
-      description: new FormControl({ value: null, disabled: true }),
-      source_account_id: new FormControl({ value: null, disabled: true }),
+      type: new FormControl<TransactionType | null>({ value: null, disabled: true}, Validators.required),
+      date: new FormControl({ value: null, disabled: true}, Validators.required),
+      amount: new FormControl({ value: null, disabled: true}, Validators.required),
+      description: new FormControl({ value: null, disabled: true }, Validators.required),
+      source_account_id: new FormControl({ value: null, disabled: true }, Validators.required),
       destination_account_id: new FormControl({ value: null, disabled: true})
     })
   }
 
-  private generateTransactionTypeMap() {
-    this.transactionTypes.forEach(type => {
-      if(type.id) {
-        this.transactionTypeMap[type.name.toUpperCase().replaceAll(' ', '_')] = type.id
+  /**
+   * It listens to changes in the type field
+   */
+  private listenToTransactionType() {
+    this.transactionForm.get('type')?.valueChanges.subscribe(value => {
+      if(value === "TRANSFER") {
+        this.showDestinationAccount = true
+        this.makeRequired('destination_account_id')
+      } else {
+        this.showDestinationAccount = false
+        this.makeOptional('destination_account_id')
       }
     })
-  }
-
-  private listenToTransactionType() {
-    this.transactionForm.get('transaction_type_id')?.valueChanges.subscribe(value => 
-      this.showDestinationAccount = value === this.transactionTypeMap['TRANSFER']
-    )
   }
 
   /**
    * Sends the value to be saved in the indexedDB table
    */
   public async saveTransaction() {
+    this.transactionForm.markAllAsTouched()
+    if(this.transactionForm.invalid) {
+      this.creationError = true
+      return
+    }
+    
     try {
       const formValue = this.transactionForm.getRawValue()
       const transaction: ITransaction = TransactionMapper.fromForm(formValue)
@@ -148,5 +155,17 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
 
     const formatted = Number(value).toFixed(2);
     this.transactionForm.get('amount')?.setValue(formatted, { emitEvent: false });
+  }
+
+  private makeRequired(controlPath: string) {
+    if(!controlPath) return
+    this.transactionForm.get(controlPath)?.addValidators(this.requiredValidator)
+    this.transactionForm.get('destination_account_id')?.updateValueAndValidity()
+  }
+
+  private makeOptional(controlPath: string) {
+    if(!controlPath) return
+    this.transactionForm.get(controlPath)?.removeValidators(this.requiredValidator)
+    this.transactionForm.get('destination_account_id')?.updateValueAndValidity()
   }
 }

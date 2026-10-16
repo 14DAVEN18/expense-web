@@ -21,13 +21,13 @@ export class AccountsService {
     public async exportAccountsToCSV() {
       const accounts = await this.expensesWebDb.accounts.toArray()
   
-      const headers = [ 'id', 'created_at', 'name', 'type_id', 'currency_code', 'initial_balance', 'description', 'active' ]
+      const headers = [ 'id', 'created_at', 'name', 'type', 'currency_code', 'initial_balance', 'description', 'active' ]
   
       const rows = accounts.map(account => [
         account.id,
         account.created_at,
         account.name,
-        account.type_id,
+        account.type,
         account.currency_code,
         account.initial_balance,
         account.description,
@@ -40,7 +40,7 @@ export class AccountsService {
       ].join('\n')
   
       const blob = new Blob(
-        [csvContent],
+        [ csvContent ],
         { type: 'text/csv;charset=utf-8;' }
       )
   

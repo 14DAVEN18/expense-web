@@ -4,7 +4,7 @@ import { DateUtil } from "@shared/utils/date.util";
 export class TransactionMapper {
     static fromForm(transaction: ITransactionFormModel) {
         const newTransaction: ITransaction = {
-            transaction_type_id: Number(transaction.transaction_type_id),
+            type: transaction.type,
             date: DateUtil.dateToString(transaction.date),
             amount: Number(transaction.amount),
             description: transaction.description.trim().toUpperCase(),

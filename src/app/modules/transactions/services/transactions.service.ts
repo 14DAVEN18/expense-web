@@ -28,7 +28,7 @@ export class TransactionsService {
       transaction.date,
       transaction.amount,
       transaction.description,
-      transaction.transaction_type_id,
+      transaction.type,
       transaction.source_account_id,
       transaction.destination_account_id
     ])

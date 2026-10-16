@@ -1,6 +1,6 @@
 <div class="expenses-container">
     <div class="modal-header">
-        <h2>Transaction</h2>
+        <h2> {{ 'TRANSACTION_FORM.TITLE' | translate }} </h2>
 
         <mat-icon (click)="this.close()" class="close-icon">close</mat-icon>
     </div>
@@ -8,32 +8,34 @@
     <div class="modal-body" [formGroup]="transactionForm">
         <div class="two-column-row">
             <div>
-                <p>Type</p>
+                <p> {{ 'TRANSACTION_FORM.TYPE' | translate }} </p>
                 <mat-form-field appearance="outline">
-                    <mat-select formControlName="transaction_type_id">
+                    <mat-select formControlName="type">
                         @for (type of transactionTypes; track type) {
-                            <mat-option [value]="type.id">{{type.name}}</mat-option>
+                            <mat-option [value]="type">
+                                {{ 'TRANSACTION_TYPES.' + type | translate }}</mat-option>
                         }
                     </mat-select>
                 </mat-form-field>
             </div>
 
             <div>
-                <p>Choose the date</p>
+                <p> {{ 'TRANSACTION_FORM.DATE' | translate }} </p>
                 <mat-form-field appearance="outline">
+                    <mat-label> {{ 'TRANSACTION_FORM.DATE_LABEL' | translate }} </mat-label>
                     <input matInput [matDatepicker]="datepicker" formControlName="date"/>
                     <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
                     <mat-datepicker #datepicker>
                         <mat-datepicker-actions>
-                            <button mat-button matDatepickerCancel>Cancel</button>
-                            <button mat-raised-button matDatepickerApply>Apply</button>
+                            <button mat-button matDatepickerCancel> {{ 'BUTTONS.CANCEL' }} </button>
+                            <button mat-raised-button matDatepickerApply> {{ 'BUTTONS.APPLY' }} </button>
                         </mat-datepicker-actions>
                     </mat-datepicker>
                 </mat-form-field>
             </div>
         </div>
         
-        <p>Enter the amount</p>
+        <p> {{ 'TRANSACTION_FORM.AMOUNT' | translate }} </p>
         <mat-form-field appearance="outline">
             <input
                 matInput
@@ -42,7 +44,7 @@
             />
         </mat-form-field>
 
-        <p>Enter the description</p>
+        <p> {{ 'TRANSACTION_FORM.DESCRIPTION' | translate }} </p>
         <mat-form-field appearance="outline">
             <textarea 
                 matInput
@@ -53,7 +55,7 @@
 
         <div class="two-column-row">
             <div>
-                <p>source account</p>
+                <p> {{ 'TRANSACTION_FORM.SOURCE_ACCOUNT' | translate }} </p>
                 <mat-form-field appearance="outline">
                     <mat-select formControlName="source_account_id">
                         @for (account of accounts; track account) {
@@ -65,7 +67,7 @@
 
             @if(showDestinationAccount) {
                 <div>
-                    <p>destination account</p>
+                    <p> {{ 'TRANSACTION_FORM.DESTINATION_ACCOUNT' | translate }} </p>
                     <mat-form-field appearance="outline">
                         <mat-select formControlName="destination_account_id">
                             @for (account of accounts; track account) {
@@ -76,15 +78,20 @@
                 </div>
             }
         </div>
+
+        @if(creationError) {
+            <div>
+                <p class="error-message"> {{ 'TRANSACTIONS.MESSAGES.REQUIRED_ERROR' | translate }} </p>
+            </div>
+        }
     </div>
 
     <mat-divider></mat-divider>
     
     <div class="modal-footer">
-        
         <div class="modal-actions">
-            <button mat-raised-button color="secondary" (click)="this.close()">Cancel</button>
-            <button mat-raised-button color="primary" (click)="saveTransaction()">Save</button>
+            <button mat-raised-button color="secondary" (click)="this.close()"> {{ 'BUTTONS.CANCEL' | translate }} </button>
+            <button mat-raised-button color="primary" (click)="saveTransaction()"> {{ 'BUTTONS.SAVE' | translate }} </button>
         </div>
     </div>
 </div>
