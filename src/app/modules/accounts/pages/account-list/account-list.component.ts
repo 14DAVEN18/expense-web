@@ -6,10 +6,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { AccountComponent } from '@modules/accounts/components/account/account.component';
 import { IAccount, IAccountDisplay } from '@modules/accounts/interfaces/accounts';
 import { AccountsService } from '@modules/accounts/services/accounts.service';
-import { IAccountType, ITransactionType } from '@modules/administration/interfaces/creation-type';
+import { ITransactionType } from '@modules/administration/interfaces/creation-type';
 import { AdministrationService } from '@modules/administration/services/administration.service';
 import { ITransaction } from '@modules/transactions/interfaces/transactions';
 import { TransactionsService } from '@modules/transactions/services/transactions.service';
+import { TranslatePipe } from '@ngx-translate/core';
 import { TableComponent } from '@shared/components/table/table.component';
 import { ToastService } from '@shared/services/toast.service';
 
@@ -19,7 +20,8 @@ import { ToastService } from '@shared/services/toast.service';
     CommonModule,
     MatButtonModule,
     MatIconModule,
-    TableComponent
+    TableComponent,
+    TranslatePipe
   ],
   templateUrl: './account-list.component.html',
   styleUrl: './account-list.component.sass'
@@ -27,8 +29,16 @@ import { ToastService } from '@shared/services/toast.service';
 export class AccountListComponent implements OnInit {
 
   // ******************************* TABLE RELATED PROPERTIES *******************************
-  public realColumnNames: string[] = ['active', 'currency_code', 'created_at', 'name', 'description', 'initial_balance', 'type_name']
-  public displayHeaders: string[] = ['', 'cur', 'created at', 'name', 'description', 'balance', 'type']
+  public realColumnNames: string[] = ['active', 'currency_code', 'created_at', 'name', 'description', 'initial_balance', 'type']
+  public displayHeaders: string[] = [
+    '',
+    'ACCOUNTS.COLUMNS.CURRENCY',
+    'ACCOUNTS.COLUMNS.CREATED_AT',
+    'ACCOUNTS.COLUMNS.NAME',
+    'ACCOUNTS.COLUMNS.DESCRIPTION',
+    'ACCOUNTS.COLUMNS.BALANCE',
+    'ACCOUNTS.COLUMNS.TYPE'
+  ]
   public shortColumns: string[] = ['active', 'currency']
   private accounts: IAccount[] = []
   public data: IAccountDisplay[] = []
@@ -36,7 +46,6 @@ export class AccountListComponent implements OnInit {
   // ******************************* OTHER PROPERTIES *******************************
   public isLoadingAccounts: boolean = false
   private transactionTypes: ITransactionType[] = []
-  private accountTypes: IAccountType[] = []
   private transactions: ITransaction[] = []
 
 
@@ -50,7 +59,7 @@ export class AccountListComponent implements OnInit {
 
   // ******************************* HOOKS *******************************
   ngOnInit(): void {
-   this.getData()
+    this.getData()
   }
 
   // ******************************* MAIN METHODS *******************************
@@ -61,8 +70,6 @@ export class AccountListComponent implements OnInit {
     this.isLoadingAccounts = true
 
     await Promise.all([
-      this.getTransactionTypes(),
-      this.getAccountTypes(),
       this.getTransactions(),
       this.getAccounts()
     ])
@@ -71,20 +78,6 @@ export class AccountListComponent implements OnInit {
     this.calculateBalances()
 
     this.isLoadingAccounts = false
-  }
-
-  /**
-   * 
-   */
-  private async getTransactionTypes() {
-    this.transactionTypes = await this.administrationService.getTransactionTypes()
-  }
-
-  /**
-   * Fetches the existing account types
-   */
-  private async getAccountTypes() {
-    this.accountTypes = await this.administrationService.getAccountTypes()
   }
 
   /**
@@ -107,15 +100,10 @@ export class AccountListComponent implements OnInit {
    * Maps the type name to the data array sent to the table
    */
   private mapAccountTypes() {
-    this.data = this.accounts.map(account => {
-      const type = this.accountTypes.find(t => t.id === account.type_id)
-      
-      return {
+    this.data = this.accounts.map(account => ({
         ...account,
-        type_name: type?.name ?? 'Unknown',
         current_balance: 0
-      }
-    })
+    }))
   }
 
   /**
@@ -124,13 +112,10 @@ export class AccountListComponent implements OnInit {
   private calculateBalances() {
     this.data = this.data.map(account => {
       const currentBalance = this.transactions.reduce((balance, transaction) => {
-        const transactionType = this.transactionTypes.find(type => type.id === transaction.transaction_type_id)
-        if(!transactionType) return balance
-        
         const amount = Number(transaction.amount)
         if(!Number.isFinite(amount)) return balance
         
-        switch(transactionType.name.toUpperCase()) {
+        switch(transaction.type) {
           case 'INCOME':
             if(transaction.source_account_id === account.id) return balance + amount
             break
@@ -165,14 +150,14 @@ export class AccountListComponent implements OnInit {
       exitAnimationDuration
     })
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       if(!result) return
       
       if(result.success) {
-        this.toastService.showSuccess('The account was successfully created')
-        this.getAccounts()
+        this.toastService.showSuccess('ACCOUNTS.MESSAGES.CREATION_SUCCESS')
+        await this.getData()
       } 
-      else this.toastService.showError('There was an error creating the account')
+      else this.toastService.showError('ACCOUNTS.MESSAGES.CREATION_ERROR')
     })
   }
 

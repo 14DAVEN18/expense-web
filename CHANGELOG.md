@@ -2,6 +2,19 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.8.0] 2023-10-14
+### Added
+- Added ngx-translate for app translation
+- Added Configuration tab with language setting
+- Added translations for English, Spanish and Portuguese
+- Added required validators for account and transaction forms
+
+### Changed
+- Changed templates to adapt to translation files
+
+### Removed
+- CRUD for account types, currencies and transaction types
+
 ## [0.7.0] 2026-10-14
 ### Added
 - Style for transfers in transaction list added

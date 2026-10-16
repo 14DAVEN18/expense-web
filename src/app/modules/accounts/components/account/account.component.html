@@ -1,6 +1,6 @@
 <div class="expenses-container">
     <div class="modal-header">
-        <h2>Account</h2>
+        <h2> {{ 'ACCOUNT_FORM.TITLE' | translate }} </h2>
 
         <mat-icon 
             (click)="this.close()"
@@ -10,20 +10,20 @@
     </div>
 
     <div class="modal-body" [formGroup]="accountForm">
-        <p>Creation date</p>
+        <p> {{ 'ACCOUNT_FORM.CREATION_DATE' | translate }} </p>
         <mat-form-field appearance="outline">
-            <mat-label>date</mat-label>
+            <mat-label> {{ 'ACCOUNT_FORM.DATE_LABEL' | translate }} </mat-label>
             <input matInput [matDatepicker]="datepicker" formControlName="created_at"/>
             <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
             <mat-datepicker #datepicker>
                 <mat-datepicker-actions>
-                    <button mat-button matDatepickerCancel>Cancel</button>
-                    <button mat-raised-button matDatepickerApply>Apply</button>
+                    <button mat-button matDatepickerCancel> {{ 'BUTTONS.CANCEL' | translate }} </button>
+                    <button mat-raised-button matDatepickerApply> {{ 'BUTTONS.APPLY' | translate }} </button>
                 </mat-datepicker-actions>
             </mat-datepicker>
         </mat-form-field>
 
-        <p>Enter the name</p>
+        <p> {{ 'ACCOUNT_FORM.NAME' | translate }} </p>
         <mat-form-field appearance="outline">
             <input 
                 matInput
@@ -31,25 +31,27 @@
             />
         </mat-form-field>
 
-        <p>Type</p>
+        <p> {{ 'ACCOUNT_FORM.TYPE' | translate }} </p>
         <mat-radio-group
-            formControlName="type_id">
+            formControlName="type">
             @for (type of accountTypes; track type) {
-                <mat-radio-button [value]="type.id">{{type.name}}</mat-radio-button>
+                <mat-radio-button [value]="type">
+                    {{ 'ACCOUNT_TYPES.' + type | translate }}
+                </mat-radio-button>
             }
         </mat-radio-group>
 
-        <p>Enter the currency</p>
+        <p> {{ 'ACCOUNT_FORM.CURRENCY' | translate }} </p>
         <mat-form-field appearance="outline">
-            <mat-label>Choose a currency</mat-label>
+            <mat-label> {{ 'ACCOUNT_FORM.CHOOSE_CURRENCY' | translate }} </mat-label>
             <mat-select formControlName="currency_code">
                 @for (currency of currencies; track currency) {
-                    <mat-option [value]="currency.code">{{currency.name}} [{{currency.code}}]</mat-option>
+                    <mat-option [value]="currency.code"> {{ currency.code }} ( {{ currency.symbol }} ) </mat-option>
                 }
             </mat-select>
         </mat-form-field>
 
-        <p>Enter the initial balance</p>
+        <p> {{ 'ACCOUNT_FORM.INITIAL_BALANCE' | translate }} </p>
         <mat-form-field appearance="outline">
             <input 
                 matInput
@@ -58,21 +60,27 @@
             />
         </mat-form-field>
 
-        <p>Enter the description</p>
+        <p> {{ 'ACCOUNT_FORM.DESCRIPTION' | translate }} </p>
         <mat-form-field appearance="outline">
             <textarea 
                 matInput
                 formControlName="description"
             ></textarea>
         </mat-form-field>
+
+        @if(creationError) {
+            <div>
+                <p class="error-message"> {{ 'TRANSACTIONS.MESSAGES.REQUIRED_ERROR' | translate }} </p>
+            </div>
+        }
     </div>
 
     <mat-divider></mat-divider>
     
     <div class="modal-footer">
         <div class="modal-actions">
-            <button mat-raised-button color="secondary" (click)="this.close()">Cancel</button>
-            <button mat-raised-button color="primary" (click)="saveAccount()">Save</button>
+            <button mat-raised-button color="secondary" (click)="this.close()"> {{ 'BUTTONS.CANCEL' | translate }} </button>
+            <button mat-raised-button color="primary" (click)="saveAccount()"> {{ 'BUTTONS.SAVE' | translate }} </button>
         </div>
     </div>
 </div>

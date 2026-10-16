@@ -12,17 +12,24 @@ import { TableComponent } from '@shared/components/table/table.component';
 import { CommonModule } from '@angular/common';
 import { AdministrationService } from '@modules/administration/services/administration.service';
 import { ITransactionType } from '@modules/administration/interfaces/creation-type';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'our-expense-list',
-  imports: [ CommonModule, MatButtonModule, MatIconModule, TableComponent ],
+  imports: [ CommonModule, MatButtonModule, MatIconModule, TableComponent, TranslatePipe ],
   templateUrl: './transaction-list.component.html',
   styleUrl: './transaction-list.component.sass'
 })
 export class TransactionListComponent implements OnInit {
   // ******************************* TABLE RELATED PROPERTIES *******************************
     public realColumnNames: string[] = ['date', 'amount', 'description', 'source_account_name', 'destination_account_name']
-    public displayHeaders: string[] = ['date', 'amount', 'description', 'source', 'destination']
+    public displayHeaders: string[] = [
+      'TRANSACTIONS.COLUMNS.DATE',
+      'TRANSACTIONS.COLUMNS.AMOUNT',
+      'TRANSACTIONS.COLUMNS.DESCRIPTION',
+      'TRANSACTIONS.COLUMNS.SOURCE',
+      'TRANSACTIONS.COLUMNS.DESTINATION'
+    ]
     public shortColumns: string[] = ['active', 'currency']
     public transactions: ITransaction[] = []
     private accounts: IAccount[] = []
@@ -44,9 +51,7 @@ export class TransactionListComponent implements OnInit {
 
   // ******************************* HOOKS *******************************
   ngOnInit(): void {
-    this.getTransactionTypes()
-    this.getAccounts()
-    this.getTransactions()
+    this.loadData()
   }
 
   // ******************************* MAIN METHODS *******************************
@@ -55,9 +60,9 @@ export class TransactionListComponent implements OnInit {
 
     await Promise.all([
       this.getAccounts(),
-      this.getTransactionTypes()
+      this.getTransactions()
     ]);
-    await this.getTransactions();
+
     this.isLoadingTransactions = false;
   }
   /**
@@ -76,10 +81,6 @@ export class TransactionListComponent implements OnInit {
    */
   private async getAccounts() {
     this.accounts = await this.accountService.getAccounts()
-  }
-
-  private async getTransactionTypes() {
-    this.transactionTypes = await this.administrationService.getTransactionTypes()
   }
 
   /**
@@ -103,14 +104,7 @@ export class TransactionListComponent implements OnInit {
    * Creates a map of transactionTypes
    */
   private generateTransactionTypeMap() {
-    this.data = this.data.map(transaction => {
-      const type = this.transactionTypes.find(tt => tt.id === transaction.transaction_type_id)
-
-      return {
-        ...transaction,
-        transaction_type_name: type?.name ?? 'Unknown'
-      }
-    })
+    this.data = this.data.map(transaction => ({...transaction}))
   }
 
   /**
@@ -126,14 +120,14 @@ export class TransactionListComponent implements OnInit {
       exitAnimationDuration
     })
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       if(!result) return
       
       if(result.success) {
-        this.toastService.showSuccess('The transaction was successfully created')
-        this.getTransactions()
+        this.toastService.showSuccess('TRANSACTIONS.MESSAGES.CREATION_SUCCESS')
+        await this.loadData()
       } 
-      else this.toastService.showError('There was an error creating the transaction')
+      else this.toastService.showError('TRANSACTIONS.MESSAGES.CREATION_ERROR')
     })
   }
 

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,8 +12,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { IAccount } from '@modules/accounts/interfaces/accounts';
 import { AccountMapper } from '@modules/accounts/mappers/account.mapper';
 import { AccountsService } from '@modules/accounts/services/accounts.service';
-import { IAccountType, ICurrency } from '@modules/administration/interfaces/creation-type';
-import { AdministrationService } from '@modules/administration/services/administration.service';
+import { TranslatePipe } from '@ngx-translate/core';
+import { ACCOUNT_TYPES, AccountType } from '../../../../local/constants/account-type';
+import { CURRENCIES, CurrencyCode } from '../../../../local/constants/currencies';
 
 @Component({
   selector: 'app-account',
@@ -25,7 +26,8 @@ import { AdministrationService } from '@modules/administration/services/administ
     MatSelectModule,
     MatDividerModule,
     MatButtonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslatePipe
   ],
   providers: [ provideNativeDateAdapter() ],
   templateUrl: './account.component.html',
@@ -35,15 +37,17 @@ export class AccountComponent implements OnInit, AfterViewInit {
 
   // ******************************* PROPERTIES *******************************
   public accountForm!: FormGroup
-  public accountTypes: IAccountType[] = []
-  public currencies: ICurrency[] = []
+  public readonly accountTypes = ACCOUNT_TYPES
+  public readonly currencies = CURRENCIES
   public row!: IAccount
+
+  // ******************************* ERROR HANDLING *******************************
+  public creationError: boolean = false
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: IAccount, 
     public dialogRef: MatDialogRef<AccountComponent>,
     private readonly fb: FormBuilder,
-    private readonly administrationService: AdministrationService,
     private readonly accountService: AccountsService
   ) {
     this.row = data
@@ -51,8 +55,6 @@ export class AccountComponent implements OnInit, AfterViewInit {
 
   // ******************************* HOOKS *******************************
   ngOnInit(): void {
-    this.getAccountTypes()
-    this.getCurrencies()
     this.createAccountForm()
   }
 
@@ -62,28 +64,17 @@ export class AccountComponent implements OnInit, AfterViewInit {
 
   // ******************************* MAIN METHODS *******************************
   /**
-   * Fetches the existing account types
-   */
-  private async getAccountTypes() {
-    this.accountTypes = await this.administrationService.getAccountTypes()
-  }
-
-  private async getCurrencies() {
-    this.currencies = await this.administrationService.getCurrencies()
-  }
-
-  /**
    * Creates the fields for the account form
    */
   private createAccountForm() {
     this.accountForm = this.fb.group({
-      created_at: new FormControl({ value: null, disabled: true }),
-      name: new FormControl({ value: null, disabled: true }),
-      type_id: new FormControl({ value: null, disabled: true }),
-      currency_code: new FormControl({ value: null, disabled: true }),
-      initial_balance: new FormControl({ value: null, disabled: true }),
-      description: new FormControl({ value: null, disabled: true }),
-      active: new FormControl({ value: true, disabled: true })
+      created_at: new FormControl({ value: null, disabled: true }, [Validators.required]),
+      name: new FormControl({ value: null, disabled: true }, [Validators.required]),
+      type: new FormControl<AccountType | null>({ value: null, disabled: true }, [Validators.required]),
+      currency_code: new FormControl<CurrencyCode | null>({ value: null, disabled: true }, [Validators.required]),
+      initial_balance: new FormControl({ value: null, disabled: true }, [Validators.required]),
+      description: new FormControl({ value: null, disabled: true }, [Validators.required]),
+      active: new FormControl({ value: true, disabled: true }, [Validators.required])
     })
   }
 
@@ -91,12 +82,16 @@ export class AccountComponent implements OnInit, AfterViewInit {
    * Sends the value to be saved in the indexedDB table
    */
   public async saveAccount() {
+    this.accountForm.markAllAsTouched()
+    if(this.accountForm.invalid) {
+      this.creationError = true
+    }
     try {
       const formValue = this.accountForm.getRawValue()
       const account: IAccount = AccountMapper.fromForm(formValue, this.row)
-
       await this.accountService.saveAccount(account)
       this.accountForm.reset()
+      await this.accountService.getAccounts()
       this.dialogRef.close({success: true})
     }
     catch (error) {

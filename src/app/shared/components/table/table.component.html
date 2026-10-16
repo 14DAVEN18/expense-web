@@ -11,7 +11,7 @@
                         class="mat-cell--styles"
                         [ngClass]="{'mat-header-cell-first': noDataColumn && emptyDataColumnName.includes(column)}"
                     >
-                        {{ displayHeaders[i] | uppercase }}
+                        {{ displayHeaders[i] | translate | uppercase }}
                     </mat-header-cell>
 
                     <!-- Cell -->
@@ -32,7 +32,7 @@
     }
     @else {
         <div class="empty-message">
-            <h1>THERE IS NO DATA TO DISPLAY</h1>
+            <h1> {{ 'NO_DATA' | translate }} </h1>
         </div>
     }
     

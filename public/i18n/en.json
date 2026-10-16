@@ -1,0 +1,78 @@
+{
+    "NO_DATA": "There is no data to display",
+    "BUTTONS": {
+        "CANCEL": "cancel",
+        "SAVE": "save",
+        "APPLY": "apply"
+    },
+    "ACCOUNT_TYPES": {
+        "CASH": "cash",
+        "DIGITAL_ACCOUNT": "digital account"
+    },
+    "TRANSACTION_TYPES": {
+        "INCOME": "income",
+        "EXPENSE": "expense",
+        "TRANSFER": "transfer"
+    },
+    "NAVBAR": {
+        "HOME": "home",
+        "ACCOUNTS": "accounts",
+        "TRANSACTIONS": "transactions",
+        "ADMINISTRATION": "administration",
+        "SETTINGS": "configuration"
+    },
+
+    "ACCOUNTS": {
+        "TITLE": "accounts",
+        "COLUMNS": {
+            "CURRENCY": "currency",
+            "CREATED_AT": "created at",
+            "NAME": "name",
+            "DESCRIPTION": "description",
+            "BALANCE": "balance",
+            "TYPE": "type"
+        },
+        "MESSAGES": {
+            "REQUIRED_ERROR": "All required fields must be filled",
+            "CREATION_SUCCESS": "The account was successfully created",
+            "CREATION_ERROR": "There was a problem creating the account"
+        }
+    },
+    "ACCOUNT_FORM": {
+        "TITLE": "account",
+        "CREATION_DATE": "creation date",
+        "DATE_LABEL": "date",
+        "NAME": "name",
+        "TYPE": "type",
+        "CURRENCY": "currency",
+        "CHOOSE_CURRENCY": "choose a currency",
+        "INITIAL_BALANCE": "initial balance",
+        "DESCRIPTION": "description"
+    },
+
+    "TRANSACTIONS": {
+        "TITLE": "transactions",
+        "COLUMNS": {
+            "DATE": "date",
+            "AMOUNT": "amount",
+            "DESCRIPTION": "description",
+            "SOURCE": "source",
+            "DESTINATION": "destination"
+        },
+        "MESSAGES": {
+            "REQUIRED_ERROR": "All required fields must be filled",
+            "CREATION_SUCCESS": "The transaction was created successfully",
+            "CREATION_ERROR": "There was a problem creating the transaction"
+        }
+    },
+    "TRANSACTION_FORM": {
+        "TITLE": "transaction",
+        "TYPE": "type",
+        "DATE": "date",
+        "DATE_LABEL": "date",
+        "AMOUNT": "amount",
+        "DESCRIPTION": "description",
+        "SOURCE_ACCOUNT": "source account",
+        "DESTINATION_ACCOUNT": "destination account"
+    }
+}

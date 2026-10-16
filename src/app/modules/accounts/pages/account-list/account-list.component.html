@@ -1,6 +1,6 @@
 <div class="account-list-container">
     <div class="header">
-        <h1>Accounts</h1>
+        <h1> {{ 'ACCOUNTS.TITLE' | translate }} </h1>
 
         <div class="actions">
             <button mat-mini-fab color="primary" (click)="openCreationModal('1000', '1000')">
@@ -48,8 +48,8 @@
                             <span> {{ element.current_balance | currency: 'COP' : 'symbol-narrow':'1.2-2' }} </span>
                         </ng-container>
 
-                        <ng-container *ngSwitchCase="'type_name'">
-                            <span> {{ element.type_name }} </span>
+                        <ng-container *ngSwitchCase="'type'">
+                            <span> {{ 'ACCOUNT_TYPES.' + element.type | translate }} </span>
                         </ng-container>
                         <ng-container *ngSwitchDefault> {{element[column]}} </ng-container>
                     </ng-container>
