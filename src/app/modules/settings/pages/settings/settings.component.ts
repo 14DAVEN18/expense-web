@@ -9,11 +9,12 @@ import { SettingsService } from '@modules/settings/services/settings.service';
 import { ISetting } from '@modules/settings/interfaces/settings';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ToastService } from '@shared/services/toast.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-settings',
-  imports: [ CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatButtonModule, MatIconModule ],
+  imports: [ CommonModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatButtonModule, MatTooltipModule, MatIconModule, TranslatePipe ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.sass'
 })

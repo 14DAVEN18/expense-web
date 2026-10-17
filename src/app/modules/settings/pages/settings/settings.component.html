@@ -1,15 +1,15 @@
 <div class="settings-container">
     <div class="header">
-        <h1>Settings</h1>
+        <h1> {{ 'SETTINGS.TITLE' | translate }} </h1>
     </div>
 
     <div class="content">
         @if (!isLoadingSettings) {
              <div class="section" [formGroup]="languageSettingForm">
-                <h2>Language</h2>
-                <p>Choose your preferred language to visualize the application</p>
+                <h2> {{ 'SETTINGS.SECTIONS.LANGUAGE.TITLE' | translate }} </h2>
+                <p> {{ 'SETTINGS.SECTIONS.LANGUAGE.DESCRIPTION' | translate }} </p>
                 <mat-form-field appearance="outline">
-                    <mat-label>Language</mat-label>
+                    <mat-label> {{ 'SETTINGS_FORM.LANGUAGE_LABEL' | translate }} </mat-label>
                     <mat-select formControlName="language">
                         @for (language of languages; track language.code) {
                             <mat-option [value]="language.code">
@@ -21,7 +21,9 @@
 
                 <button
                     mat-mini-fab
-                    aria-label="Save language"
+                    color="primary"
+                    [matTooltip]="'SETTINGS.TOOLTIPS.SAVE' | translate"
+                    [matTooltipPosition]="'before'"
                     (click)="saveSetting()"
                 >
                     <mat-icon>save</mat-icon>

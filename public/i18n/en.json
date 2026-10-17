@@ -3,7 +3,9 @@
     "BUTTONS": {
         "CANCEL": "cancel",
         "SAVE": "save",
-        "APPLY": "apply"
+        "APPLY": "apply",
+        "CREATE": "create",
+        "CONTINUE": "continue"
     },
     "ACCOUNT_TYPES": {
         "CASH": "cash",
@@ -24,6 +26,10 @@
 
     "ACCOUNTS": {
         "TITLE": "accounts",
+        "TOOLTIPS": {
+            "CREATE": "create account",
+            "EXPORT": "export accounts to CSV File"
+        },
         "COLUMNS": {
             "CURRENCY": "currency",
             "CREATED_AT": "created at",
@@ -52,27 +58,65 @@
 
     "TRANSACTIONS": {
         "TITLE": "transactions",
+        "TOOLTIPS": {
+            "CREATE": "create transaction",
+            "EXPORT": "export transactions to CSV File",
+            "EDIT": "edit transaction",
+            "DELETE": "delete transaction"
+        },
         "COLUMNS": {
             "DATE": "date",
+            "UPDATED_AT": "last update",
             "AMOUNT": "amount",
             "DESCRIPTION": "description",
             "SOURCE": "source",
-            "DESTINATION": "destination"
+            "DESTINATION": "destination",
+            "ACTIONS": "actions"
         },
         "MESSAGES": {
             "REQUIRED_ERROR": "All required fields must be filled",
             "CREATION_SUCCESS": "The transaction was created successfully",
-            "CREATION_ERROR": "There was a problem creating the transaction"
+            "CREATION_ERROR": "There was a problem creating the transaction",
+            "UPDATE_SUCCESS": "The transaction was updated successfully",
+            "UPDATE_ERROR": "There was a problem updating the transaction",
+            "DISABLE_SUCCESS": "The transaction was deleted successfully",
+            "DISABLE_ERROR": "There was a problem deleting the transaction"
+        },
+        "DELETE": {
+            "TITLE": "delete transaction",
+            "MESSAGE": "Are you sure you want to delete the transaction for {{currency}} {{amount}} from {{account}}?"
         }
     },
     "TRANSACTION_FORM": {
-        "TITLE": "transaction",
         "TYPE": "type",
         "DATE": "date",
         "DATE_LABEL": "date",
         "AMOUNT": "amount",
         "DESCRIPTION": "description",
         "SOURCE_ACCOUNT": "source account",
-        "DESTINATION_ACCOUNT": "destination account"
+        "DESTINATION_ACCOUNT": "destination account",
+
+        "CREATE": {
+            "TITLE": "create transaction"
+        },
+        "EDIT": {
+            "TITLE": "edit transaction"
+        }
+    },
+
+    "SETTINGS": {
+        "TITLE": "settings",
+        "TOOLTIPS": {
+            "SAVE": "save"
+        },
+        "SECTIONS": {
+            "LANGUAGE": {
+                "TITLE": "language",
+                "DESCRIPTION": "choose your preferred language to visualize the application"
+            }
+        }
+    },
+    "SETTINGS_FORM": {
+        "LANGUAGE_LABEL": "language"
     }
 }

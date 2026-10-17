@@ -3,11 +3,23 @@
         <h1> {{ 'TRANSACTIONS.TITLE' | translate }} </h1>
 
         <div class="actions">
-            <button mat-mini-fab color="primary" (click)="openCreationModal('1000', '1000')">
+            <button
+                mat-mini-fab
+                color="primary"
+                [matTooltip]="'TRANSACTIONS.TOOLTIPS.CREATE' | translate"
+                [matTooltipPosition]="'before'"
+                (click)="openCreationModal('1000', '1000')"
+            >
                 <mat-icon>add</mat-icon>
             </button>
 
-            <button mat-mini-fab color="primary" (click)="exportCSV()">
+            <button
+                mat-mini-fab
+                color="primary"
+                [matTooltip]="'TRANSACTIONS.TOOLTIPS.EXPORT' | translate"
+                [matTooltipPosition]="'before'"
+                (click)="exportCSV()"
+            >
                 <mat-icon>download</mat-icon>
             </button>
         </div>
@@ -24,8 +36,8 @@
             >
                 <ng-template #cellTemplate let-element='element' let-column="column" let-index="index">
                     <ng-container [ngSwitch]="column">
-                        <ng-container *ngSwitchCase="'date'">
-                            <span> {{ element.date }} </span>
+                        <ng-container *ngSwitchCase="'updated_at'">
+                            <span> {{ element.updated_at ? (element.updated_at | date: 'yyyy/MM/dd HH:mm') : '-' }} </span>
                         </ng-container>
 
                         <ng-container *ngSwitchCase="'amount'">
@@ -39,14 +51,6 @@
                             
                         </ng-container>
 
-                        <ng-container *ngSwitchCase="'description'">
-                            <span> {{ element.description }} </span>
-                        </ng-container>
-
-                        <ng-container *ngSwitchCase="'source_account_name'">
-                            <span> {{ element.source_account_name }} </span>
-                        </ng-container>
-
                         <ng-container *ngSwitchCase="'destination_account_name'">
                             @if(element.type === 'TRANSFER') {
                                 <span> {{ element.destination_account_name }} </span>
@@ -54,6 +58,31 @@
                             @else {
                                 <span> {{ '-' }} </span>
                             }
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="'actions'">
+                            <div class="actions-container">
+                                <button
+                                    mat-mini-fab
+                                    color="primary"
+                                    [matTooltip]="'TRANSACTIONS.TOOLTIPS.EDIT' | translate"
+                                    [matTooltipPosition]="'before'"
+                                    (click)="openEditionModal('1000', '1000', element)"
+                                >
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+
+                                <button
+                                    *ngIf="element.active"
+                                    mat-mini-fab
+                                    color="primary"
+                                    [matTooltip]="'TRANSACTIONS.TOOLTIPS.DELETE' | translate"
+                                    [matTooltipPosition]="'before'"
+                                    (click)="confirmDeletion( '1000', '1000', element)"
+                                >
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
                         </ng-container>
                         <ng-container *ngSwitchDefault> {{element[column]}} </ng-container>
                     </ng-container>

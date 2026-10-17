@@ -3,7 +3,9 @@
     "BUTTONS": {
         "CANCEL": "cancelar",
         "SAVE": "salvar",
-        "APPLY": "aplicar"
+        "APPLY": "aplicar",
+        "CREATE": "criar",
+        "CONTINUE": "continuar"
     },
     "ACCOUNT_TYPES": {
         "CASH": "dinheiro",
@@ -24,6 +26,10 @@
 
      "ACCOUNTS": {
         "TITLE": "Contas",
+        "TOOLTIPS": {
+            "CREATE": "criar contra",
+            "EXPORT": "exportar contas para arquivo CSV"
+        },
         "COLUMNS": {
             "CURRENCY": "moeda",
             "CREATED_AT": "criada em",
@@ -52,27 +58,63 @@
 
     "TRANSACTIONS": {
         "TITLE": "transações",
+        "TOOLTIPS": {
+            "CREATE": "criar transação",
+            "EXPORT": "exportar transacções para arquivo CSV",
+            "EDIT": "editar transação",
+            "DELETE": "exluir transação"
+        },
         "COLUMNS": {
             "DATE": "data",
+            "UPDATED_AT": "ultima atualização",
             "AMOUNT": "valor",
             "DESCRIPTION": "descrição",
             "SOURCE": "origem",
-            "DESTINATION": "destino"
+            "DESTINATION": "destino",
+            "ACTIONS": "ações"
         },
         "MESSAGES": {
             "REQUIRED_ERROR": "Todos os campos obrigatórios devem ser preenchidos",
             "CREATION_SUCCESS": "A transação foi criada com sucesso",
-            "CREATION_ERROR": "Ocurreu um problema ao criar a transação"
+            "CREATION_ERROR": "Ocurreu um problema ao criar a transação",
+            "UPDATE_SUCCESS": "A transação foi atualizada com sucesso",
+            "UPDATE_ERROR": "Ocurreu um problema ao atualizar a transação"
+        },
+        "DELETE": {
+            "TITLE": "excluir transação",
+            "MESSAGE": "¿tem certeza de que deseja excluir a transação por {{currency}} {{amount}} de {{account}}?"
         }
     },
     "TRANSACTION_FORM": {
-        "TITLE": "transação",
         "TYPE": "tipo",
         "DATE": "data",
         "DATE_LABEL": "data",
         "AMOUNT": "valor",
         "DESCRIPTION": "descrição",
         "SOURCE_ACCOUNT": "conta de origem",
-        "DESTINATION_ACCOUNT": "conta de destino"
+        "DESTINATION_ACCOUNT": "conta de destino",
+
+        "CREATE": {
+            "TITLE": "criar transação"
+        },
+        "EDIT": {
+            "TITLE": "editar transação"
+        }
+    },
+
+    "SETTINGS": {
+        "TITLE": "configuração",
+        "TOOLTIPS": {
+            "SAVE": "salvar"
+        },
+        "SECTIONS": {
+            "LANGUAGE": {
+                "TITLE": "idioma",
+                "DESCRIPTION": "escolha o idioma de sua preferência para visualizar o aplicativo"
+            }
+        }
+    },
+    "SETTINGS_FORM": {
+        "LANGUAGE_LABEL": "idioma"
     }
 }

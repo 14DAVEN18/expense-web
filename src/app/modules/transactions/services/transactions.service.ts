@@ -10,18 +10,54 @@ export class TransactionsService {
 
   constructor(private readonly expensesWebDb: ExpenseTrackerDbService) { }
 
-  public async saveTransaction(transaction: ITransaction) {
+  /**
+   * It creates a new transaction
+   * @param transaction transaction to be created
+   */
+  public async createTransaction(transaction: ITransaction) {
     return this.expensesWebDb.transactions.add(transaction)    
   }
 
+  /**
+   * It updates a transaction
+   * @param transaction the  transaction to be updated
+   */
+  public async updateTransaction(transaction: ITransaction) {
+    if(!transaction.id) {
+      throw new Error("Transaction ID is required to update a transaction")
+    }
+
+    return this.expensesWebDb.transactions.update(
+      transaction.id,
+      transaction
+    )
+  }
+
+  /**
+   * It deletes (disables) a transaction
+   * @param id ID of the transaction to delete
+   */
+  public async disableTransaction(id: string) {
+    return this.expensesWebDb.transactions.update(id, {
+      active: false,
+      updated_at: DateUtil.currentTimeStamp()
+    })
+  }
+
+  /**
+   * Retrieves the existing transactions
+   */
   public async getTransactions() {
     return this.expensesWebDb.transactions.toArray()
   }
 
+  /**
+   * Exports the existing transactions to a CSV file
+   */
   public async exportTransactionsToCSV() {
     const transactions = await this.expensesWebDb.transactions.toArray()
 
-    const headers = [ 'id', 'date', 'amount', 'description', 'type', 'source_account_id', 'destination_account_id' ]
+    const headers = [ 'id', 'date', 'amount', 'description', 'type', 'source_account_id', 'destination_account_id', 'created_at', 'updated_at' ]
 
     const rows = transactions.map(transaction => [
       transaction.id,
@@ -30,7 +66,9 @@ export class TransactionsService {
       transaction.description,
       transaction.type,
       transaction.source_account_id,
-      transaction.destination_account_id
+      transaction.destination_account_id,
+      transaction.created_at,
+      transaction.updated_at ?? ''
     ])
 
     const csvContent = [
@@ -54,7 +92,7 @@ export class TransactionsService {
     const fileName = `transactions-${year}-${month}-${day}-${hours}-${minutes}.csv`;
 
     a.download = fileName;
-    a.download = 'transactions.csv'
+    
     a.click()
     window.URL.revokeObjectURL(url)
   }

@@ -1,6 +1,13 @@
 <div class="expenses-container">
     <div class="modal-header">
-        <h2> {{ 'TRANSACTION_FORM.TITLE' | translate }} </h2>
+        <h1> 
+            {{
+                (isEditing
+                    ? 'TRANSACTION_FORM.EDIT.TITLE'
+                    : 'TRANSACTION_FORM.CREATE.TITLE'
+                ) | translate    
+            }}
+        </h1>
 
         <mat-icon (click)="this.close()" class="close-icon">close</mat-icon>
     </div>
@@ -22,13 +29,12 @@
             <div>
                 <p> {{ 'TRANSACTION_FORM.DATE' | translate }} </p>
                 <mat-form-field appearance="outline">
-                    <mat-label> {{ 'TRANSACTION_FORM.DATE_LABEL' | translate }} </mat-label>
                     <input matInput [matDatepicker]="datepicker" formControlName="date"/>
                     <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
                     <mat-datepicker #datepicker>
                         <mat-datepicker-actions>
-                            <button mat-button matDatepickerCancel> {{ 'BUTTONS.CANCEL' }} </button>
-                            <button mat-raised-button matDatepickerApply> {{ 'BUTTONS.APPLY' }} </button>
+                            <button mat-button matDatepickerCancel> {{ 'BUTTONS.CANCEL' | translate }} </button>
+                            <button mat-raised-button matDatepickerApply> {{ 'BUTTONS.APPLY' | translate }} </button>
                         </mat-datepicker-actions>
                     </mat-datepicker>
                 </mat-form-field>
@@ -79,7 +85,7 @@
             }
         </div>
 
-        @if(creationError) {
+        @if(saveError) {
             <div>
                 <p class="error-message"> {{ 'TRANSACTIONS.MESSAGES.REQUIRED_ERROR' | translate }} </p>
             </div>
@@ -91,7 +97,14 @@
     <div class="modal-footer">
         <div class="modal-actions">
             <button mat-raised-button color="secondary" (click)="this.close()"> {{ 'BUTTONS.CANCEL' | translate }} </button>
-            <button mat-raised-button color="primary" (click)="saveTransaction()"> {{ 'BUTTONS.SAVE' | translate }} </button>
+            <button mat-raised-button color="primary" (click)="saveTransaction()"> 
+                {{
+                    (isEditing
+                        ? 'BUTTONS.SAVE'
+                        : 'BUTTONS.CREATE'
+                    ) | translate
+                }}
+            </button>
         </div>
     </div>
 </div>

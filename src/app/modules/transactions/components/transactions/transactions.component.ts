@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core'
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core'
 import { TransactionsService } from '@modules/transactions/services/transactions.service'
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
@@ -12,7 +12,7 @@ import { MatRadioModule } from '@angular/material/radio'
 import { ITransaction } from '@modules/transactions/interfaces/transactions'
 import { TransactionMapper } from '@modules/transactions/mappers/transaction.mapper'
 import { MatIconModule } from '@angular/material/icon'
-import { MatDialogRef } from '@angular/material/dialog'
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { AdministrationService } from '@modules/administration/services/administration.service'
 import { IAccount } from '@modules/accounts/interfaces/accounts'
 import { AccountsService } from '@modules/accounts/services/accounts.service'
@@ -51,9 +51,11 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
   public transactionForm!: FormGroup
 
   // ******************************* ERROR HANDLING *******************************
-  public creationError: boolean = false
+  public saveError: boolean = false
 
   constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public data: { transaction?: ITransaction },
     public dialogRef: MatDialogRef<TransactionsComponent>,
     private readonly fb: FormBuilder,
     private readonly transactionsService: TransactionsService,
@@ -67,9 +69,11 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
     this.createTransactionForm()
     this.listenToTransactionType()
     this.transactionForm.valueChanges.subscribe(() => {
-      this.creationError = false
+      this.saveError = false
       this.transactionForm.markAsUntouched()
     })
+
+    if(this.isEditing) this.loadTransaction()
   }
 
   ngAfterViewInit(): void {
@@ -77,6 +81,19 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
   }
 
   // ******************************* MAIN METHODS *******************************
+  private loadTransaction() {
+    const transaction = this.data.transaction
+    if(!transaction) return
+
+    this.transactionForm.patchValue({
+      type: transaction.type,
+      date: new Date(transaction.date),
+      amount: transaction.amount,
+      description: transaction.description,
+      source_account_id: transaction.source_account_id,
+      destination_account_id: transaction.destination_account_id
+    })
+  }
   /**
    * Fetches the existing accounts created by the user
    */
@@ -119,22 +136,47 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
   public async saveTransaction() {
     this.transactionForm.markAllAsTouched()
     if(this.transactionForm.invalid) {
-      this.creationError = true
+      this.saveError = true
       return
     }
     
-    try {
-      const formValue = this.transactionForm.getRawValue()
-      const transaction: ITransaction = TransactionMapper.fromForm(formValue)
+    const transaction = TransactionMapper.fromForm(
+      this.transactionForm.getRawValue(),
+      this.isEditing ? this.data.transaction : undefined
+    )
 
-      await this.transactionsService.saveTransaction(transaction)
+    try {
+      if (this.isEditing) await this.updateTransaction(transaction)
+      else await this.createTransaction(transaction)
+
       this.transactionForm.reset()
       this.dialogRef.close({success: true})
     }
     catch (error) {
-      console.warn("Error saving account", error)
+      console.warn("Error saving transaction", error)
       this.dialogRef.close({success: false})
     }
+  }
+
+  /**
+   * It creates the transaction
+   * @param transaction transaction to be created
+   */
+  private async createTransaction(transaction: ITransaction) {
+    await this.transactionsService.createTransaction(transaction)
+  }
+
+  /**
+   * It updates the transaction
+   * @param transaction transaction to be updated
+   */
+  private async updateTransaction(transaction: ITransaction) {
+    const original = this.data.transaction
+
+    await this.transactionsService.updateTransaction({
+      ...transaction,
+      id: original?.id
+    })
   }
 
   /**
@@ -147,6 +189,12 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
 
   // ******************************* HELPERS *******************************
   /**
+   * It determines whether the modal is in edition mode or not
+   */
+  public get isEditing(): boolean {
+    return !!this.data?.transaction
+  }
+  /**
    * Formats the amount entered to add decimal point and 2 decimal positions
    */
   formatAmount() {
@@ -157,12 +205,20 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
     this.transactionForm.get('amount')?.setValue(formatted, { emitEvent: false });
   }
 
+  /**
+   * It adds the required validator to a form control
+   * @param controlPath path in the form to the form control
+   */
   private makeRequired(controlPath: string) {
     if(!controlPath) return
     this.transactionForm.get(controlPath)?.addValidators(this.requiredValidator)
     this.transactionForm.get('destination_account_id')?.updateValueAndValidity()
   }
 
+  /**
+   * It removes the required validator from a form control
+   * @param controlPath path in the form to the from control
+   */
   private makeOptional(controlPath: string) {
     if(!controlPath) return
     this.transactionForm.get(controlPath)?.removeValidators(this.requiredValidator)

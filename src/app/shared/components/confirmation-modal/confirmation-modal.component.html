@@ -1,0 +1,20 @@
+<div class="confirmation-modal-container">
+    <div class="modal-header">
+        <h1> {{ data.title | translate }} </h1>
+
+        <mat-icon (click)="this.cancel()" class="close-icon">close</mat-icon>
+    </div>
+
+    <div class="modal-body">
+        <p> {{ data.message | translate:data.messageParams }} </p>
+    </div>
+
+    <mat-divider></mat-divider>
+    
+    <div class="modal-footer">
+        <div class="modal-actions">
+            <button mat-raised-button color="secondary" (click)="this.cancel()"> {{ 'BUTTONS.CANCEL' | translate }} </button>
+            <button mat-raised-button color="primary" (click)="confirm()"> {{ 'BUTTONS.CONTINUE' | translate }} </button>
+        </div>
+    </div>
+</div>

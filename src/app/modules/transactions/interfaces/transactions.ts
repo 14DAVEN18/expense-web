@@ -8,6 +8,9 @@ export interface ITransaction {
     description: string
     source_account_id: number
     destination_account_id: number | null
+    active: boolean
+    created_at: string
+    updated_at?: string
 }
 
 export interface ITransactionDisplay extends ITransaction {
