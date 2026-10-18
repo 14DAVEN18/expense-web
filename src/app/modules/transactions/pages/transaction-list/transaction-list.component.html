@@ -61,8 +61,9 @@
                         </ng-container>
 
                         <ng-container *ngSwitchCase="'actions'">
-                            <div class="actions-container">
+                            <div class="actions-container" *ngIf="element.active; else disabledTransaction">
                                 <button
+                                    *ngIf="element.active"
                                     mat-mini-fab
                                     color="primary"
                                     [matTooltip]="'TRANSACTIONS.TOOLTIPS.EDIT' | translate"
@@ -83,6 +84,9 @@
                                     <mat-icon>delete</mat-icon>
                                 </button>
                             </div>
+                            <ng-template #disabledTransaction>
+                                -
+                            </ng-template>
                         </ng-container>
                         <ng-container *ngSwitchDefault> {{element[column]}} </ng-container>
                     </ng-container>

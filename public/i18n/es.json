@@ -78,7 +78,10 @@
             "CREATION_SUCCESS": "La transacción se creó exitosamente",
             "CREATION_ERROR": "Ocurrió un problema creando la transacción",
             "UPDATE_SUCCESS": "La transacción se actualizó exitosamente",
-            "UPDATE_ERROR": "Ocurrió un problema actualizando la transacción"
+            "UPDATE_ERROR": "Ocurrió un problema actualizando la transacción",
+            "DISABLE_SUCCESS": "La transacción se eliminó correctamente",
+            "DISABLE_ERROR": "Ocurrió un problema eliminando la transacción",
+            "NO_EDIT": "Las transacciones eliminadas no se pueden modificar"
         },
         "DELETE": {
             "TITLE": "eliminar transacción",

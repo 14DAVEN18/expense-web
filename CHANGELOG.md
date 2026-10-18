@@ -12,6 +12,7 @@ This document contains the change log of the Expenses Web App. from its very fir
 ### Changed
 - Added created_at and updated_at fields for transactions
 - Added the last update column in the transactions table
+- Added active column to transactions for soft deletion
 
 ## [0.8.0] 2026-10-14
 ### Added

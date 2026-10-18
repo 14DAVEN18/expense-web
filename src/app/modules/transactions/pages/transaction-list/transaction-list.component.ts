@@ -67,7 +67,7 @@ export class TransactionListComponent implements OnInit {
       this.getAccounts(),
       this.getTransactions()
     ]);
-
+    console.log(this.transactions)
     this.isLoadingTransactions = false;
   }
   /**
@@ -196,7 +196,7 @@ export class TransactionListComponent implements OnInit {
     try {
       await this.transactionService.disableTransaction(transaction?.id)
       this.toastService.showSuccess('TRANSACTIONS.MESSAGES.DISABLE_SUCCESS')
-      await this.getAccounts()
+      await this.loadData()
     }
     catch (error) {
       console.warn("Error disabling transaction", error)

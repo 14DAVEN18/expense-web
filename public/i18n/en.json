@@ -80,7 +80,8 @@
             "UPDATE_SUCCESS": "The transaction was updated successfully",
             "UPDATE_ERROR": "There was a problem updating the transaction",
             "DISABLE_SUCCESS": "The transaction was deleted successfully",
-            "DISABLE_ERROR": "There was a problem deleting the transaction"
+            "DISABLE_ERROR": "There was a problem deleting the transaction",
+            "NO_EDIT": "deleted transactions can't be modified"
         },
         "DELETE": {
             "TITLE": "delete transaction",

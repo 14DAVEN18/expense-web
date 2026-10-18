@@ -57,7 +57,7 @@ export class TransactionsService {
   public async exportTransactionsToCSV() {
     const transactions = await this.expensesWebDb.transactions.toArray()
 
-    const headers = [ 'id', 'date', 'amount', 'description', 'type', 'source_account_id', 'destination_account_id', 'created_at', 'updated_at' ]
+    const headers = [ 'id', 'date', 'amount', 'description', 'type', 'source_account_id', 'destination_account_id', 'created_at', 'updated_at', 'active' ]
 
     const rows = transactions.map(transaction => [
       transaction.id,
@@ -68,7 +68,8 @@ export class TransactionsService {
       transaction.source_account_id,
       transaction.destination_account_id,
       transaction.created_at,
-      transaction.updated_at ?? ''
+      transaction.updated_at ?? '',
+      transaction.active
     ])
 
     const csvContent = [
