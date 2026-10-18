@@ -11,8 +11,8 @@ export class AccountMapper {
             initial_balance: Number.parseFloat(account.initial_balance),
             description: account.description.trim().toUpperCase(),
             active: account.active,
-            created_at: row?.created_at ?? DateUtil.dateToString(account.created_at),
-            updated_at: row?.id ? DateUtil.dateToString() : ''
+            created_at: row?.created_at ?? DateUtil.currentTimeStamp(),
+            updated_at: row?.id ? DateUtil.currentTimeStamp() : ''
         }
         return newAccount
     }

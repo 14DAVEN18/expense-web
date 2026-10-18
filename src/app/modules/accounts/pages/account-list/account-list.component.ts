@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { AccountComponent } from '@modules/accounts/components/account/account.component';
@@ -19,6 +20,7 @@ import { ToastService } from '@shared/services/toast.service';
   imports: [
     CommonModule,
     MatButtonModule,
+    MatTooltipModule,
     MatIconModule,
     TableComponent,
     TranslatePipe
@@ -112,6 +114,8 @@ export class AccountListComponent implements OnInit {
   private calculateBalances() {
     this.data = this.data.map(account => {
       const currentBalance = this.transactions.reduce((balance, transaction) => {
+        if(!transaction.active) return balance
+        
         const amount = Number(transaction.amount)
         if(!Number.isFinite(amount)) return balance
         

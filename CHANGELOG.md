@@ -2,7 +2,19 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
-## [0.8.0] 2023-10-14
+## [0.9.1] 2026-10-16
+### Added
+- Added edit and delete buttons to the transactions table
+- Added internationalization for the settings page
+- Added tooltips to al FABs
+- Added a generic modal for confirmation of actions
+
+### Changed
+- Added created_at and updated_at fields for transactions
+- Added the last update column in the transactions table
+- Added active column to transactions for soft deletion
+
+## [0.8.0] 2026-10-14
 ### Added
 - Added ngx-translate for app translation
 - Added Configuration tab with language setting

@@ -3,7 +3,9 @@
     "BUTTONS": {
         "CANCEL": "cancelar",
         "SAVE": "guardar",
-        "APPLY": "aplicar"
+        "APPLY": "aplicar",
+        "CREATE": "crear",
+        "CONTINUE": "continuar"
     },
     "ACCOUNT_TYPES": {
         "CASH": "efectivo",
@@ -24,6 +26,10 @@
 
     "ACCOUNTS": {
         "TITLE": "cuentas",
+        "TOOLTIPS": {
+            "CREATE": "crear cuenta",
+            "EXPORT": "exportar cuentas a archivo CSV"
+        },
         "COLUMNS": {
             "CURRENCY": "divisa",
             "CREATED_AT": "creada en",
@@ -52,27 +58,66 @@
 
     "TRANSACTIONS": {
         "TITLE": "transacciones",
+        "TOOLTIPS": {
+            "CREATE": "crear transacción",
+            "EXPORT": "exportar transacciones a archivo CSV",
+            "EDIT": "editar transacción",
+            "DELETE": "eliminar transacción"
+        },
         "COLUMNS": {
             "DATE": "fecha",
+            "UPDATED_AT": "última actualización",
             "AMOUNT": "monto",
             "DESCRIPTION": "descripción",
             "SOURCE": "origen",
-            "DESTINATION": "destino"
+            "DESTINATION": "destino",
+            "ACTIONS": "acciones"
         },
         "MESSAGES": {
             "REQUIRED_ERROR": "Todos los campos requeridos deben completarse",
             "CREATION_SUCCESS": "La transacción se creó exitosamente",
-            "CREATION_ERROR": "Ocurrió un problema creando la transacción"
+            "CREATION_ERROR": "Ocurrió un problema creando la transacción",
+            "UPDATE_SUCCESS": "La transacción se actualizó exitosamente",
+            "UPDATE_ERROR": "Ocurrió un problema actualizando la transacción",
+            "DISABLE_SUCCESS": "La transacción se eliminó correctamente",
+            "DISABLE_ERROR": "Ocurrió un problema eliminando la transacción",
+            "NO_EDIT": "Las transacciones eliminadas no se pueden modificar"
+        },
+        "DELETE": {
+            "TITLE": "eliminar transacción",
+            "MESSAGE": "¿Está seguro de que desea eliminar la transacción por {{currency}} {{amount}} de {{account}}?"
         }
     },
     "TRANSACTION_FORM": {
-        "TITLE": "transacción",
         "TYPE": "tipo",
         "DATE": "fecha",
         "DATE_LABEL": "fecha",
         "AMOUNT": "monto",
         "DESCRIPTION": "descripción",
         "SOURCE_ACCOUNT": "cuentra de origen",
-        "DESTINATION_ACCOUNT": "cuenta de destino"
+        "DESTINATION_ACCOUNT": "cuenta de destino",
+
+        "CREATE": {
+            "TITLE": "crear transacción"
+        },
+        "EDIT": {
+            "TITLE": "editar transacción"
+        }
+    },
+
+    "SETTINGS": {
+        "TITLE": "configuración",
+        "TOOLTIPS": {
+            "SAVE": "guardar"
+        },
+        "SECTIONS": {
+            "LANGUAGE": {
+                "TITLE": "idioma",
+                "DESCRIPTION": "seleccione su idioma preferido para visualizar la aplicación"
+            }
+        }
+    },
+    "SETTINGS_FORM": {
+        "LANGUAGE_LABEL": "idioma"
     }
 }
