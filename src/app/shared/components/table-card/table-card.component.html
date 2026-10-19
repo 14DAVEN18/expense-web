@@ -1,0 +1,41 @@
+<div class="card">
+    <div class="card-title">
+        <h2>Account types</h2>
+
+        <div class="button-container">
+            @for(button of buttons) {
+                <button
+                    mat-mini-fa
+                    [matTooltip]="button.tooltip"
+                    [matTooltipPosition]="'before'"
+                    (click)="emitAction(button.action)"
+                >
+                    <mat-icon>{{button.icon}}</mat-icon>
+                </button>
+            }
+        </div>
+    </div>
+
+    <div class="card-content">
+        @if(loading) {
+            <h1>loading...</h1>
+        } @else {
+            @if(data.length) {
+                <div class="row-header">
+                    @for(column of columnNames; let i = $index; track column) {
+                        <span> {{ column | translate }} </span>
+                    }
+                </div>
+                
+                <div class="row">
+                    @for(row of data; let i = $index; track row) {
+                        <span>{{row.id}}</span>
+                        <span>{{row.name}}</span>
+                    }
+                </div>
+            } @else {
+                <h1>There are not any types created. Create one to begin.</h1>
+            }
+        }
+    </div>
+</div>

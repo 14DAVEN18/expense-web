@@ -4,6 +4,16 @@
         </div>
 
         <div class="content">
-            
+            <out-table-card
+                [title]="'ADMINISTRATION.CATEGORIES.TITLE'"
+                [columnNames]="categoryColumns"
+                [realNames]="categoryNames"
+                [data]="categories"
+                [buttons]="categoryButtons"
+                [emptyMessage]="'ADMINISTRATION.CATEGORIES.MESSAGES.EMPTY'"
+                [loading]="loadingCategories"
+                (action)=""
+            >
+            </out-table-card>
         </div>
     </div>

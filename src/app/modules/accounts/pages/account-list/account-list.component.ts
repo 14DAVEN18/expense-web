@@ -47,7 +47,6 @@ export class AccountListComponent implements OnInit {
 
   // ******************************* OTHER PROPERTIES *******************************
   public isLoadingAccounts: boolean = false
-  private transactionTypes: ITransactionType[] = []
   private transactions: ITransaction[] = []
 
 

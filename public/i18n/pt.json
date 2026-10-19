@@ -106,6 +106,25 @@
         }
     },
 
+    "ADMINISTRATION": {
+        "CATEGORIES": {
+            "TITLE": "categorias",
+            "COLUMNS": {
+                "ID": "id",
+                "NAME": "nome",
+                "CREATED_AT": "criado em",
+                "UPDATED_AT": "atualizado em"
+            },
+            "MESSAGES": {
+                "EMPTY": "Não existem tipos categorias. Crei um para começar"
+            },
+            "TOOLTIPS": {
+                "CREATE": "crear categoria",
+                "EXPORT": "exportar categorias para arquivo CSV"
+            }
+        }
+    },
+
     "SETTINGS": {
         "TITLE": "configuração",
         "TOOLTIPS": {

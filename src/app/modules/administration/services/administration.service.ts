@@ -8,4 +8,10 @@ export class AdministrationService {
 
   constructor(private readonly expensesWebDb: ExpenseTrackerDbService) { }
 
+  /**
+   * Retrieves the existing categories
+   */
+  public async getCategories() {
+    return this.expensesWebDb.categories.toArray()
+  }
 }
