@@ -42,7 +42,9 @@ export class AccountComponent implements OnInit, AfterViewInit {
   public row!: IAccount
 
   // ******************************* ERROR HANDLING *******************************
-  public creationError: boolean = false
+  public maxDate: Date = new Date();
+  public error: boolean = false
+  public errorMessage: string = ''
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: IAccount, 
@@ -84,7 +86,8 @@ export class AccountComponent implements OnInit, AfterViewInit {
   public async saveAccount() {
     this.accountForm.markAllAsTouched()
     if(this.accountForm.invalid) {
-      this.creationError = true
+      this.errorMessage = 'TRANSACTIONS.MESSAGES.REQUIRED_ERROR'
+      this.error = true
     }
     try {
       const formValue = this.accountForm.getRawValue()

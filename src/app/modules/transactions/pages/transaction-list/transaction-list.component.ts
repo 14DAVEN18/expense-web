@@ -67,7 +67,7 @@ export class TransactionListComponent implements OnInit {
       this.getAccounts(),
       this.getTransactions()
     ]);
-    console.log(this.transactions)
+    
     this.isLoadingTransactions = false;
   }
   /**
@@ -119,7 +119,8 @@ export class TransactionListComponent implements OnInit {
    */
   public openCreationModal(enterAnimationDuration: string, exitAnimationDuration: string) {
     const dialogRef = this.dialog.open(TransactionsComponent, {
-      height: '60vh',
+      maxHeight: '80vh',
+      minHeight: '60vh',
       width: '45vw',
       enterAnimationDuration,
       exitAnimationDuration
@@ -168,7 +169,7 @@ export class TransactionListComponent implements OnInit {
    */
   public confirmDeletion(enterAnimationDuration: string, exitAnimationDuration: string, transaction: ITransaction) {
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
-      height: '20vh',
+      height: '30vh',
       width: '50vw',
       enterAnimationDuration,
       exitAnimationDuration,
