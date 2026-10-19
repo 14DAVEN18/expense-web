@@ -2,7 +2,16 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
-## [0.9.1] 2026-10-16
+## [0.9.1] 2026-10-19
+### Added
+- Added extra validations in transaction form to disable an account from being selected as source or destination whenever the same account was selected in the other field.
+- Added extra validation to disable the save button in forms if the form is invalid in all forms.
+- Added extra validation to prevent the selection of dates in the future.
+
+### Changed
+- Moved modal styles to global styles to remove duplicated styles.
+
+## [0.9.0] 2026-10-16
 ### Added
 - Added edit and delete buttons to the transactions table
 - Added internationalization for the settings page

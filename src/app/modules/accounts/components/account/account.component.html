@@ -1,4 +1,4 @@
-<div class="expenses-container">
+<div class="container">
     <div class="modal-header">
         <h2> {{ 'ACCOUNT_FORM.TITLE' | translate }} </h2>
 
@@ -13,7 +13,7 @@
         <p> {{ 'ACCOUNT_FORM.CREATION_DATE' | translate }} </p>
         <mat-form-field appearance="outline">
             <mat-label> {{ 'ACCOUNT_FORM.DATE_LABEL' | translate }} </mat-label>
-            <input matInput [matDatepicker]="datepicker" formControlName="created_at"/>
+            <input matInput [matDatepicker]="datepicker" [max]="maxDate" formControlName="created_at"/>
             <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
             <mat-datepicker #datepicker>
                 <mat-datepicker-actions>
@@ -68,9 +68,9 @@
             ></textarea>
         </mat-form-field>
 
-        @if(creationError) {
+        @if(error) {
             <div>
-                <p class="error-message"> {{ 'TRANSACTIONS.MESSAGES.REQUIRED_ERROR' | translate }} </p>
+                <p class="error-message"> {{ errorMessage | translate }} </p>
             </div>
         }
     </div>
@@ -80,7 +80,11 @@
     <div class="modal-footer">
         <div class="modal-actions">
             <button mat-raised-button color="secondary" (click)="this.close()"> {{ 'BUTTONS.CANCEL' | translate }} </button>
-            <button mat-raised-button color="primary" (click)="saveAccount()"> {{ 'BUTTONS.SAVE' | translate }} </button>
+            <button
+                mat-raised-button color="primary"
+                (click)="saveAccount()"
+                [disabled]="accountForm.invalid"
+            > {{ 'BUTTONS.SAVE' | translate }} </button>
         </div>
     </div>
 </div>

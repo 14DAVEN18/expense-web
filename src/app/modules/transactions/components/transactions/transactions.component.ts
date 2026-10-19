@@ -40,18 +40,20 @@ import { TranslatePipe } from '@ngx-translate/core'
 })
 export class TransactionsComponent implements OnInit, AfterViewInit {
 
-  // ******************************* PROVISIONAL PROPERTIES *******************************
+  // ******************************* PROPERTIES *******************************
   public showDestinationAccount: boolean = true
   public transactionTypeMap: Record<string, number> = {}
   private readonly requiredValidator = Validators.required
-
-  // ******************************* PROPERTIES *******************************
   public transactionTypes = TRANSACTION_TYPES
   public accounts: IAccount[] = []
   public transactionForm!: FormGroup
+  
 
   // ******************************* ERROR HANDLING *******************************
-  public saveError: boolean = false
+  public maxDate: Date = new Date();
+  public error: boolean = false
+  public noAccounts: boolean = false
+  public errorMessage: string = ''
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -69,7 +71,7 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
     this.createTransactionForm()
     this.listenToTransactionType()
     this.transactionForm.valueChanges.subscribe(() => {
-      this.saveError = false
+      this.error = false
       this.transactionForm.markAsUntouched()
     })
 
@@ -99,6 +101,13 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
    */
   private async getAccounts() {
     this.accounts = await this.accountService.getAccounts()
+
+    if(!this.accounts.length) {
+      this.transactionForm.disable()
+      this.errorMessage = 'TRANSACTIONS.MESSAGES.NO_ACCOUNTS_ERROR'
+      this.noAccounts = true
+      this.error = true
+    }
   }
 
   /**
@@ -136,7 +145,8 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
   public async saveTransaction() {
     this.transactionForm.markAllAsTouched()
     if(this.transactionForm.invalid) {
-      this.saveError = true
+      this.errorMessage = 'TRANSACTIONS.MESSAGES.REQUIRED_ERROR'
+      this.error = true
       return
     }
     

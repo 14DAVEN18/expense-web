@@ -7,3 +7,97 @@ html, body
 *
     box-sizing: border-box
     text-transform: uppercase
+
+
+/* SCROLLBAR STYLES */
+/* Scrollbar size */
+::-webkit-scrollbar
+    width: 8px
+    height: 8px
+
+/* Background/track */
+::-webkit-scrollbar-track
+    background: #98ff81
+
+/* Draggable part */
+::-webkit-scrollbar-thumb
+    background: #2fda00
+
+/* Draggable part when hovered */
+::-webkit-scrollbar-thumb:hover
+    background: #118f00
+
+/* MODAL STYLES */
+.container
+    background: var(--mat-sys-surface)
+    color: var(--mat-sys-on-surface)
+    display: flex
+    flex-direction: column
+    height: 100%
+    overflow-y: hidden
+    width: 100%
+
+.modal-header
+    align-items: center
+    background: var(--mat-sys-primary)
+    color: var(--mat-sys-on-primary)
+    display: flex
+    flex-direction: row
+    flex-shrink: 0
+    height: 50px
+    justify-content: space-between
+    padding: 0 1rem
+    width: 100%
+    h2
+        margin: 0
+
+.close-icon
+    cursor: pointer
+
+.modal-body
+    display: flex
+    flex-direction: column
+    gap: 0.5rem
+    height: 85%
+    overflow-y: auto
+    padding: 1rem
+    width: 100%
+    p
+        margin: 0
+
+.two-column-row
+    display: flex
+    flex-direction: row
+    gap: 0.5rem
+    > div
+        display: flex
+        flex-direction: column
+        width: 50%
+
+.error-message
+    font: bold
+    color: red
+
+.modal-footer
+    display: flex
+    flex-direction: column
+    flex-shrink: 0
+    gap: 0.5rem
+    height: 50px
+    justify-content: center
+    width: 100%
+
+.modal-actions
+    display: flex
+    flex-direction: row
+    gap: 1rem
+    justify-content: flex-end
+    padding: 0 1rem
+    width: 100%
+
+.container,
+.modal-header,
+.modal-body,
+.modal-footer,
+.modal-actions
+    box-sizing: border-box

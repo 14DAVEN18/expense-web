@@ -81,7 +81,8 @@
             "UPDATE_ERROR": "There was a problem updating the transaction",
             "DISABLE_SUCCESS": "The transaction was deleted successfully",
             "DISABLE_ERROR": "There was a problem deleting the transaction",
-            "NO_EDIT": "deleted transactions can't be modified"
+            "NO_EDIT": "deleted transactions can't be modified",
+            "NO_ACCOUNTS_ERROR": "There are no accounts to use. create one to start"
         },
         "DELETE": {
             "TITLE": "delete transaction",

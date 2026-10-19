@@ -81,7 +81,8 @@
             "UPDATE_ERROR": "Ocurreu um problema ao atualizar a transação",
             "DISABLE_SUCCESS": "A transação foi excluida corretamente",
             "DISABLE_ERROR": "Ocurreu um problema ao excluir a transação",
-            "NO_EDIT": "As transações excluidas não podem ser modificadas"
+            "NO_EDIT": "As transações excluidas não podem ser modificadas",
+            "NO_ACCOUNTS_ERROR": "Não há contas disponiveis para utilização. crie uma para começar"
         },
         "DELETE": {
             "TITLE": "excluir transação",

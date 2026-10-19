@@ -1,13 +1,13 @@
-<div class="expenses-container">
+<div class="container">
     <div class="modal-header">
-        <h1> 
+        <h2> 
             {{
                 (isEditing
                     ? 'TRANSACTION_FORM.EDIT.TITLE'
                     : 'TRANSACTION_FORM.CREATE.TITLE'
                 ) | translate    
             }}
-        </h1>
+        </h2>
 
         <mat-icon (click)="this.close()" class="close-icon">close</mat-icon>
     </div>
@@ -29,7 +29,7 @@
             <div>
                 <p> {{ 'TRANSACTION_FORM.DATE' | translate }} </p>
                 <mat-form-field appearance="outline">
-                    <input matInput [matDatepicker]="datepicker" formControlName="date"/>
+                    <input matInput [matDatepicker]="datepicker" [max]="maxDate" formControlName="date"/>
                     <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
                     <mat-datepicker #datepicker>
                         <mat-datepicker-actions>
@@ -65,7 +65,12 @@
                 <mat-form-field appearance="outline">
                     <mat-select formControlName="source_account_id">
                         @for (account of accounts; track account) {
-                            <mat-option [value]="account.id">{{account.name}}</mat-option>
+                            <mat-option 
+                                [value]="account.id"
+                                [disabled]="transactionForm.get('destination_account_id')?.value === account.id"
+                            >
+                                {{account.name}}
+                            </mat-option>
                         }
                     </mat-select>
                 </mat-form-field>
@@ -77,7 +82,12 @@
                     <mat-form-field appearance="outline">
                         <mat-select formControlName="destination_account_id">
                             @for (account of accounts; track account) {
-                                <mat-option [value]="account.id">{{account.name}}</mat-option>
+                                <mat-option
+                                    [value]="account.id"
+                                    [disabled]="transactionForm.get('source_account_id')?.value === account.id"
+                                >
+                                    {{account.name}}
+                                </mat-option>
                             }
                         </mat-select>
                     </mat-form-field>
@@ -85,9 +95,9 @@
             }
         </div>
 
-        @if(saveError) {
+        @if(error) {
             <div>
-                <p class="error-message"> {{ 'TRANSACTIONS.MESSAGES.REQUIRED_ERROR' | translate }} </p>
+                <p class="error-message"> {{ errorMessage | translate }} </p>
             </div>
         }
     </div>
@@ -97,7 +107,11 @@
     <div class="modal-footer">
         <div class="modal-actions">
             <button mat-raised-button color="secondary" (click)="this.close()"> {{ 'BUTTONS.CANCEL' | translate }} </button>
-            <button mat-raised-button color="primary" (click)="saveTransaction()"> 
+            <button 
+                mat-raised-button color="primary"
+                (click)="saveTransaction()"
+                [disabled]="noAccounts || transactionForm.invalid"
+            > 
                 {{
                     (isEditing
                         ? 'BUTTONS.SAVE'
