@@ -43,6 +43,8 @@ export class CategoryComponent {
 
   ngOnInit() {
     this.createCategoryForm()
+
+    if(this.isEditing) this.loadCategory()
   }
 
   ngAfterViewInit() {
@@ -50,6 +52,16 @@ export class CategoryComponent {
   }
 
   // ******************************* MAIN METHODS *******************************
+  private loadCategory() {
+    const category = this.data.category
+    if(!category) return
+
+    this.categoryForm.patchValue({
+      type: category.type,
+      name: category.name,
+      description: category.description,
+    })
+  }
   /**
    * Creates the transaction form
    */

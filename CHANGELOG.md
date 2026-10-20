@@ -2,6 +2,13 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.10.1] 2026-10-20
+### Added
+- Added edition and deletion of categories
+
+### Changed
+- Included the visualization of the active row in the category table
+
 ## [0.10.0] 2026-10-20
 ### Added
 - Added `Table card` component as reusable to display a lite table in the administration page

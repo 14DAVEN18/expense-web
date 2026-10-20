@@ -1,7 +1,7 @@
 import { TransactionType } from "../../../local/constants/transaction-type"
 
 export interface ITransaction {
-    id?: string
+    id?: number
     type: TransactionType
     date: string
     amount: number
