@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IAccount } from '@modules/accounts/interfaces/accounts';
+import { ICategory } from '@modules/administration/interfaces/category';
 import { ISetting } from '@modules/settings/interfaces/settings';
 import { ITransaction } from '@modules/transactions/interfaces/transactions';
 import Dexie, { Table } from 'dexie';
@@ -10,7 +11,9 @@ import Dexie, { Table } from 'dexie';
 export class ExpenseTrackerDbService extends Dexie {
   transactions!: Table<ITransaction>
   accounts!: Table<IAccount>
+  categories!: Table<ICategory>
   settings!: Table<ISetting>
+
 
   constructor() {
     super('ExpenseWebDatabase')
@@ -18,6 +21,7 @@ export class ExpenseTrackerDbService extends Dexie {
     this.version(2).stores({
       transactions: '++id, date',
       accounts: '++id, date, name',
+      categories: '++id, date, name',
       settings: '&key'
     })
   }

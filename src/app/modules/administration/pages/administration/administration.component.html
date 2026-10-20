@@ -4,6 +4,28 @@
         </div>
 
         <div class="content">
-            
+            <our-table-card
+                [title]="'ADMINISTRATION.CATEGORIES.TITLE'"
+                [columns]="categoryColumns"
+                [data]="categories"
+                [buttons]="categoryButtons"
+                [emptyMessage]="'ADMINISTRATION.CATEGORIES.MESSAGES.EMPTY'"
+                [loading]="loadingCategories"
+                (action)="actionHandler($event)"
+            >
+                <ng-template tableCardCell let-row let-column="column">
+                    @switch (column.key) {
+                        @case ('created_at') {
+                            <span>{{ row.created_at | date: 'yyyy/MM/dd' }}</span>
+                        }
+                        @case ('updated_at') {
+                            <span>{{ row.updated_at ? (row.updated_at | date: 'yyyy/MM/dd HH:mm') : '-' }}</span>
+                        }
+                        @default {
+                            <span> {{ row[column.key] }} </span>
+                        }
+                    }
+                </ng-template>
+            </our-table-card>
         </div>
     </div>

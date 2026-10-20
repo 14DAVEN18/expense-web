@@ -2,6 +2,15 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.10.0] 2026-10-20
+### Added
+- Added `Table card` component as reusable to display a lite table in the administration page
+- Added categories interfaces and types.
+- Export functionality for categories
+
+### Changed
+- Added new translations for administration page.
+
 ## [0.9.1] 2026-10-19
 ### Added
 - Added extra validations in transaction form to disable an account from being selected as source or destination whenever the same account was selected in the other field.

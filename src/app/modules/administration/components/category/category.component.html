@@ -1,0 +1,74 @@
+<div class="container">
+    <div class="modal-header">
+        <h2> 
+            {{
+                (isEditing
+                    ? 'CATEGORY_FORM.EDIT.TITLE'
+                    : 'CATEGORY_FORM.CREATE.TITLE'
+                ) | translate    
+            }}
+        </h2>
+
+        <mat-icon (click)="this.close()" class="close-icon">close</mat-icon>
+    </div>
+
+    <div class="modal-body" [formGroup]="categoryForm">
+        <div class="two-column-row">
+            <div>
+                <p> {{ 'CATEGORY_FORM.TYPE' | translate }} </p>
+                <mat-form-field appearance="outline">
+                    <mat-select formControlName="type">
+                        @for (type of categoryTransactionTypes; track type) {
+                            <mat-option [value]="type">
+                                {{ 'TRANSACTION_TYPES.' + type | translate }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <p> {{ 'CATEGORY_FORM.NAME' | translate }} </p>
+                <mat-form-field appearance="outline">
+                    <input
+                        matInput
+                        formControlName="name"
+                    />
+                </mat-form-field>
+            </div>
+        </div>
+
+        <p> {{ 'CATEGORY_FORM.DESCRIPTION' | translate }} </p>
+        <mat-form-field appearance="outline">
+            <textarea 
+                matInput
+                formControlName="description"
+            ></textarea>
+        </mat-form-field>
+
+        @if(error) {
+            <div>
+                <p class="error-message"> {{ errorMessage | translate }} </p>
+            </div>
+        }
+    </div>
+
+    <mat-divider></mat-divider>
+    
+    <div class="modal-footer">
+        <div class="modal-actions">
+            <button mat-raised-button color="secondary" (click)="this.close()"> {{ 'BUTTONS.CANCEL' | translate }} </button>
+            <button 
+                mat-raised-button color="primary"
+                (click)="saveCategory()"
+                [disabled]="categoryForm.invalid"
+            > 
+                {{
+                    (isEditing
+                        ? 'BUTTONS.SAVE'
+                        : 'BUTTONS.CREATE'
+                    ) | translate
+                }}
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="card">
+    <div class="card-title">
+        <h2> {{ title | translate }} </h2>
+
+        <div class="button-container">
+            @for(button of buttons; track button) {
+                <button
+                    mat-mini-fab
+                    [matTooltip]="button.tooltip | translate"
+                    [matTooltipPosition]="'before'"
+                    [disabled]="button.dataDependent && !data.length"
+                    (click)="emitAction(button.action)"
+                >
+                    <mat-icon>{{button.icon}}</mat-icon>
+                </button>
+            }
+        </div>
+    </div>
+
+    <div class="card-content">
+        @if(loading) {
+            <h1>loading...</h1>
+        } @else {
+            @if(data.length) {
+                <div class="row-header">
+                    @for(column of columns; track column.key) {
+                        <span> {{ column.label | translate }} </span>
+                    }
+                </div>
+                <mat-divider></mat-divider>
+                @for(row of data; track row) {
+                    <div class="row">
+                        @for(column of columns; track column.key) {
+                            <ng-container
+                                *ngTemplateOutlet="
+                                    cellTemplate.templateRef;
+                                    context: {
+                                        $implicit: row,
+                                        column: column
+                                    }
+                                "
+                            />
+                        }
+                    </div>
+                    <mat-divider></mat-divider>
+                }
+            } @else {
+                <h1> {{ 'ADMINISTRATION.CATEGORIES.MESSAGES.EMPTY' | translate }} </h1>
+            }
+        }
+    </div>
+</div>
