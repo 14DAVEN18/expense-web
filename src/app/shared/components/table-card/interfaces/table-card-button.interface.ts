@@ -1,5 +1,6 @@
 export interface IButton {
     icon: string
     tooltip: string
-    action: string
+    action: string,
+    dataDependent: boolean
 }

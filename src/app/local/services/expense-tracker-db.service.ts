@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IAccount } from '@modules/accounts/interfaces/accounts';
-import { ICategory } from '@modules/administration/interfaces/creation-type';
+import { ICategory } from '@modules/administration/interfaces/category';
 import { ISetting } from '@modules/settings/interfaces/settings';
 import { ITransaction } from '@modules/transactions/interfaces/transactions';
 import Dexie, { Table } from 'dexie';

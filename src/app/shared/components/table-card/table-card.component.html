@@ -1,13 +1,14 @@
 <div class="card">
     <div class="card-title">
-        <h2>Account types</h2>
+        <h2> {{ title | translate }} </h2>
 
         <div class="button-container">
-            @for(button of buttons) {
+            @for(button of buttons; track button) {
                 <button
-                    mat-mini-fa
-                    [matTooltip]="button.tooltip"
+                    mat-mini-fab
+                    [matTooltip]="button.tooltip | translate"
                     [matTooltipPosition]="'before'"
+                    [disabled]="button.dataDependent && !data.length"
                     (click)="emitAction(button.action)"
                 >
                     <mat-icon>{{button.icon}}</mat-icon>
@@ -34,7 +35,7 @@
                     }
                 </div>
             } @else {
-                <h1>There are not any types created. Create one to begin.</h1>
+                <h1> {{ 'ADMINISTRATION.CATEGORIES.MESSAGES.EMPTY' | translate }} </h1>
             }
         }
     </div>

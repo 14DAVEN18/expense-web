@@ -11,7 +11,6 @@ import { IAccount } from '@modules/accounts/interfaces/accounts';
 import { TableComponent } from '@shared/components/table/table.component';
 import { CommonModule } from '@angular/common';
 import { AdministrationService } from '@modules/administration/services/administration.service';
-import { ITransactionType } from '@modules/administration/interfaces/creation-type';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ConfirmationModalComponent } from '@shared/components/confirmation-modal/confirmation-modal.component';

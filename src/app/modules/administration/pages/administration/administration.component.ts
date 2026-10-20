@@ -3,11 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-import { ICategory } from '@modules/administration/interfaces/creation-type';
 import { TableCardComponent } from '@shared/components/table-card/table-card.component';
-import { CATEGORIES_BUTTONS, CATEGORIES_COLUMN_NAMES, CATEGORIES_REAL_NAMES } from '@modules/administration/constants/categories';
+import { CATEGORIES_BUTTONS, CATEGORIES_COLUMN_NAMES, CATEGORIES_REAL_NAMES } from '../../../../local/constants/categories';
 import { IButton } from '@shared/components/table-card/interfaces/table-card-button.interface';
 import { AdministrationService } from '@modules/administration/services/administration.service';
+import { ICategory } from '@modules/administration/interfaces/category';
+import { MatDialog } from '@angular/material/dialog';
+import { CategoryComponent } from '@modules/administration/components/category/category.component';
+import { ToastService } from '@shared/services/toast.service';
 
 @Component({
   selector: 'our-administration',
@@ -31,14 +34,28 @@ export class AdministrationComponent implements OnInit {
   public loadingCategories: boolean = false
 
   constructor(
-    private readonly administrationService: AdministrationService
+    private readonly dialog: MatDialog,
+    private readonly administrationService: AdministrationService,
+    private readonly toastService: ToastService
   ) { }
 
   // ******************************* HOOKS *******************************
   ngOnInit(): void {
+    this.loadData()
   }
 
   // ******************************* MAIN METHODS *******************************
+  
+  public async loadData() {
+    await Promise.all([
+      this.getCategories()
+    ])
+  }
+
+  private async getCategories() {
+    this.categories = await this.administrationService.getCategories()
+  }
+
   /**
    * Receives the action from the section's button and routes accordingly
    * @param $event event sent from the table card
@@ -63,13 +80,41 @@ export class AdministrationComponent implements OnInit {
    */
   private handleCategoryAction(action: string) {
     if (!action) return
-    this.openCategoryModal()
+    switch(action) {
+      case "create":
+        this.openCategoryModal('1000', '1000')
+        break
+      case "export":
+        this.exportCategoriesToCSV()
+        break
+    }
+    
   }
 
   /**
    * Opens the modal for category
    */
-  public openCategoryModal() {
-    console.log("create category")
+  public openCategoryModal(enterAnimationDuration: string, exitAnimationDuration: string) {
+    const dialogRef = this.dialog.open(CategoryComponent, {
+      maxHeight: '80vh',
+      minHeight: '30vh',
+      width: '45vw',
+      enterAnimationDuration,
+      exitAnimationDuration
+    })
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if(!result) return
+      
+      if(result.success) {
+        this.toastService.showSuccess('TRANSACTIONS.MESSAGES.CREATION_SUCCESS')
+        await this.loadData()
+      } 
+      else this.toastService.showError('TRANSACTIONS.MESSAGES.CREATION_ERROR')
+    })
+  }
+
+  public exportCategoriesToCSV() {
+    console.log("export category")
   }
 }

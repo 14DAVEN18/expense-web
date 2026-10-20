@@ -116,12 +116,24 @@
                 "UPDATED_AT": "actualizado en"
             },
             "MESSAGES": {
-                "EMPTY": "No hay ninguna categoría creada, cree una para empezar"
+                "EMPTY": "No hay ninguna categoría creada, cree una para empezar",
+                "LOADING": "cargando categorías"
             },
             "TOOLTIPS": {
                 "CREATE": "crear categoría",
                 "EXPORT": "exportar categorías a archivo CSV"
             }
+        }
+    },
+    "CATEGORY_FORM": {
+        "TYPE": "tipo",
+        "NAME": "nombre",
+        "DESCRIPTION": "descripción",
+        "CREATE": {
+            "TITLE": "crear categoría"
+        },
+        "EDIT": {
+            "TITLE": "editar categoría"
         }
     },
 

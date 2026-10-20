@@ -116,12 +116,26 @@
                 "UPDATED_AT": "updated at"
             },
             "MESSAGES": {
-                "EMPTY": "There are not any categories created. Create one to begin."
+                "EMPTY": "there are not any categories created. Create one to begin",
+                "LOADING": "loading categories",
+                "REQUIRED_ERROR": "All required fields must be filled"
             },
             "TOOLTIPS": {
                 "CREATE": "create category",
                 "EXPORT": "export categories to CSV File"
             }
+        }
+    },
+    "CATEGORY_FORM": {
+        "TITLE": "create category",
+        "TYPE": "type",
+        "NAME": "name",
+        "DESCRIPTION": "description",
+        "CREATE": {
+            "TITLE": "create category"
+        },
+        "EDIT": {
+            "TITLE": "edit category"
         }
     },
 

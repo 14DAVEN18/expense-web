@@ -4,7 +4,7 @@
         </div>
 
         <div class="content">
-            <out-table-card
+            <our-table-card
                 [title]="'ADMINISTRATION.CATEGORIES.TITLE'"
                 [columnNames]="categoryColumns"
                 [realNames]="categoryNames"
@@ -12,8 +12,8 @@
                 [buttons]="categoryButtons"
                 [emptyMessage]="'ADMINISTRATION.CATEGORIES.MESSAGES.EMPTY'"
                 [loading]="loadingCategories"
-                (action)=""
+                (action)="actionHandler($event)"
             >
-            </out-table-card>
+            </our-table-card>
         </div>
     </div>

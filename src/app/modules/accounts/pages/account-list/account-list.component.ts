@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { AccountComponent } from '@modules/accounts/components/account/account.component';
 import { IAccount, IAccountDisplay } from '@modules/accounts/interfaces/accounts';
 import { AccountsService } from '@modules/accounts/services/accounts.service';
-import { ITransactionType } from '@modules/administration/interfaces/creation-type';
 import { AdministrationService } from '@modules/administration/services/administration.service';
 import { ITransaction } from '@modules/transactions/interfaces/transactions';
 import { TransactionsService } from '@modules/transactions/services/transactions.service';

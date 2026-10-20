@@ -3,10 +3,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { IButton } from './interfaces/table-card-button.interface';
 import { TranslatePipe } from '@ngx-translate/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'our-table-card',
-  imports: [ CommonModule, MatIconModule, TranslatePipe ],
+  imports: [ CommonModule, MatIconModule, MatButtonModule, MatTooltipModule, TranslatePipe ],
   templateUrl: './table-card.component.html',
   styleUrl: './table-card.component.sass'
 })
