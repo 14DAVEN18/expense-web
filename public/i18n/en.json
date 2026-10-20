@@ -110,21 +110,31 @@
         "CATEGORIES": {
             "TITLE": "categories",
             "COLUMNS": {
-                "ID": "ID",
                 "NAME": "name",
-                "CREATED_AT": "created at",
-                "UPDATED_AT": "updated at"
+                "TYPE": "type",
+                "DESCRIPTION": "description",
+                "CREATED_AT": "created",
+                "UPDATED_AT": "updated",
+                "ACTIONS": "actions"
             },
             "MESSAGES": {
                 "EMPTY": "there are not any categories created. Create one to begin",
                 "LOADING": "loading categories",
                 "REQUIRED_ERROR": "All required fields must be filled",
                 "CREATION_SUCCESS":"The category was successfully created",
-                "CREATION_ERROR": "There was a problem creating the category"
+                "CREATION_ERROR": "There was a problem creating the category",
+                "UPDATE_SUCCESS": "The category was updated successfully",
+                "UPDATE_ERROR": "There was a problem updating the category"
             },
             "TOOLTIPS": {
                 "CREATE": "create category",
-                "EXPORT": "export categories to CSV File"
+                "EXPORT": "export categories to CSV File",
+                "EDIT": "edit category",
+                "DELETE": "delete category"
+            },
+            "DELETE": {
+                "TITLE": "delete category",
+                "MESSAGE": "Are you sure you want to delete the category '{{name}}'?"
             }
         }
     },

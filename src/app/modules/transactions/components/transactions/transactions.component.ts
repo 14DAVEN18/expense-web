@@ -83,6 +83,9 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
   }
 
   // ******************************* MAIN METHODS *******************************
+  /**
+   * Load the transaction details into the form for edition
+   */
   private loadTransaction() {
     const transaction = this.data.transaction
     if(!transaction) return

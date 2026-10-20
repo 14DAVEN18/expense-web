@@ -34,6 +34,17 @@ export class AdministrationService {
   }
 
   /**
+   * It deletes (disables) a category
+   * @param id ID of the category to delete
+   */
+  public async disableCategory(id: number) {
+    return this.expensesWebDb.categories.update(id, {
+      active: false,
+      updated_at: DateUtil.currentTimeStamp()
+    })
+  }
+
+  /**
    * Retrieves the existing categories
    */
   public async getCategories() {
@@ -41,7 +52,7 @@ export class AdministrationService {
   }
 
   /**
-   * 
+   * Exports categories to a CSV file
    */
   public async exportCategoriesToCSV() {
     const categories = await this.expensesWebDb.categories.toArray()

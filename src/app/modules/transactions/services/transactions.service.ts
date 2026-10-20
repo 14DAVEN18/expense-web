@@ -37,7 +37,7 @@ export class TransactionsService {
    * It deletes (disables) a transaction
    * @param id ID of the transaction to delete
    */
-  public async disableTransaction(id: string) {
+  public async disableTransaction(id: number) {
     return this.expensesWebDb.transactions.update(id, {
       active: false,
       updated_at: DateUtil.currentTimeStamp()

@@ -12,6 +12,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { CategoryComponent } from '@modules/administration/components/category/category.component';
 import { ToastService } from '@shared/services/toast.service';
 import { TableCardCellDirective } from '@shared/components/table-card/directives/table-card-cell.directive';
+import { TranslatePipe } from '@ngx-translate/core';
+import { MatTooltip } from '@angular/material/tooltip';
+import { ConfirmationModalComponent } from '@shared/components/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'our-administration',
@@ -20,8 +23,10 @@ import { TableCardCellDirective } from '@shared/components/table-card/directives
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
+    MatTooltip,
     TableCardComponent,
-    TableCardCellDirective
+    TableCardCellDirective,
+    TranslatePipe
   ],
   templateUrl: './administration.component.html',
   styleUrl: './administration.component.sass'
@@ -115,6 +120,78 @@ export class AdministrationComponent implements OnInit {
     })
   }
 
+  /**
+   * Opens a modal for category edition
+   * @param category category object to be loaded in the modal
+   */
+  public openEditionModal(enterAnimationDuration: string, exitAnimationDuration: string, category: ICategory) {
+    const dialogRef = this.dialog.open(CategoryComponent, {
+      height: '60vh',
+      width: '45vw',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: {
+        category
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if(!result) return
+
+      if(result.success) {
+        this.toastService.showSuccess('ADMINISTRATION.CATEGORIES.MESSAGES.UPDATE_SUCCESS')
+        await this.loadData()
+      }
+    })
+  }
+
+  /**
+   * Confirms or Rejects the deletion of a transaction
+   * @param transaction the transaction to be deleted
+   */
+  public confirmDeletion(enterAnimationDuration: string, exitAnimationDuration: string, category: ICategory) {
+    const dialogRef = this.dialog.open(ConfirmationModalComponent, {
+      height: '30vh',
+      width: '50vw',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: {
+        title: 'ADMINISTRATION.CATEGORIES.DELETE.TITLE',
+        message: 'ADMINISTRATION.CATEGORIES.DELETE.MESSAGE',
+        messageParams: {
+          name: category.name
+        }
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(async confirmed => {
+      if(!confirmed) return
+
+      await this.disableCategory(category)
+    })
+  }
+
+  /**
+   * Disables a category
+   * @param category category to be disabled
+   */
+  private async disableCategory(category: ICategory) {
+    if (!category.id) return
+
+    try {
+      await this.administrationService.disableCategory(category?.id)
+      this.toastService.showSuccess('TRANSACTIONS.MESSAGES.DISABLE_SUCCESS')
+      await this.loadData()
+    }
+    catch (error) {
+      console.warn("Error disabling transaction", error)
+      this.toastService.showError('TRANSACTIONS.MESSAGES.DISABLE_ERROR')
+    }
+  }
+
+  /**
+   * Exports categories to a CSV file
+   */
   public exportCategoriesToCSV() {
     this.administrationService.exportCategoriesToCSV()
   }

@@ -141,7 +141,6 @@ export class TransactionListComponent implements OnInit {
    * @param transaction transaction object to be loaded in the modal
    */
   public openEditionModal(enterAnimationDuration: string, exitAnimationDuration: string, transaction: ITransaction) {
-    console.log(transaction)
     const dialogRef = this.dialog.open(TransactionsComponent, {
       height: '60vh',
       width: '45vw',
@@ -190,6 +189,10 @@ export class TransactionListComponent implements OnInit {
     })
   }
 
+  /**
+   * Disables a transaction
+   * @param transaction transaction to be disabled
+   */
   private async disableTransaction(transaction: ITransaction) {
     if (!transaction.id) return
 

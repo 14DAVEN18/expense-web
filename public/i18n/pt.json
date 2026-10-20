@@ -110,20 +110,30 @@
         "CATEGORIES": {
             "TITLE": "categorias",
             "COLUMNS": {
-                "ID": "id",
                 "NAME": "nome",
-                "CREATED_AT": "criado em",
-                "UPDATED_AT": "atualizado em"
+                "TYPE": "tipo",
+                "DESCRIPTION": "descrição",
+                "CREATED_AT": "criado",
+                "UPDATED_AT": "atualizado",
+                "ACTIONS": "ações"
             },
             "MESSAGES": {
                 "EMPTY": "Não existem tipos categorias. Crie um para começar",
                 "LOADING": "carregando categorias",
                 "CREATION_SUCCESS": "A categoria  foi criada com sucesso",
-                "CREATION_ERROR": "Ocurreu um problema ao criar a categoria"
+                "CREATION_ERROR": "Ocurreu um problema ao criar a categoria",
+                "UPDATE_SUCCESS": "A categoria foi atualizada com sucesso",
+                "UPDATE_ERROR": "Ocurreu um problema ao atualizar a categoria"
             },
             "TOOLTIPS": {
                 "CREATE": "criar categoria",
-                "EXPORT": "exportar categorias para arquivo CSV"
+                "EXPORT": "exportar categorias para arquivo CSV",
+                "EDIT": "editar categoria",
+                "DELETE": "exluir categoria"
+            },
+            "DELETE": {
+                "TITLE": "excluir categoría",
+                "MESSAGE": "¿tem certeza de que deseja excluir a categoria '{{name}}'?"
             }
         }
     },
