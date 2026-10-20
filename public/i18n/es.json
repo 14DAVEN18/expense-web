@@ -117,7 +117,9 @@
             },
             "MESSAGES": {
                 "EMPTY": "No hay ninguna categoría creada, cree una para empezar",
-                "LOADING": "cargando categorías"
+                "LOADING": "cargando categorías",
+                "CREATION_SUCCESS": "La categoría fue creada exitosamente",
+                "CREATION_ERROR": "Ocurrió un problema creando la categoría"
             },
             "TOOLTIPS": {
                 "CREATE": "crear categoría",

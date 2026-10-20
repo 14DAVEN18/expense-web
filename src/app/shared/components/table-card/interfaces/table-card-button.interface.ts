@@ -4,3 +4,8 @@ export interface IButton {
     action: string,
     dataDependent: boolean
 }
+
+export interface ITableCardColumn {
+    key: string
+    label: string
+}

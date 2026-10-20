@@ -4,13 +4,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { TableCardComponent } from '@shared/components/table-card/table-card.component';
-import { CATEGORIES_BUTTONS, CATEGORIES_COLUMN_NAMES, CATEGORIES_REAL_NAMES } from '../../../../local/constants/categories';
-import { IButton } from '@shared/components/table-card/interfaces/table-card-button.interface';
+import { CATEGORIES_BUTTONS, CATEGORIES_COLUMNS } from '../../../../local/constants/categories';
+import { IButton, ITableCardColumn } from '@shared/components/table-card/interfaces/table-card-button.interface';
 import { AdministrationService } from '@modules/administration/services/administration.service';
 import { ICategory } from '@modules/administration/interfaces/category';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryComponent } from '@modules/administration/components/category/category.component';
 import { ToastService } from '@shared/services/toast.service';
+import { TableCardCellDirective } from '@shared/components/table-card/directives/table-card-cell.directive';
 
 @Component({
   selector: 'our-administration',
@@ -19,7 +20,8 @@ import { ToastService } from '@shared/services/toast.service';
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
-    TableCardComponent
+    TableCardComponent,
+    TableCardCellDirective
   ],
   templateUrl: './administration.component.html',
   styleUrl: './administration.component.sass'
@@ -27,8 +29,7 @@ import { ToastService } from '@shared/services/toast.service';
 export class AdministrationComponent implements OnInit {
 
   // ******************************* PROPERTIES *******************************
-  public categoryColumns: string[] = CATEGORIES_COLUMN_NAMES
-  public categoryNames: string[] = CATEGORIES_REAL_NAMES
+  public categoryColumns: ITableCardColumn[] = CATEGORIES_COLUMNS
   public categoryButtons: IButton[] = CATEGORIES_BUTTONS
   public categories: ICategory[] = []
   public loadingCategories: boolean = false
@@ -107,14 +108,14 @@ export class AdministrationComponent implements OnInit {
       if(!result) return
       
       if(result.success) {
-        this.toastService.showSuccess('TRANSACTIONS.MESSAGES.CREATION_SUCCESS')
+        this.toastService.showSuccess('ADMINISTRATION.CATEGORY.MESSAGES.CREATION_SUCCESS')
         await this.loadData()
       } 
-      else this.toastService.showError('TRANSACTIONS.MESSAGES.CREATION_ERROR')
+      else this.toastService.showError('ADMINISTRATION.CATEGORY.MESSAGES.CREATION_ERROR')
     })
   }
 
   public exportCategoriesToCSV() {
-    console.log("export category")
+    this.administrationService.exportCategoriesToCSV()
   }
 }

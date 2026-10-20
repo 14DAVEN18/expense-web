@@ -118,7 +118,9 @@
             "MESSAGES": {
                 "EMPTY": "there are not any categories created. Create one to begin",
                 "LOADING": "loading categories",
-                "REQUIRED_ERROR": "All required fields must be filled"
+                "REQUIRED_ERROR": "All required fields must be filled",
+                "CREATION_SUCCESS":"The category was successfully created",
+                "CREATION_ERROR": "There was a problem creating the category"
             },
             "TOOLTIPS": {
                 "CREATE": "create category",
