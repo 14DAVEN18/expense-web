@@ -27,12 +27,26 @@
 
     <div class="content">
         @if (!isLoadingTransactions) {
+            <div class="filters">
+                <our-filters
+                    [parameters]="filterParameters"
+                    [fixedFilters]="transactionFixedFilters"
+                    (filter)="applyFilter($event)"
+                    (active)="applyStatus($event)"
+                    (search)="applySearch($event)"
+                />
+            </div>
+
             <our-table
                 [realColumnNames]="realColumnNames"
                 [displayHeaders]="displayHeaders"
+                [searchColumns]="searchColumns"
                 [data]="data"
                 [emptyDataColumnName]="shortColumns"
                 [noDataColumn]="true"
+                [selectedFilter]="selectedFilter"
+                [searchValue]="searchValue"
+                [active]="showActive"
             >
                 <ng-template #cellTemplate let-element='element' let-column="column" let-index="index">
                     <ng-container [ngSwitch]="column">

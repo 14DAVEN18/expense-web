@@ -11,7 +11,7 @@
 
         <mat-icon (click)="this.close()" class="close-icon">close</mat-icon>
     </div>
-
+    
     @if (!loading) {
         <div class="modal-body" [formGroup]="transactionForm">
             <div class="two-column-row">
@@ -123,7 +123,7 @@
                     </div>
                 }
             </div>
-
+            
             @if(error) {
                 <div>
                     @for (error of errorMessages; track $index) {

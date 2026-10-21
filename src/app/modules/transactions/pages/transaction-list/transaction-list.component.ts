@@ -16,31 +16,56 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ConfirmationModalComponent } from '@shared/components/confirmation-modal/confirmation-modal.component';
 import { CURRENCIES } from '../../../../local/constants/currencies';
 import { ICategory } from '@modules/administration/interfaces/category';
+import { FiltersComponent } from '@shared/components/filters/filters.component';
+import { IFilter } from '@shared/components/filters/interfaces/filter.interface';
 
 @Component({
   selector: 'our-expense-list',
-  imports: [ CommonModule, MatButtonModule, MatTooltipModule, MatIconModule, TableComponent, TranslatePipe ],
+  imports: [ 
+    CommonModule,
+    MatButtonModule, MatTooltipModule, MatIconModule,
+    TableComponent, FiltersComponent,
+    TranslatePipe 
+  ],
   templateUrl: './transaction-list.component.html',
   styleUrl: './transaction-list.component.sass'
 })
 export class TransactionListComponent implements OnInit {
   // ******************************* TABLE RELATED PROPERTIES *******************************
-    public realColumnNames: string[] = ['date', 'updated_at', 'amount', 'category_name', 'description', 'source_account_name', 'destination_account_name', 'actions']
-    public displayHeaders: string[] = [
-      'TRANSACTIONS.COLUMNS.DATE',
-      'TRANSACTIONS.COLUMNS.UPDATED_AT',
-      'TRANSACTIONS.COLUMNS.AMOUNT',
-      'TRANSACTIONS.COLUMNS.CATEGORY',
-      'TRANSACTIONS.COLUMNS.DESCRIPTION',
-      'TRANSACTIONS.COLUMNS.SOURCE',
-      'TRANSACTIONS.COLUMNS.DESTINATION',
-      'TRANSACTIONS.COLUMNS.ACTIONS'
-    ]
-    public shortColumns: string[] = ['active', 'currency']
-    public transactions: ITransaction[] = []
-    private accounts: IAccount[] = []
-    private categories: ICategory[] = []
-    public data: ITransactionDisplay[] = []
+  public realColumnNames: string[] = ['date', 'updated_at', 'amount', 'category_name', 'description', 'source_account_name', 'destination_account_name', 'actions']
+  public displayHeaders: string[] = [
+    'TRANSACTIONS.COLUMNS.DATE',
+    'TRANSACTIONS.COLUMNS.UPDATED_AT',
+    'TRANSACTIONS.COLUMNS.AMOUNT',
+    'TRANSACTIONS.COLUMNS.CATEGORY',
+    'TRANSACTIONS.COLUMNS.DESCRIPTION',
+    'TRANSACTIONS.COLUMNS.SOURCE',
+    'TRANSACTIONS.COLUMNS.DESTINATION',
+    'TRANSACTIONS.COLUMNS.ACTIONS'
+  ]
+  public shortColumns: string[] = ['active', 'currency']
+  public transactions: ITransaction[] = []
+  private accounts: IAccount[] = []
+  private categories: ICategory[] = []
+  public data: ITransactionDisplay[] = []
+
+  // ******************************* FILTER RELATED PROPERTIES *******************************
+  public filterParameters: string[] = [
+    'TRANSACTIONS.COLUMNS.AMOUNT',
+    'TRANSACTIONS.COLUMNS.CATEGORY',
+    'TRANSACTIONS.COLUMNS.DESCRIPTION',
+    'TRANSACTIONS.COLUMNS.ACCOUNT'
+  ]
+  public transactionFixedFilters: IFilter[] = [
+    { label: 'TRANSACTION_TYPES.ALL', column: 'type', allowedValues: [] },
+    { label: 'TRANSACTION_TYPES.INCOME', column: 'type', allowedValues: ['INCOME'] },
+    { label: 'TRANSACTION_TYPES.EXPENSE', column: 'type', allowedValues: ['EXPENSE'] },
+    { label: 'TRANSACTION_TYPES.TRANSFER', column: 'type', allowedValues: ['TRANSFER'] }
+  ]
+  public selectedFilter: IFilter = { label: 'TRANSACTION_TYPES.ALL', column: 'type', allowedValues: ['INCOME', 'EXPENSE', 'TRANSFER'] }
+  public showActive: boolean = true
+  public searchValue: string = ''
+  public searchColumns: string[] = ['amount', 'category_name', 'description', 'source_account_name', 'destination_account_name']
 
   // ******************************* PROPERTIES *******************************
   public isLoadingTransactions: boolean = false
@@ -226,6 +251,32 @@ export class TransactionListComponent implements OnInit {
    */
   public async exportCSV(): Promise<void> {
     await this.transactionService.exportTransactionsToCSV()
+  }
+
+  /**
+   * Updates the value of the selected filter to send to the table
+   * @param index index of the filter to select
+   */
+  public applyFilter(index: number) {
+    if(index === null || index === undefined) return
+    this.selectedFilter = this.transactionFixedFilters[index]
+  }
+
+  /**
+   * Updates the value of the selected filter to send to the table
+   * @param index index of the filter to select
+   */
+  public applyStatus(value: boolean) {
+    if(value === null || value === undefined) return
+    this.showActive = value
+  }
+
+  /**
+   * Updates the search value to send to the table
+   * @param search value of the filter to select
+   */
+  public applySearch(search: string) {
+    this.searchValue = search
   }
 
   // ******************************* HELPERS *******************************

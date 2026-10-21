@@ -72,6 +72,7 @@ export class TransactionsComponent implements OnInit {
 
   // ******************************* HOOKS *******************************
   ngOnInit(): void {
+    this.createTransactionForm()
     void this.initialize()
   }
 
@@ -85,17 +86,15 @@ export class TransactionsComponent implements OnInit {
       this.getAccounts(),
       this.getCategories()
     ]) 
-
-    this.createTransactionForm()
+    console.log("It gets here")
     this.listenToTransactionType()
     this.transactionForm.valueChanges.subscribe(() => {
-      this.error = false
       this.transactionForm.markAsUntouched()
     })
 
     if(this.isEditing) this.loadTransaction()
     this.loading = false
-    this.transactionForm.enable()
+    if (!this.noAccounts && !this.noCategories) this.transactionForm.enable()
   }
 
   /**
@@ -124,10 +123,16 @@ export class TransactionsComponent implements OnInit {
     this.categories = (await this.administrationService.getCategories()).filter(category => category.active)
 
     if(!this.categories.length) {
+      
       this.transactionForm.disable()
-      this.errorMessages.push('TRANSACTIONS.MESSAGES.NO_ACCOUNTS_ERROR')
-      this.noAccounts = true
+      this.transactionForm.updateValueAndValidity()
+      console.log(this.transactionForm.disabled)
+      this.errorMessages.push('TRANSACTIONS.MESSAGES.NO_CATEGORIES_ERROR')
+      console.log("Error messages: ", this.errorMessages)
+      this.noCategories = true
+      console.log("No categories: ", this.noCategories)
       this.error = true
+      console.log("error: ", this.error)
     }
   }
 

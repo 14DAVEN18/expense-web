@@ -15,7 +15,8 @@
     "TRANSACTION_TYPES": {
         "INCOME": "renda",
         "EXPENSE": "despesas",
-        "TRANSFER": "transferência"
+        "TRANSFER": "transferência",
+        "ALL": "todo"
     },
     "NAVBAR": {
         "HOME": "Início",
@@ -23,6 +24,10 @@
         "TRANSACTIONS": "Transações",
         "ADMINISTRATION": "Administração",
         "SETTINGS": "Configuração"
+    },
+    "FILTERS": {
+        "PLACEHOLDER": "buscar ({{parameters}})",
+        "ACTIVE": "ativas"
     },
 
      "ACCOUNTS": {
@@ -73,7 +78,8 @@
             "DESCRIPTION": "descrição",
             "SOURCE": "origem",
             "DESTINATION": "destino",
-            "ACTIONS": "ações"
+            "ACTIONS": "ações",
+            "ACCOUNT": "conta"
         },
         "MESSAGES": {
             "REQUIRED_ERROR": "Todos os campos obrigatórios devem ser preenchidos",

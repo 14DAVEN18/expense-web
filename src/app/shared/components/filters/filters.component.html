@@ -1,0 +1,32 @@
+<div class="filter-container">
+    <div class="top-filters">
+        @if (parameters) {
+            <div class="search-bar">
+                <input
+                    type="text"
+                    [placeholder]="'FILTERS.PLACEHOLDER' | translate:{ parameters: joinedParameters }"
+                    (input)="onSearch(searchInput.value)"
+                    (keydown.enter)="$event.preventDefault(); onSearch(searchInput.value)"
+                    #searchInput
+                />
+            </div>
+        }
+        
+        <mat-slide-toggle
+            [(ngModel)]="showActive"
+            (change)="toggleStatus(showActive)"
+        >
+            {{ 'FILTERS.ACTIVE' | translate }}
+        </mat-slide-toggle>
+    </div>
+
+    @if (fixedFilters) {
+        <div class="filter-buttons">
+            @for (filter of fixedFilters; track filter; let i = $index) {
+                <div class="filter" (click)="applyFilter(i)" [ngClass]="{'active': this.filterIndex === i}">
+                    <span> {{ filter.label | translate }} </span>
+                </div>
+            }
+        </div>   
+    }
+</div>
