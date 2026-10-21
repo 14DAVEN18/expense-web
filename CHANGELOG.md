@@ -2,6 +2,17 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.11.0] 2026-10-20
+### Added
+- Added category to transaction forms
+- Added internationalization for changes
+
+### Changed
+- Updated the DexieDB scheme to add more indexed fields for future filters and to add the category_id field to the existing transactions.
+
+### Fixed
+- Fixed visual bug that caused the actions of a modal to show right below the body of the modal instead of being displayed at the bottom of the modal
+
 ## [0.10.1] 2026-10-20
 ### Added
 - Added edition and deletion of categories

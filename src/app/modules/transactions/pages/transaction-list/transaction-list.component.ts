@@ -11,10 +11,11 @@ import { IAccount } from '@modules/accounts/interfaces/accounts';
 import { TableComponent } from '@shared/components/table/table.component';
 import { CommonModule } from '@angular/common';
 import { AdministrationService } from '@modules/administration/services/administration.service';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ConfirmationModalComponent } from '@shared/components/confirmation-modal/confirmation-modal.component';
 import { CURRENCIES } from '../../../../local/constants/currencies';
+import { ICategory } from '@modules/administration/interfaces/category';
 
 @Component({
   selector: 'our-expense-list',
@@ -24,11 +25,12 @@ import { CURRENCIES } from '../../../../local/constants/currencies';
 })
 export class TransactionListComponent implements OnInit {
   // ******************************* TABLE RELATED PROPERTIES *******************************
-    public realColumnNames: string[] = ['date', 'updated_at', 'amount', 'description', 'source_account_name', 'destination_account_name', 'actions']
+    public realColumnNames: string[] = ['date', 'updated_at', 'amount', 'category_name', 'description', 'source_account_name', 'destination_account_name', 'actions']
     public displayHeaders: string[] = [
       'TRANSACTIONS.COLUMNS.DATE',
       'TRANSACTIONS.COLUMNS.UPDATED_AT',
       'TRANSACTIONS.COLUMNS.AMOUNT',
+      'TRANSACTIONS.COLUMNS.CATEGORY',
       'TRANSACTIONS.COLUMNS.DESCRIPTION',
       'TRANSACTIONS.COLUMNS.SOURCE',
       'TRANSACTIONS.COLUMNS.DESTINATION',
@@ -37,7 +39,7 @@ export class TransactionListComponent implements OnInit {
     public shortColumns: string[] = ['active', 'currency']
     public transactions: ITransaction[] = []
     private accounts: IAccount[] = []
-    public transactionTypeMap: Record<string, number> = {}
+    private categories: ICategory[] = []
     public data: ITransactionDisplay[] = []
 
   // ******************************* PROPERTIES *******************************
@@ -50,12 +52,13 @@ export class TransactionListComponent implements OnInit {
     private readonly transactionService: TransactionsService,
     private readonly accountService: AccountsService,
     private readonly administrationService: AdministrationService,
+    private readonly translateService: TranslateService,
     private readonly toastService: ToastService
   ) {}
 
   // ******************************* HOOKS *******************************
   ngOnInit(): void {
-    this.loadData()
+    void this.loadData()
   }
 
   // ******************************* MAIN METHODS *******************************
@@ -64,20 +67,13 @@ export class TransactionListComponent implements OnInit {
 
     await Promise.all([
       this.getAccounts(),
-      this.getTransactions()
+      this.getCategories(),
+      this.getTransactions(),
     ]);
+
+    this.mapNames()
     
     this.isLoadingTransactions = false;
-  }
-  /**
-   * Fetches the existing transactions
-   */
-  private async getTransactions() {
-    this.isLoadingTransactions = true
-    this.transactions = await this.transactionService.getTransactions()
-    this.mapAccounts()
-    this.generateTransactionTypeMap()
-    this.isLoadingTransactions = false
   }
 
   /**
@@ -88,20 +84,38 @@ export class TransactionListComponent implements OnInit {
   }
 
   /**
-   * Maps the string names corresponding to the account type
+   * Fetches the existing categories
    */
-  private mapAccounts() {
+  private async getCategories() {
+    this.categories = await this.administrationService.getCategories()
+  }
+
+  /**
+   * Fetches the existing transactions
+   */
+  private async getTransactions() {
+    this.isLoadingTransactions = true
+    this.transactions = await this.transactionService.getTransactions()
+    this.generateTransactionTypeMap()
+    this.isLoadingTransactions = false
+  }
+
+  /**
+   * Maps the string names corresponding to the account and category IDs
+   */
+  private mapNames() {
     this.data = this.transactions.map(transaction => {
       const source = this.accounts.find(a => a.id === transaction.source_account_id)
       const destination = this.accounts.find(d => d.id === transaction.destination_account_id)
-      
+      const category = this.categories.find(c => c.id === transaction.category_id)
+
       return {
         ...transaction,
-        source_account_name: source?.name ?? 'Unknown',
-        destination_account_name: destination?.name ?? 'Unknown',
-        transaction_type_name: ''
-      }
-    })
+        source_account_name: source?.name ?? '-',
+        destination_account_name: destination?.name ?? '-',
+        category_name: category?.name ?? '-'
+      };
+    });
   }
 
   /**

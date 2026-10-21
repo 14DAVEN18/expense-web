@@ -18,6 +18,8 @@ import { IAccount } from '@modules/accounts/interfaces/accounts'
 import { AccountsService } from '@modules/accounts/services/accounts.service'
 import { TRANSACTION_TYPES, TransactionType } from '../../../../local/constants/transaction-type'
 import { TranslatePipe } from '@ngx-translate/core'
+import { ICategory } from '@modules/administration/interfaces/category'
+import { JsonPipe } from '@angular/common'
 
 
 @Component({
@@ -32,19 +34,21 @@ import { TranslatePipe } from '@ngx-translate/core'
     MatSelectModule,
     MatRadioModule,
     MatIconModule,
+    JsonPipe,
     TranslatePipe
   ],
   providers: [ provideNativeDateAdapter() ],
   templateUrl: './transactions.component.html',
   styleUrl: './transactions.component.sass'
 })
-export class TransactionsComponent implements OnInit, AfterViewInit {
-
+export class TransactionsComponent implements OnInit {
   // ******************************* PROPERTIES *******************************
-  public showDestinationAccount: boolean = true
+  public showDestinationAccount: boolean = false
+  public showCategory: boolean = false
   public transactionTypeMap: Record<string, number> = {}
   private readonly requiredValidator = Validators.required
   public transactionTypes = TRANSACTION_TYPES
+  public categories: ICategory[] = []
   public accounts: IAccount[] = []
   public transactionForm!: FormGroup
   
@@ -52,8 +56,10 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
   // ******************************* ERROR HANDLING *******************************
   public maxDate: Date = new Date();
   public error: boolean = false
+  public noCategories: boolean = false
   public noAccounts: boolean = false
-  public errorMessage: string = ''
+  public errorMessages: string[] = []
+  public loading: boolean = false
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -67,7 +73,18 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
 
   // ******************************* HOOKS *******************************
   ngOnInit(): void {
-    this.getAccounts()
+    void this.initialize()
+  }
+
+  // ******************************* MAIN METHODS *******************************
+
+  private async initialize() {
+    this.loading = true
+    await Promise.all([
+      this.getAccounts(),
+      this.getCategories()
+    ]) 
+
     this.createTransactionForm()
     this.listenToTransactionType()
     this.transactionForm.valueChanges.subscribe(() => {
@@ -76,13 +93,10 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
     })
 
     if(this.isEditing) this.loadTransaction()
-  }
-
-  ngAfterViewInit(): void {
+    this.loading = false
     this.transactionForm.enable()
   }
 
-  // ******************************* MAIN METHODS *******************************
   /**
    * Load the transaction details into the form for edition
    */
@@ -93,21 +107,38 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
     this.transactionForm.patchValue({
       type: transaction.type,
       date: new Date(transaction.date),
+      category_id: transaction.category_id,
       amount: transaction.amount,
       description: transaction.description,
       source_account_id: transaction.source_account_id,
       destination_account_id: transaction.destination_account_id
     })
+    this.transactionForm.enable()
   }
+
+  /**
+   * Fetches the existing accounts created by the user
+   */
+  private async getCategories() {
+    this.categories = (await this.administrationService.getCategories()).filter(category => category.active)
+
+    if(!this.categories.length) {
+      this.transactionForm.disable()
+      this.errorMessages.push('TRANSACTIONS.MESSAGES.NO_ACCOUNTS_ERROR')
+      this.noAccounts = true
+      this.error = true
+    }
+  }
+
   /**
    * Fetches the existing accounts created by the user
    */
   private async getAccounts() {
-    this.accounts = await this.accountService.getAccounts()
+    this.accounts = (await this.accountService.getAccounts()).filter(account => account.active)
 
     if(!this.accounts.length) {
       this.transactionForm.disable()
-      this.errorMessage = 'TRANSACTIONS.MESSAGES.NO_ACCOUNTS_ERROR'
+      this.errorMessages.push('TRANSACTIONS.MESSAGES.NO_ACCOUNTS_ERROR')
       this.noAccounts = true
       this.error = true
     }
@@ -120,6 +151,7 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
     this.transactionForm = this.fb.group({
       type: new FormControl<TransactionType | null>({ value: null, disabled: true}, Validators.required),
       date: new FormControl({ value: null, disabled: true}, Validators.required),
+      category_id: new FormControl({ value: null, disabled: true}),
       amount: new FormControl({ value: null, disabled: true}, Validators.required),
       description: new FormControl({ value: null, disabled: true }, Validators.required),
       source_account_id: new FormControl({ value: null, disabled: true }, Validators.required),
@@ -132,13 +164,19 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
    */
   private listenToTransactionType() {
     this.transactionForm.get('type')?.valueChanges.subscribe(value => {
-      if(value === "TRANSFER") {
-        this.showDestinationAccount = true
-        this.makeRequired('destination_account_id')
-      } else {
-        this.showDestinationAccount = false
-        this.makeOptional('destination_account_id')
-      }
+      const isTransfer = value === 'TRANSFER';
+      const hasCategory = !!value && !isTransfer;
+
+      this.showDestinationAccount = isTransfer;
+      this.showCategory = hasCategory;
+
+      isTransfer
+        ? this.makeRequired('destination_account_id')
+        : this.makeOptional('destination_account_id');
+
+      hasCategory
+        ? this.makeRequired('category_id')
+        : this.makeOptional('category_id');
     })
   }
 
@@ -148,7 +186,7 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
   public async saveTransaction() {
     this.transactionForm.markAllAsTouched()
     if(this.transactionForm.invalid) {
-      this.errorMessage = 'TRANSACTIONS.MESSAGES.REQUIRED_ERROR'
+      this.errorMessages.push('TRANSACTIONS.MESSAGES.REQUIRED_ERROR')
       this.error = true
       return
     }
@@ -224,8 +262,9 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
    */
   private makeRequired(controlPath: string) {
     if(!controlPath) return
-    this.transactionForm.get(controlPath)?.addValidators(this.requiredValidator)
-    this.transactionForm.get('destination_account_id')?.updateValueAndValidity()
+    const control = this.transactionForm.get(controlPath)
+    control?.addValidators(this.requiredValidator)
+    control?.updateValueAndValidity()
   }
 
   /**
@@ -234,7 +273,8 @@ export class TransactionsComponent implements OnInit, AfterViewInit {
    */
   private makeOptional(controlPath: string) {
     if(!controlPath) return
-    this.transactionForm.get(controlPath)?.removeValidators(this.requiredValidator)
-    this.transactionForm.get('destination_account_id')?.updateValueAndValidity()
+    const control = this.transactionForm.get(controlPath)
+    control?.removeValidators(this.requiredValidator)
+    control?.updateValueAndValidity()
   }
 }

@@ -3,7 +3,7 @@
         <h2> 
             {{
                 (isEditing
-                    ? 'CATEGORY_FORM.EDIT.TITLE'
+                    ? 'TRANSACTION_FORM.EDIT.TITLE'
                     : 'TRANSACTION_FORM.CREATE.TITLE'
                 ) | translate    
             }}
@@ -12,79 +12,91 @@
         <mat-icon (click)="this.close()" class="close-icon">close</mat-icon>
     </div>
 
-    <div class="modal-body" [formGroup]="transactionForm">
-        <div class="two-column-row">
-            <div>
-                <p> {{ 'TRANSACTION_FORM.TYPE' | translate }} </p>
-                <mat-form-field appearance="outline">
-                    <mat-select formControlName="type">
-                        @for (type of transactionTypes; track type) {
-                            <mat-option [value]="type">
-                                {{ 'TRANSACTION_TYPES.' + type | translate }}</mat-option>
-                        }
-                    </mat-select>
-                </mat-form-field>
-            </div>
-
-            <div>
-                <p> {{ 'TRANSACTION_FORM.DATE' | translate }} </p>
-                <mat-form-field appearance="outline">
-                    <input matInput [matDatepicker]="datepicker" [max]="maxDate" formControlName="date"/>
-                    <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
-                    <mat-datepicker #datepicker>
-                        <mat-datepicker-actions>
-                            <button mat-button matDatepickerCancel> {{ 'BUTTONS.CANCEL' | translate }} </button>
-                            <button mat-raised-button matDatepickerApply> {{ 'BUTTONS.APPLY' | translate }} </button>
-                        </mat-datepicker-actions>
-                    </mat-datepicker>
-                </mat-form-field>
-            </div>
-        </div>
-        
-        <p> {{ 'TRANSACTION_FORM.AMOUNT' | translate }} </p>
-        <mat-form-field appearance="outline">
-            <input
-                matInput
-                formControlName="amount"
-                (blur)="formatAmount()"
-            />
-        </mat-form-field>
-
-        <p> {{ 'TRANSACTION_FORM.DESCRIPTION' | translate }} </p>
-        <mat-form-field appearance="outline">
-            <textarea 
-                matInput
-                formControlName="description"
-                (blur)="formatAmount()"
-            ></textarea>
-        </mat-form-field>
-
-        <div class="two-column-row">
-            <div>
-                <p> {{ 'TRANSACTION_FORM.SOURCE_ACCOUNT' | translate }} </p>
-                <mat-form-field appearance="outline">
-                    <mat-select formControlName="source_account_id">
-                        @for (account of accounts; track account) {
-                            <mat-option 
-                                [value]="account.id"
-                                [disabled]="transactionForm.get('destination_account_id')?.value === account.id"
-                            >
-                                {{account.name}}
-                            </mat-option>
-                        }
-                    </mat-select>
-                </mat-form-field>
-            </div>
-
-            @if(showDestinationAccount) {
+    @if (!loading) {
+        <div class="modal-body" [formGroup]="transactionForm">
+            <div class="two-column-row">
                 <div>
-                    <p> {{ 'TRANSACTION_FORM.DESTINATION_ACCOUNT' | translate }} </p>
+                    <p> {{ 'TRANSACTION_FORM.TYPE' | translate }} </p>
                     <mat-form-field appearance="outline">
-                        <mat-select formControlName="destination_account_id">
+                        <mat-select formControlName="type">
+                            @for (type of transactionTypes; track type) {
+                                <mat-option [value]="type">
+                                    {{ 'TRANSACTION_TYPES.' + type | translate }}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <p> {{ 'TRANSACTION_FORM.DATE' | translate }} </p>
+                    <mat-form-field appearance="outline">
+                        <input matInput [matDatepicker]="datepicker" [max]="maxDate" formControlName="date"/>
+                        <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                        <mat-datepicker #datepicker>
+                            <mat-datepicker-actions>
+                                <button mat-button matDatepickerCancel> {{ 'BUTTONS.CANCEL' | translate }} </button>
+                                <button mat-raised-button matDatepickerApply> {{ 'BUTTONS.APPLY' | translate }} </button>
+                            </mat-datepicker-actions>
+                        </mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            @if (showCategory) {
+                <div class="two-column-row">
+                    <div>
+                        <p> {{ 'TRANSACTION_FORM.CATEGORY' | translate }} </p>
+                        <mat-form-field appearance="outline">
+                            <mat-select formControlName="category_id">
+                                @for (category of categories; track category) {
+                                    <mat-option [value]="category.id">
+                                        {{ category.name }}</mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <p> {{ 'TRANSACTION_FORM.AMOUNT' | translate }} </p>
+                        <mat-form-field appearance="outline">
+                            <input
+                                matInput
+                                formControlName="amount"
+                                (blur)="formatAmount()"
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+            } @else {
+                <p> {{ 'TRANSACTION_FORM.AMOUNT' | translate }} </p>
+                <mat-form-field appearance="outline">
+                    <input
+                        matInput
+                        formControlName="amount"
+                        (blur)="formatAmount()"
+                    />
+                </mat-form-field>
+            }
+            
+
+            <p> {{ 'TRANSACTION_FORM.DESCRIPTION' | translate }} </p>
+            <mat-form-field appearance="outline">
+                <textarea 
+                    matInput
+                    formControlName="description"
+                    (blur)="formatAmount()"
+                ></textarea>
+            </mat-form-field>
+
+            <div class="two-column-row">
+                <div>
+                    <p> {{ 'TRANSACTION_FORM.SOURCE_ACCOUNT' | translate }} </p>
+                    <mat-form-field appearance="outline">
+                        <mat-select formControlName="source_account_id">
                             @for (account of accounts; track account) {
-                                <mat-option
+                                <mat-option 
                                     [value]="account.id"
-                                    [disabled]="transactionForm.get('source_account_id')?.value === account.id"
+                                    [disabled]="transactionForm.get('destination_account_id')?.value === account.id"
                                 >
                                     {{account.name}}
                                 </mat-option>
@@ -92,33 +104,57 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
+
+                @if(showDestinationAccount) {
+                    <div>
+                        <p> {{ 'TRANSACTION_FORM.DESTINATION_ACCOUNT' | translate }} </p>
+                        <mat-form-field appearance="outline">
+                            <mat-select formControlName="destination_account_id">
+                                @for (account of accounts; track account) {
+                                    <mat-option
+                                        [value]="account.id"
+                                        [disabled]="transactionForm.get('source_account_id')?.value === account.id"
+                                    >
+                                        {{account.name}}
+                                    </mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                }
+            </div>
+
+            @if(error) {
+                <div>
+                    @for (error of errorMessages; track $index) {
+                        <p class="error-message"> {{ error | translate }} </p>
+                    }
+                </div>
             }
         </div>
 
-        @if(error) {
-            <div>
-                <p class="error-message"> {{ errorMessage | translate }} </p>
+        <mat-divider></mat-divider>
+        
+        <div class="modal-footer">
+            <div class="modal-actions">
+                <button mat-raised-button color="secondary" (click)="this.close()"> {{ 'BUTTONS.CANCEL' | translate }} </button>
+                <button 
+                    mat-raised-button color="primary"
+                    (click)="saveTransaction()"
+                    [disabled]="noAccounts || transactionForm.invalid || transactionForm.disabled"
+                > 
+                    {{
+                        (isEditing
+                            ? 'BUTTONS.SAVE'
+                            : 'BUTTONS.CREATE'
+                        ) | translate
+                    }}
+                </button>
             </div>
-        }
-    </div>
-
-    <mat-divider></mat-divider>
-    
-    <div class="modal-footer">
-        <div class="modal-actions">
-            <button mat-raised-button color="secondary" (click)="this.close()"> {{ 'BUTTONS.CANCEL' | translate }} </button>
-            <button 
-                mat-raised-button color="primary"
-                (click)="saveTransaction()"
-                [disabled]="noAccounts || transactionForm.invalid"
-            > 
-                {{
-                    (isEditing
-                        ? 'BUTTONS.SAVE'
-                        : 'BUTTONS.CREATE'
-                    ) | translate
-                }}
-            </button>
         </div>
-    </div>
+    } @else {
+        <h1>
+            {{ 'LOADING_FORM' | translate}}
+        </h1>
+    }
 </div>

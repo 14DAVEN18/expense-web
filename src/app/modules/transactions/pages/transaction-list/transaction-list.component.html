@@ -51,15 +51,6 @@
                             
                         </ng-container>
 
-                        <ng-container *ngSwitchCase="'destination_account_name'">
-                            @if(element.type === 'TRANSFER') {
-                                <span> {{ element.destination_account_name }} </span>
-                            }
-                            @else {
-                                <span> {{ '-' }} </span>
-                            }
-                        </ng-container>
-
                         <ng-container *ngSwitchCase="'actions'">
                             <div class="actions-container" *ngIf="element.active; else disabledTransaction">
                                 <button

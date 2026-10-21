@@ -1,5 +1,6 @@
 {
     "NO_DATA": "Não há dados para mostrar",
+    "LOADING_FORM": "carregando",
     "BUTTONS": {
         "CANCEL": "cancelar",
         "SAVE": "salvar",
@@ -68,6 +69,7 @@
             "DATE": "data",
             "UPDATED_AT": "ultima atualização",
             "AMOUNT": "valor",
+            "CATEGORY": "categoria",
             "DESCRIPTION": "descrição",
             "SOURCE": "origem",
             "DESTINATION": "destino",
@@ -82,7 +84,9 @@
             "DISABLE_SUCCESS": "A transação foi excluida corretamente",
             "DISABLE_ERROR": "Ocurreu um problema ao excluir a transação",
             "NO_EDIT": "As transações excluidas não podem ser modificadas",
-            "NO_ACCOUNTS_ERROR": "Não há contas disponiveis para utilização. crie uma para começar"
+            "NO_ACCOUNTS_ERROR": "Não há contas disponiveis para utilização. crie uma para começar",
+            "NO_CATEGORIES_ERROR": "Não há categorias para utilização. crie una para começar",
+            "UNKNOWN": "desconhecida"
         },
         "DELETE": {
             "TITLE": "excluir transação",
@@ -94,6 +98,7 @@
         "DATE": "data",
         "DATE_LABEL": "data",
         "AMOUNT": "valor",
+        "CATEGORY": "categoria",
         "DESCRIPTION": "descrição",
         "SOURCE_ACCOUNT": "conta de origem",
         "DESTINATION_ACCOUNT": "conta de destino",
@@ -142,7 +147,7 @@
         "NAME": "nome",
         "DESCRIPTION": "descrição",
         "CREATE": {
-            "TITLE": "crear categoria"
+            "TITLE": "criar categoria"
         },
         "EDIT": {
             "TITLE": "editar categoria"

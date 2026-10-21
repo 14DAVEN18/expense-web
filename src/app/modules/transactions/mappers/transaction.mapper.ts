@@ -8,6 +8,7 @@ export class TransactionMapper {
             type: transaction.type,
             date: DateUtil.dateToString(transaction.date),
             amount: Number(transaction.amount),
+            category_id: Number(transaction.category_id),
             description: transaction.description.trim().toUpperCase(),
             source_account_id: Number(transaction.source_account_id),
             destination_account_id: transaction.destination_account_id

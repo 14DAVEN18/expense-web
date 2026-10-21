@@ -1,5 +1,6 @@
 {
     "NO_DATA": "No hay datos para mostrar",
+    "LOADING_FORM": "cargando",
     "BUTTONS": {
         "CANCEL": "cancelar",
         "SAVE": "guardar",
@@ -68,6 +69,7 @@
             "DATE": "fecha",
             "UPDATED_AT": "última actualización",
             "AMOUNT": "monto",
+            "CATEGORY": "categoría",
             "DESCRIPTION": "descripción",
             "SOURCE": "origen",
             "DESTINATION": "destino",
@@ -82,7 +84,9 @@
             "DISABLE_SUCCESS": "La transacción se eliminó correctamente",
             "DISABLE_ERROR": "Ocurrió un problema eliminando la transacción",
             "NO_EDIT": "Las transacciones eliminadas no se pueden modificar",
-            "NO_ACCOUNTS_ERROR": "No hay cuentas para usar. cree una para empezar"
+            "NO_ACCOUNTS_ERROR": "No hay cuentas para usar. cree una para empezar",
+            "NO_CATEGORIES_ERROR": "No hay categorías para usar. cree una para empezar",
+            "UNKNOWN": "desconocida"
         },
         "DELETE": {
             "TITLE": "eliminar transacción",
@@ -94,6 +98,7 @@
         "DATE": "fecha",
         "DATE_LABEL": "fecha",
         "AMOUNT": "monto",
+        "CATEGORY": "categoría",
         "DESCRIPTION": "descripción",
         "SOURCE_ACCOUNT": "cuentra de origen",
         "DESTINATION_ACCOUNT": "cuenta de destino",

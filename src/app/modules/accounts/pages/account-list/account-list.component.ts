@@ -146,7 +146,7 @@ export class AccountListComponent implements OnInit {
    */
   public openCreationModal(enterAnimationDuration: string, exitAnimationDuration: string) {
     const dialogRef = this.dialog.open(AccountComponent, {
-      height: '90vh',
+      height: '60vh',
       width: '30vw',
       enterAnimationDuration,
       exitAnimationDuration

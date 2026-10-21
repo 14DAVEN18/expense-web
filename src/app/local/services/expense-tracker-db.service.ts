@@ -24,5 +24,19 @@ export class ExpenseTrackerDbService extends Dexie {
       categories: '++id, date, name',
       settings: '&key'
     })
+
+    this.version(3).stores({
+      transactions: '++id, date, type, amount, category_id, source_account_id, destination_account_id',
+      accounts: '++id, name, type, currency_code',
+      categories: '++id, name, type',
+      settings: '&key'
+    }).upgrade(tx => {
+      return tx
+        .table('transactions')
+        .toCollection()
+        .modify(transaction => {
+          transaction.category_id = null
+        })
+    })
   }
 }
