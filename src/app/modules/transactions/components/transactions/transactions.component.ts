@@ -34,7 +34,6 @@ import { JsonPipe } from '@angular/common'
     MatSelectModule,
     MatRadioModule,
     MatIconModule,
-    JsonPipe,
     TranslatePipe
   ],
   providers: [ provideNativeDateAdapter() ],
