@@ -2,6 +2,16 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.12.0] 2026-10-21
+### Added
+- Added filters component to work with the table and implemented it in transactions and accounts pages
+
+### Changed
+- Transaction form becomes disabled if there are not accounts or categories to choose from
+
+### Fixed
+- Date format for account creation date in account list
+
 ## [0.11.0] 2026-10-20
 ### Added
 - Added category to transaction forms

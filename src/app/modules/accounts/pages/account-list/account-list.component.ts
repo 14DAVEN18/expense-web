@@ -13,15 +13,15 @@ import { TransactionsService } from '@modules/transactions/services/transactions
 import { TranslatePipe } from '@ngx-translate/core';
 import { TableComponent } from '@shared/components/table/table.component';
 import { ToastService } from '@shared/services/toast.service';
+import { FiltersComponent } from '@shared/components/filters/filters.component';
+import { IFilter } from '@shared/components/filters/interfaces/filter.interface';
 
 @Component({
   selector: 'our-account-list',
-  imports: [
+  imports: [ 
     CommonModule,
-    MatButtonModule,
-    MatTooltipModule,
-    MatIconModule,
-    TableComponent,
+    MatButtonModule, MatTooltipModule, MatIconModule,
+    TableComponent, FiltersComponent,
     TranslatePipe
   ],
   templateUrl: './account-list.component.html',
@@ -43,6 +43,22 @@ export class AccountListComponent implements OnInit {
   public shortColumns: string[] = ['active', 'currency']
   private accounts: IAccount[] = []
   public data: IAccountDisplay[] = []
+
+  // ******************************* FILTER RELATED PROPERTIES *******************************
+  public filterParameters: string[] = [
+    'ACCOUNTS.COLUMNS.CURRENCY',
+    'ACCOUNTS.COLUMNS.NAME',
+    'ACCOUNTS.COLUMNS.DESCRIPTION'
+  ]
+  public fixedFilters: IFilter[] = [
+    { label: 'TRANSACTION_TYPES.ALL', column: 'type', allowedValues: [] },
+    { label: 'ACCOUNT_TYPES.CASH', column: 'type', allowedValues: ['CASH'] },
+    { label: 'ACCOUNT_TYPES.DIGITAL_ACCOUNT', column: 'type', allowedValues: ['DIGITAL_ACCOUNT'] }
+  ]
+  public selectedFilter: IFilter = { label: 'TRANSACTION_TYPES.ALL', column: 'type', allowedValues: [] }
+  public showActive: boolean = true
+  public searchValue: string = ''
+  public searchColumns: string[] = ['currency_code', 'name', 'description']
 
   // ******************************* OTHER PROPERTIES *******************************
   public isLoadingAccounts: boolean = false
@@ -168,5 +184,31 @@ export class AccountListComponent implements OnInit {
    */
   public async exportCSV(): Promise<void> {
     await this.accountService.exportAccountsToCSV()
+  }
+
+  /**
+   * Updates the value of the selected filter to send to the table
+   * @param index index of the filter to select
+   */
+  public applyFilter(index: number) {
+    if(index === null || index === undefined) return
+    this.selectedFilter = this.fixedFilters[index]
+  }
+
+  /**
+   * Updates the value of the selected filter to send to the table
+   * @param index index of the filter to select
+   */
+  public applyStatus(value: boolean) {
+    if(value === null || value === undefined) return
+    this.showActive = value
+  }
+
+  /**
+   * Updates the search value to send to the table
+   * @param search value of the filter to select
+   */
+  public applySearch(search: string) {
+    this.searchValue = search
   }
 }
