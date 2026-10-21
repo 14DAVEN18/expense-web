@@ -76,7 +76,9 @@ export class TransactionsComponent implements OnInit {
   }
 
   // ******************************* MAIN METHODS *******************************
-
+  /**
+   * Loads and transforms data before use
+   */
   private async initialize() {
     this.loading = true
     await Promise.all([
