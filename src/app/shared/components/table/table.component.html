@@ -9,7 +9,7 @@
                         *matHeaderCellDef
                         mat-sort-header
                         class="mat-cell--styles"
-                        [ngClass]="{'mat-header-cell-first': noDataColumn && emptyDataColumnName.includes(column)}"
+                        [ngClass]="{'mat-cell--compact': noDataColumn && emptyDataColumnName.includes(column)}"
                     >
                         {{ displayHeaders[i] | translate | uppercase }}
                     </mat-header-cell>
@@ -18,7 +18,7 @@
                     <mat-cell 
                         *matCellDef="let element; let rowIndex = index"
                         class="mat-cell--styles"
-                        [ngClass]="{'mat-header-cell-first': noDataColumn && emptyDataColumnName.includes(column)}"
+                        [ngClass]="{'mat-cell--compact': noDataColumn && emptyDataColumnName.includes(column)}"
                     >
                         <ng-container
                             *ngTemplateOutlet="cellTemplate; context: {element: element, column: column, index: rowIndex}">
