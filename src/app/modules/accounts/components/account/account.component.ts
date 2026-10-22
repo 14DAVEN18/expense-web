@@ -39,25 +39,24 @@ export class AccountComponent implements OnInit, AfterViewInit {
   public accountForm!: FormGroup
   public readonly accountTypes = ACCOUNT_TYPES
   public readonly currencies = CURRENCIES
-  public row!: IAccount
 
   // ******************************* ERROR HANDLING *******************************
   public maxDate: Date = new Date();
   public error: boolean = false
   public errorMessage: string = ''
+  public loading: boolean = false
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: IAccount, 
+    @Inject(MAT_DIALOG_DATA) public data: { account?: IAccount }, 
     public dialogRef: MatDialogRef<AccountComponent>,
     private readonly fb: FormBuilder,
     private readonly accountService: AccountsService
-  ) {
-    this.row = data
-  }
+  ) { }
 
   // ******************************* HOOKS *******************************
   ngOnInit(): void {
     this.createAccountForm()
+    this.initialize()
   }
 
   ngAfterViewInit(): void {
@@ -66,17 +65,49 @@ export class AccountComponent implements OnInit, AfterViewInit {
 
   // ******************************* MAIN METHODS *******************************
   /**
+   * Loads and transforms data before use
+   */
+  private initialize() {
+    this.loading = true
+        
+    this.accountForm.valueChanges.subscribe(() => {
+      this.accountForm.markAsUntouched()
+    })
+
+    if(this.isEditing) this.loadAccount()
+    this.loading = false
+    this.accountForm.enable()
+  }
+
+  /**
+   * Load the transaction details into the form for edition
+   */
+  private loadAccount() {
+    const account = this.data.account
+    if(!account) return
+
+    this.accountForm.patchValue({
+      date: new Date(account.date),
+      name: account.name,
+      type: account.type,
+      currency_code: account.currency_code,
+      initial_balance: account.initial_balance,
+      description: account.description
+    })
+    this.accountForm.enable()
+  }
+
+  /**
    * Creates the fields for the account form
    */
   private createAccountForm() {
     this.accountForm = this.fb.group({
-      created_at: new FormControl({ value: null, disabled: true }, [Validators.required]),
+      date: new FormControl({ value: null, disabled: true }, [Validators.required]),
       name: new FormControl({ value: null, disabled: true }, [Validators.required]),
       type: new FormControl<AccountType | null>({ value: null, disabled: true }, [Validators.required]),
       currency_code: new FormControl<CurrencyCode | null>({ value: null, disabled: true }, [Validators.required]),
       initial_balance: new FormControl({ value: null, disabled: true }, [Validators.required]),
-      description: new FormControl({ value: null, disabled: true }, [Validators.required]),
-      active: new FormControl({ value: true, disabled: true }, [Validators.required])
+      description: new FormControl({ value: null, disabled: true }, [Validators.required])
     })
   }
 
@@ -86,21 +117,48 @@ export class AccountComponent implements OnInit, AfterViewInit {
   public async saveAccount() {
     this.accountForm.markAllAsTouched()
     if(this.accountForm.invalid) {
-      this.errorMessage = 'TRANSACTIONS.MESSAGES.REQUIRED_ERROR'
+      this.errorMessage = 'ACCOUNTS.MESSAGES.REQUIRED_ERROR'
       this.error = true
+      return
     }
+
+    const account = AccountMapper.fromForm(
+          this.accountForm.getRawValue(),
+          this.isEditing ? this.data.account : undefined
+        )
+
     try {
-      const formValue = this.accountForm.getRawValue()
-      const account: IAccount = AccountMapper.fromForm(formValue, this.row)
-      await this.accountService.saveAccount(account)
+      if (this.isEditing) await this.updateAccount(account)
+      else await this.createAccount(account)
+
       this.accountForm.reset()
-      await this.accountService.getAccounts()
       this.dialogRef.close({success: true})
     }
     catch (error) {
       console.warn("Error saving account", error)
       this.dialogRef.close({success: false})
     }
+  }
+
+  /**
+   * It creates the account
+   * @param account account to be created
+   */
+  private async createAccount(account: IAccount) {
+    await this.accountService.createAccount(account)
+  }
+
+  /**
+   * It updates the account
+   * @param account account to be updated
+   */
+  private async updateAccount(account: IAccount) {
+    const original = this.data.account
+
+    await this.accountService.updateAccount({
+      ...account,
+      id: original?.id
+    })
   }
 
   /**
@@ -112,6 +170,12 @@ export class AccountComponent implements OnInit, AfterViewInit {
   }
 
   // ******************************* HELPERS *******************************
+  /**
+   * It determines whether the modal is in edition mode or not
+   */
+  public get isEditing(): boolean {
+    return !!this.data?.account
+  }
   /**
    * Formats the amount entered to add decimal point and 2 decimal positions
    */

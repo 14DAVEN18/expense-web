@@ -15,6 +15,7 @@ import { TableComponent } from '@shared/components/table/table.component';
 import { ToastService } from '@shared/services/toast.service';
 import { FiltersComponent } from '@shared/components/filters/filters.component';
 import { IFilter } from '@shared/components/filters/interfaces/filter.interface';
+import { ConfirmationModalComponent } from '@shared/components/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'our-account-list',
@@ -30,17 +31,19 @@ import { IFilter } from '@shared/components/filters/interfaces/filter.interface'
 export class AccountListComponent implements OnInit {
 
   // ******************************* TABLE RELATED PROPERTIES *******************************
-  public realColumnNames: string[] = ['active', 'currency_code', 'created_at', 'name', 'description', 'initial_balance', 'type']
+  public realColumnNames: string[] = ['active', 'currency_code', 'date', 'updated_at', 'name', 'description', 'initial_balance', 'type', 'actions']
   public displayHeaders: string[] = [
     '',
     'ACCOUNTS.COLUMNS.CURRENCY',
-    'ACCOUNTS.COLUMNS.CREATED_AT',
+    'ACCOUNTS.COLUMNS.DATE',
+    'ACCOUNTS.COLUMNS.UPDATED_AT',
     'ACCOUNTS.COLUMNS.NAME',
     'ACCOUNTS.COLUMNS.DESCRIPTION',
     'ACCOUNTS.COLUMNS.BALANCE',
-    'ACCOUNTS.COLUMNS.TYPE'
+    'ACCOUNTS.COLUMNS.TYPE',
+    'ACCOUNTS.COLUMNS.ACTIONS'
   ]
-  public shortColumns: string[] = ['active', 'currency']
+  public shortColumns: string[] = ['active', 'currency_code']
   private accounts: IAccount[] = []
   public data: IAccountDisplay[] = []
 
@@ -75,14 +78,14 @@ export class AccountListComponent implements OnInit {
 
   // ******************************* HOOKS *******************************
   ngOnInit(): void {
-    this.getData()
+    void this.loadData()
   }
 
   // ******************************* MAIN METHODS *******************************
   /**
-   * 
+   * It fetches the account and transactions details
    */
-  private async getData() {
+  private async loadData() {
     this.isLoadingAccounts = true
 
     await Promise.all([
@@ -173,11 +176,81 @@ export class AccountListComponent implements OnInit {
       
       if(result.success) {
         this.toastService.showSuccess('ACCOUNTS.MESSAGES.CREATION_SUCCESS')
-        await this.getData()
+        await this.loadData()
       } 
       else this.toastService.showError('ACCOUNTS.MESSAGES.CREATION_ERROR')
     })
   }
+
+  /**
+     * Opens a modal for account edition
+     * @param account account object to be loaded in the modal
+     */
+    public openEditionModal(enterAnimationDuration: string, exitAnimationDuration: string, account: IAccount) {
+      const dialogRef = this.dialog.open(AccountComponent, {
+        height: '60vh',
+        width: '45vw',
+        enterAnimationDuration,
+        exitAnimationDuration,
+        data: {
+          account
+        }
+      })
+  
+      dialogRef.afterClosed().subscribe(async result => {
+        if(!result) return
+  
+        if(result.success) {
+          this.toastService.showSuccess('ACCOUNTS.MESSAGES.UPDATE_SUCCESS')
+          await this.loadData()
+        }
+        else this.toastService.showError('ACCOUNTS.MESSAGES.UPDATE_ERROR')
+      })
+    }
+  
+    /**
+     * Confirms or Rejects the deletion of a transaction
+     * @param transaction the transaction to be deleted
+     */
+    public confirmDeletion(enterAnimationDuration: string, exitAnimationDuration: string, account: IAccount) {
+      const dialogRef = this.dialog.open(ConfirmationModalComponent, {
+        height: '30vh',
+        width: '50vw',
+        enterAnimationDuration,
+        exitAnimationDuration,
+        data: {
+          title: 'ACCOUNTS.DELETE.TITLE',
+          message: 'ACCOUNTS.DELETE.MESSAGE',
+          messageParams: {
+            name: account.name
+          }
+        }
+      })
+  
+      dialogRef.afterClosed().subscribe(async confirmed => {
+        if(!confirmed) return
+  
+        await this.disableAccount(account)
+      })
+    }
+  
+    /**
+     * Disables a transaction
+     * @param transaction transaction to be disabled
+     */
+    private async disableAccount(account: IAccount) {
+      if (!account.id) return
+  
+      try {
+        await this.accountService.disableAccount(account?.id)
+        this.toastService.showSuccess('ACCOUNTS.MESSAGES.DISABLE_SUCCESS')
+        await this.loadData()
+      }
+      catch (error) {
+        console.warn("Error disabling transaction", error)
+        this.toastService.showError('ACCOUNTS.MESSAGES.DISABLE_ERROR')
+      }
+    }
 
   /**
    * Exports the information of all existing accounts in CSV format

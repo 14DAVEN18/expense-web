@@ -37,17 +37,23 @@
             "EXPORT": "exportar contas para arquivo CSV"
         },
         "COLUMNS": {
+            "DATE": "data",
+            "UPDATED_AT": "ultima atualização",
             "CURRENCY": "moeda",
-            "CREATED_AT": "criada em",
             "NAME": "nome",
             "DESCRIPTION": "descrição",
             "BALANCE": "saldo",
-            "TYPE": "tipo"
+            "TYPE": "tipo",
+            "ACTIONS": "ações"
         },
         "MESSAGES": {
             "REQUIRED_ERROR": "Todos os campos obrigatórios devem ser preenchidos",
             "CREATION_SUCCESS": "A conta foi criada com sucesso",
             "CREATION_ERROR": "Ocurreu um problema ao criar a conta"
+        },
+        "DELETE": {
+            "TITLE": "excluir cuenta",
+            "MESSAGE": "¿tem certeza de que deseja excluir a conta '{{name}}'?"
         }
     },
     "ACCOUNT_FORM": {
@@ -59,7 +65,14 @@
         "CURRENCY": "moeda",
         "CHOOSE_CURRENCY": "escolha uma moeda",
         "INITIAL_BALANCE": "saldo inicial",
-        "DESCRIPTION": "descrição"
+        "DESCRIPTION": "descrição",
+
+        "CREATE": {
+            "TITLE": "criar conta"
+        },
+        "EDIT": {
+            "TITLE": "editar conta"
+        }
     },
 
     "TRANSACTIONS": {
