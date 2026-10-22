@@ -48,7 +48,7 @@
                         <p> {{ 'TRANSACTION_FORM.CATEGORY' | translate }} </p>
                         <mat-form-field appearance="outline">
                             <mat-select formControlName="category_id">
-                                @for (category of categories; track category) {
+                                @for (category of typeFilteredCategories; track category) {
                                     <mat-option [value]="category.id">
                                         {{ category.name }}</mat-option>
                                 }

@@ -48,6 +48,7 @@ export class TransactionsComponent implements OnInit {
   private readonly requiredValidator = Validators.required
   public transactionTypes = TRANSACTION_TYPES
   public categories: ICategory[] = []
+  public typeFilteredCategories: ICategory[] = []
   public accounts: IAccount[] = []
   public transactionForm!: FormGroup
   
@@ -120,6 +121,7 @@ export class TransactionsComponent implements OnInit {
    */
   private async getCategories() {
     this.categories = (await this.administrationService.getCategories()).filter(category => category.active)
+    this.typeFilteredCategories = this.categories
 
     if(!this.categories.length) {
       this.transactionForm.disable()
@@ -171,9 +173,11 @@ export class TransactionsComponent implements OnInit {
       this.showDestinationAccount = isTransfer;
       this.showCategory = hasCategory;
 
-      isTransfer
-        ? this.makeRequired('destination_account_id')
-        : this.makeOptional('destination_account_id');
+      if (isTransfer) this.makeRequired('destination_account_id')
+      else {
+        this.typeFilteredCategories = this.categories.filter(category => category.type === value)
+        this.makeOptional('destination_account_id');
+      }
 
       hasCategory
         ? this.makeRequired('category_id')

@@ -38,7 +38,6 @@ export class TableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes)
     const exist = this.filterNames.some(fn => changes[fn])
     if(exist) this.applyFilter()
   }

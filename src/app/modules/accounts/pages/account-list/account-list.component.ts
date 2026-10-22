@@ -43,7 +43,7 @@ export class AccountListComponent implements OnInit {
     'ACCOUNTS.COLUMNS.TYPE',
     'ACCOUNTS.COLUMNS.ACTIONS'
   ]
-  public shortColumns: string[] = ['active', 'currency_code']
+  public shortColumns: string[] = ['active', 'currency_code', 'date', 'type']
   private accounts: IAccount[] = []
   public data: IAccountDisplay[] = []
 

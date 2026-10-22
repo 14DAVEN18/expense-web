@@ -2,6 +2,11 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.13.1] 2026-10-22
+### Changed
+- Changed which columns look narrow in the accounts table
+- Category field in transaction is filtered depending on the type of transaction
+
 ## [0.13.0] 2026-10-21
 ### Added
 - Added date field to accounts
