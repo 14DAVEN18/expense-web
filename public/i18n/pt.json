@@ -30,7 +30,7 @@
         "ACTIVE": "ativas"
     },
 
-     "ACCOUNTS": {
+    "ACCOUNTS": {
         "TITLE": "Contas",
         "TOOLTIPS": {
             "CREATE": "criar contra",
@@ -110,6 +110,10 @@
         "DELETE": {
             "TITLE": "excluir transação",
             "MESSAGE": "¿tem certeza de que deseja excluir a transação por {{currency}} {{amount}} de {{account}}?"
+        },
+        "NEGATIVE_BALANCE": {
+            "TITLE": "saldo negativo",
+            "MESSAGE": "Esta transação deixará a conta {{account}} com um saldo negativo de {{balance}}"
         }
     },
     "TRANSACTION_FORM": {

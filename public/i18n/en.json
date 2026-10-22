@@ -114,6 +114,10 @@
         "DELETE": {
             "TITLE": "delete transaction",
             "MESSAGE": "Are you sure you want to delete the transaction for {{currency}} {{amount}} from {{account}}?"
+        },
+        "NEGATIVE_BALANCE": {
+            "TITLE": "negative balance",
+            "MESSAGE": "this transaction will leave {{account}} with a negative balance of {{balance}}"
         }
     },
     "TRANSACTION_FORM": {

@@ -16,6 +16,7 @@ import { ToastService } from '@shared/services/toast.service';
 import { FiltersComponent } from '@shared/components/filters/filters.component';
 import { IFilter } from '@shared/components/filters/interfaces/filter.interface';
 import { ConfirmationModalComponent } from '@shared/components/confirmation-modal/confirmation-modal.component';
+import { AccountUtil } from '@shared/utils/account.utils';
 
 @Component({
   selector: 'our-account-list',
@@ -129,33 +130,7 @@ export class AccountListComponent implements OnInit {
    * Calculates the balance of each account
    */
   private calculateBalances() {
-    this.data = this.data.map(account => {
-      const currentBalance = this.transactions.reduce((balance, transaction) => {
-        if(!transaction.active) return balance
-        
-        const amount = Number(transaction.amount)
-        if(!Number.isFinite(amount)) return balance
-        
-        switch(transaction.type) {
-          case 'INCOME':
-            if(transaction.source_account_id === account.id) return balance + amount
-            break
-          case 'EXPENSE':
-            if(transaction.source_account_id === account.id) return balance - amount
-            break
-          case 'TRANSFER':
-            if(transaction.source_account_id === account.id) balance -= amount
-            if(transaction.destination_account_id === account.id) balance += amount
-            break
-        }
-        return balance
-      }, Number(account.initial_balance))
-
-      return {
-        ...account,
-        current_balance: currentBalance
-      }
-    });
+    this.data = AccountUtil.calculateBalance(this.data, this.transactions)
   }
 
   /**
@@ -183,74 +158,74 @@ export class AccountListComponent implements OnInit {
   }
 
   /**
-     * Opens a modal for account edition
-     * @param account account object to be loaded in the modal
-     */
-    public openEditionModal(enterAnimationDuration: string, exitAnimationDuration: string, account: IAccount) {
-      const dialogRef = this.dialog.open(AccountComponent, {
-        height: '60vh',
-        width: '45vw',
-        enterAnimationDuration,
-        exitAnimationDuration,
-        data: {
-          account
-        }
-      })
-  
-      dialogRef.afterClosed().subscribe(async result => {
-        if(!result) return
-  
-        if(result.success) {
-          this.toastService.showSuccess('ACCOUNTS.MESSAGES.UPDATE_SUCCESS')
-          await this.loadData()
-        }
-        else this.toastService.showError('ACCOUNTS.MESSAGES.UPDATE_ERROR')
-      })
-    }
-  
-    /**
-     * Confirms or Rejects the deletion of a transaction
-     * @param transaction the transaction to be deleted
-     */
-    public confirmDeletion(enterAnimationDuration: string, exitAnimationDuration: string, account: IAccount) {
-      const dialogRef = this.dialog.open(ConfirmationModalComponent, {
-        height: '30vh',
-        width: '50vw',
-        enterAnimationDuration,
-        exitAnimationDuration,
-        data: {
-          title: 'ACCOUNTS.DELETE.TITLE',
-          message: 'ACCOUNTS.DELETE.MESSAGE',
-          messageParams: {
-            name: account.name
-          }
-        }
-      })
-  
-      dialogRef.afterClosed().subscribe(async confirmed => {
-        if(!confirmed) return
-  
-        await this.disableAccount(account)
-      })
-    }
-  
-    /**
-     * Disables a transaction
-     * @param transaction transaction to be disabled
-     */
-    private async disableAccount(account: IAccount) {
-      if (!account.id) return
-  
-      try {
-        await this.accountService.disableAccount(account?.id)
-        this.toastService.showSuccess('ACCOUNTS.MESSAGES.DISABLE_SUCCESS')
+   * Opens a modal for account edition
+   * @param account account object to be loaded in the modal
+   */
+  public openEditionModal(enterAnimationDuration: string, exitAnimationDuration: string, account: IAccount) {
+    const dialogRef = this.dialog.open(AccountComponent, {
+      height: '60vh',
+      width: '45vw',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: {
+        account
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if(!result) return
+
+      if(result.success) {
+        this.toastService.showSuccess('ACCOUNTS.MESSAGES.UPDATE_SUCCESS')
         await this.loadData()
       }
-      catch (error) {
-        console.warn("Error disabling transaction", error)
-        this.toastService.showError('ACCOUNTS.MESSAGES.DISABLE_ERROR')
+      else this.toastService.showError('ACCOUNTS.MESSAGES.UPDATE_ERROR')
+    })
+  }
+
+  /**
+   * Confirms or Rejects the deletion of a transaction
+   * @param transaction the transaction to be deleted
+   */
+  public confirmDeletion(enterAnimationDuration: string, exitAnimationDuration: string, account: IAccount) {
+    const dialogRef = this.dialog.open(ConfirmationModalComponent, {
+      height: '30vh',
+      width: '50vw',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: {
+        title: 'ACCOUNTS.DELETE.TITLE',
+        message: 'ACCOUNTS.DELETE.MESSAGE',
+        messageParams: {
+          name: account.name
+        }
       }
+    })
+
+    dialogRef.afterClosed().subscribe(async confirmed => {
+      if(!confirmed) return
+
+      await this.disableAccount(account)
+    })
+  }
+
+  /**
+   * Disables a transaction
+   * @param transaction transaction to be disabled
+   */
+  private async disableAccount(account: IAccount) {
+    if (!account.id) return
+
+    try {
+      await this.accountService.disableAccount(account?.id)
+      this.toastService.showSuccess('ACCOUNTS.MESSAGES.DISABLE_SUCCESS')
+      await this.loadData()
     }
+    catch (error) {
+      console.warn("Error disabling transaction", error)
+      this.toastService.showError('ACCOUNTS.MESSAGES.DISABLE_ERROR')
+    }
+  }
 
   /**
    * Exports the information of all existing accounts in CSV format
