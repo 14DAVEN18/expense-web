@@ -29,6 +29,18 @@
         "PLACEHOLDER": "search ({{parameters}})",
         "ACTIVE": "active"
     },
+    "PAGINATOR": {
+        "ITEMS_PER_PAGE": "items per page",
+        "NEXT_PAGE": "next page",
+        "PREVIOUS_PAGE": "previous page",
+        "FIRST_PAGE": "first page",
+        "LAST_PAGE": "last page",
+        "RANGE": "{{start}} - {{end}} of {{length}}",
+        "RANGE_EMPTY": "0 of {{length}}"
+    },
+
+
+
 
     "ACCOUNTS": {
         "TITLE": "accounts",

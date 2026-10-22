@@ -17,6 +17,7 @@ import { FiltersComponent } from '@shared/components/filters/filters.component';
 import { IFilter } from '@shared/components/filters/interfaces/filter.interface';
 import { ConfirmationModalComponent } from '@shared/components/confirmation-modal/confirmation-modal.component';
 import { AccountUtil } from '@shared/utils/account.utils';
+import { PaginatorSize } from '@shared/components/table/types/paginator';
 
 @Component({
   selector: 'our-account-list',
@@ -47,6 +48,7 @@ export class AccountListComponent implements OnInit {
   public shortColumns: string[] = ['active', 'currency_code', 'date', 'type']
   private accounts: IAccount[] = []
   public data: IAccountDisplay[] = []
+  public pageSize: PaginatorSize = 10
 
   // ******************************* FILTER RELATED PROPERTIES *******************************
   public filterParameters: string[] = [

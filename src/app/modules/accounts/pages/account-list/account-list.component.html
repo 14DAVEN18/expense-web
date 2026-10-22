@@ -47,6 +47,7 @@
                 [selectedFilter]="selectedFilter"
                 [searchValue]="searchValue"
                 [active]="showActive"
+                [pageSize]="pageSize"
             >
                 <ng-template #cellTemplate let-element='element' let-column="column" let-index="index">
                     <ng-container [ngSwitch]="column">

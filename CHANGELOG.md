@@ -2,6 +2,11 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.13.4] 2026-10-22
+### Added
+- Paginator to the table component
+- Multilanguage implementation based on internationalization file
+
 ## [0.13.3] 2026-10-22
 ### Added
 - Added confirmation in case in which a transaction leaves an account with negative balance

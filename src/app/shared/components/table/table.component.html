@@ -1,6 +1,6 @@
 <div class="table-container">
     @if (data.length) {
-        <table mat-table [dataSource]="dataSource">
+        <mat-table [dataSource]="dataSource" matSort>
             @for (column of realColumnNames; let i = $index; track column) {
                 {{column | json }}
                 <ng-container [matColumnDef]="column">
@@ -28,7 +28,7 @@
             }
             <mat-header-row *matHeaderRowDef="realColumnNames"></mat-header-row>
             <mat-row *matRowDef="let row; let i = index; columns: realColumnNames;"></mat-row>
-        </table>
+        </mat-table>
     }
     @else {
         <div class="empty-message">
@@ -37,6 +37,8 @@
     }
     
 </div>
+
+<mat-paginator [pageSize]="pageSize" [pageSizeOptions]="[10, 25, 50, 100]" [disabled]="loading" showFirstLastButtons></mat-paginator>
 
 <ng-template #defaultCellTemplate let-element='element' let-column="column">
     {{element[column]}} 
