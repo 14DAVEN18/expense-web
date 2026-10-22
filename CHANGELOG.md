@@ -2,7 +2,7 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
-## [0.13.2] 2026-10-22
+## [0.13.3] 2026-10-22
 ### Added
 - Added confirmation in case in which a transaction leaves an account with negative balance
 - Added method to retrieve one account into the service account
@@ -11,6 +11,14 @@ This document contains the change log of the Expenses Web App. from its very fir
 ### Changed
 - Move the logic to calculate balance of an account to a util file
 - Before creating a transaction a confirmation modal will be displayed if the balance of the account becomes negative with it.
+
+## [0.13.2] 2026-10-22
+### Added
+- Warning message for editing transactions in which the account is older than the associated account 
+
+### Changed
+- Date validation added to source and destination accounts, the transaction date can't be older than the creation of the account
+- When editing accounts, the original account will be kept even if the transactions is older than the account
 
 ## [0.13.1] 2026-10-22
 ### Changed
