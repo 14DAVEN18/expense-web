@@ -1,12 +1,19 @@
-import { Component, ContentChild, Input, OnChanges, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, ContentChild, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table'
+import { MatPaginatorModule, PageEvent, MatPaginator } from '@angular/material/paginator'
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { IFilter } from '../filters/interfaces/filter.interface';
+import { PaginatorSize } from './types/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'our-table',
-  imports: [CommonModule, MatTableModule, TranslatePipe],
+  imports: [ 
+    CommonModule,
+    MatTableModule, MatPaginatorModule,
+    TranslatePipe
+  ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.sass'
 })
@@ -22,7 +29,15 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() active!: boolean
   @Input() searchValue!: string
 
+  @Input() pageSize: PaginatorSize = 10
+  @Input() loading: boolean = false
+
+  // ******************************* INPUTS *******************************
+  @Output() pageChange = new EventEmitter<PageEvent>()
+
   @ContentChild('cellTemplate') cellTemplate!: TemplateRef<any>;
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   // ******************************* PROPERTIES *******************************
   private filterNames: string[] = ['selectedFilter', 'active', 'searchValue']
@@ -42,6 +57,16 @@ export class TableComponent implements OnInit, OnChanges {
     if(exist) this.applyFilter()
   }
 
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
+  // MAIN METHODS
+  /**
+   * Applies a filter to the data
+   * @returns 
+   */
   private applyFilter() {
     if(!this.selectedFilter) return
 

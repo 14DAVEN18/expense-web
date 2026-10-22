@@ -29,6 +29,17 @@
         "PLACEHOLDER": "buscar ({{parameters}})",
         "ACTIVE": "activas"
     },
+    "PAGINATOR": {
+        "ITEMS_PER_PAGE": "elementos por página",
+        "NEXT_PAGE": "página siguiente",
+        "PREVIOUS_PAGE": "página anterior",
+        "FIRST_PAGE": "primera página",
+        "LAST_PAGE": "última página",
+        "RANGE": "{{start}} - {{end}} de {{length}}",
+        "RANGE_EMPTY": "0 de {{length}}"
+    },
+
+
 
     "ACCOUNTS": {
         "TITLE": "cuentas",

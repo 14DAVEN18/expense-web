@@ -1,0 +1,1 @@
+export type PaginatorSize = 1 | 10 | 25 | 50 | 100

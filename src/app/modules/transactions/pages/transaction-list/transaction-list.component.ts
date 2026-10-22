@@ -18,6 +18,7 @@ import { CURRENCIES } from '../../../../local/constants/currencies';
 import { ICategory } from '@modules/administration/interfaces/category';
 import { FiltersComponent } from '@shared/components/filters/filters.component';
 import { IFilter } from '@shared/components/filters/interfaces/filter.interface';
+import { PaginatorSize } from '@shared/components/table/types/paginator';
 
 @Component({
   selector: 'our-expense-list',
@@ -48,6 +49,7 @@ export class TransactionListComponent implements OnInit {
   private accounts: IAccount[] = []
   private categories: ICategory[] = []
   public data: ITransactionDisplay[] = []
+  public pageSize: PaginatorSize = 10
 
   // ******************************* FILTER RELATED PROPERTIES *******************************
   public filterParameters: string[] = [

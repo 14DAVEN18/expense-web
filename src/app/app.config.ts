@@ -5,6 +5,8 @@ import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader'
 
 import { routes } from './app.routes';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { PaginatorIntl } from '@shared/components/table/internationalization/language-intl';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +21,10 @@ export const appConfig: ApplicationConfig = {
           suffix: '.json'
         }
       )
-    })
+    }),
+    {
+      provide: MatPaginatorIntl,
+      useClass: PaginatorIntl
+    }
   ]
 };
