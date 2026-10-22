@@ -54,8 +54,8 @@
                             <div class="flag" [ngClass]="{'active-flag': element.active, 'inactive-flag': !element.active}"></div>
                         </ng-container>
 
-                        <ng-container *ngSwitchCase="'created_at'">
-                            <span> {{ element.created_at | date: 'yyyy/MM/dd'}} </span>
+                        <ng-container *ngSwitchCase="'updated_at'">
+                            <span> {{ element.updated_at ? (element.updated_at | date: 'yyyy/MM/dd HH:mm') : '-' }} </span>
                         </ng-container>
 
 
@@ -65,6 +65,35 @@
 
                         <ng-container *ngSwitchCase="'type'">
                             <span> {{ 'ACCOUNT_TYPES.' + element.type | translate }} </span>
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="'actions'">
+                            <div class="actions-container" *ngIf="element.active; else disabledTransaction">
+                                <button
+                                    *ngIf="element.active"
+                                    mat-mini-fab
+                                    color="primary"
+                                    [matTooltip]="'TRANSACTIONS.TOOLTIPS.EDIT' | translate"
+                                    [matTooltipPosition]="'before'"
+                                    (click)="openEditionModal('1000', '1000', element)"
+                                >
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+
+                                <button
+                                    *ngIf="element.active"
+                                    mat-mini-fab
+                                    color="primary"
+                                    [matTooltip]="'TRANSACTIONS.TOOLTIPS.DELETE' | translate"
+                                    [matTooltipPosition]="'before'"
+                                    (click)="confirmDeletion( '1000', '1000', element)"
+                                >
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                            <ng-template #disabledTransaction>
+                                -
+                            </ng-template>
                         </ng-container>
                         <ng-container *ngSwitchDefault> {{element[column]}} </ng-container>
                     </ng-container>

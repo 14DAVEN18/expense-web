@@ -2,6 +2,16 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.13.0] 2026-10-21
+### Added
+- Added date field to accounts
+- Added actions column in the account table
+- Added edition and soft deletion of accounts.
+- Added the updated_at column to the account CSV export file
+
+### Changed
+- Changed the created_at column for date column
+
 ## [0.12.0] 2026-10-21
 ### Added
 - Added filters component to work with the table and implemented it in transactions and accounts pages

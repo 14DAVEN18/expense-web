@@ -61,8 +61,7 @@ export class TransactionsComponent implements OnInit {
   public loading: boolean = false
 
   constructor(
-    @Inject(MAT_DIALOG_DATA)
-    public data: { transaction?: ITransaction },
+    @Inject(MAT_DIALOG_DATA) public data: { transaction?: ITransaction },
     public dialogRef: MatDialogRef<TransactionsComponent>,
     private readonly fb: FormBuilder,
     private readonly transactionsService: TransactionsService,
@@ -86,7 +85,7 @@ export class TransactionsComponent implements OnInit {
       this.getAccounts(),
       this.getCategories()
     ]) 
-    console.log("It gets here")
+    
     this.listenToTransactionType()
     this.transactionForm.valueChanges.subscribe(() => {
       this.transactionForm.markAsUntouched()
@@ -123,16 +122,12 @@ export class TransactionsComponent implements OnInit {
     this.categories = (await this.administrationService.getCategories()).filter(category => category.active)
 
     if(!this.categories.length) {
-      
       this.transactionForm.disable()
       this.transactionForm.updateValueAndValidity()
-      console.log(this.transactionForm.disabled)
+      
       this.errorMessages.push('TRANSACTIONS.MESSAGES.NO_CATEGORIES_ERROR')
-      console.log("Error messages: ", this.errorMessages)
       this.noCategories = true
-      console.log("No categories: ", this.noCategories)
       this.error = true
-      console.log("error: ", this.error)
     }
   }
 

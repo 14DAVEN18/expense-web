@@ -1,6 +1,13 @@
 <div class="container">
     <div class="modal-header">
-        <h2> {{ 'ACCOUNT_FORM.TITLE' | translate }} </h2>
+        <h2> 
+            {{
+                (isEditing
+                    ? 'ACCOUNT_FORM.EDIT.TITLE'
+                    : 'ACCOUNT_FORM.CREATE.TITLE'
+                ) | translate    
+            }}
+        </h2>
 
         <mat-icon 
             (click)="this.close()"
@@ -9,82 +16,88 @@
         >close</mat-icon>
     </div>
 
-    <div class="modal-body" [formGroup]="accountForm">
-        <p> {{ 'ACCOUNT_FORM.CREATION_DATE' | translate }} </p>
-        <mat-form-field appearance="outline">
-            <mat-label> {{ 'ACCOUNT_FORM.DATE_LABEL' | translate }} </mat-label>
-            <input matInput [matDatepicker]="datepicker" [max]="maxDate" formControlName="created_at"/>
-            <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
-            <mat-datepicker #datepicker>
-                <mat-datepicker-actions>
-                    <button mat-button matDatepickerCancel> {{ 'BUTTONS.CANCEL' | translate }} </button>
-                    <button mat-raised-button matDatepickerApply> {{ 'BUTTONS.APPLY' | translate }} </button>
-                </mat-datepicker-actions>
-            </mat-datepicker>
-        </mat-form-field>
+    @if (!loading) {
+        <div class="modal-body" [formGroup]="accountForm">
+            <p> {{ 'ACCOUNT_FORM.CREATION_DATE' | translate }} </p>
+            <mat-form-field appearance="outline">
+                <mat-label> {{ 'ACCOUNT_FORM.DATE_LABEL' | translate }} </mat-label>
+                <input matInput [matDatepicker]="datepicker" [max]="maxDate" formControlName="date"/>
+                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                    <mat-datepicker-actions>
+                        <button mat-button matDatepickerCancel> {{ 'BUTTONS.CANCEL' | translate }} </button>
+                        <button mat-raised-button matDatepickerApply> {{ 'BUTTONS.APPLY' | translate }} </button>
+                    </mat-datepicker-actions>
+                </mat-datepicker>
+            </mat-form-field>
 
-        <p> {{ 'ACCOUNT_FORM.NAME' | translate }} </p>
-        <mat-form-field appearance="outline">
-            <input 
-                matInput
-                formControlName="name"
-            />
-        </mat-form-field>
+            <p> {{ 'ACCOUNT_FORM.NAME' | translate }} </p>
+            <mat-form-field appearance="outline">
+                <input 
+                    matInput
+                    formControlName="name"
+                />
+            </mat-form-field>
 
-        <p> {{ 'ACCOUNT_FORM.TYPE' | translate }} </p>
-        <mat-radio-group
-            formControlName="type">
-            @for (type of accountTypes; track type) {
-                <mat-radio-button [value]="type">
-                    {{ 'ACCOUNT_TYPES.' + type | translate }}
-                </mat-radio-button>
-            }
-        </mat-radio-group>
-
-        <p> {{ 'ACCOUNT_FORM.CURRENCY' | translate }} </p>
-        <mat-form-field appearance="outline">
-            <mat-label> {{ 'ACCOUNT_FORM.CHOOSE_CURRENCY' | translate }} </mat-label>
-            <mat-select formControlName="currency_code">
-                @for (currency of currencies; track currency) {
-                    <mat-option [value]="currency.code"> {{ currency.code }} ( {{ currency.symbol }} ) </mat-option>
+            <p> {{ 'ACCOUNT_FORM.TYPE' | translate }} </p>
+            <mat-radio-group
+                formControlName="type">
+                @for (type of accountTypes; track type) {
+                    <mat-radio-button [value]="type">
+                        {{ 'ACCOUNT_TYPES.' + type | translate }}
+                    </mat-radio-button>
                 }
-            </mat-select>
-        </mat-form-field>
+            </mat-radio-group>
 
-        <p> {{ 'ACCOUNT_FORM.INITIAL_BALANCE' | translate }} </p>
-        <mat-form-field appearance="outline">
-            <input 
-                matInput
-                formControlName="initial_balance"
-                (blur)="formatAmount()"
-            />
-        </mat-form-field>
+            <p> {{ 'ACCOUNT_FORM.CURRENCY' | translate }} </p>
+            <mat-form-field appearance="outline">
+                <mat-label> {{ 'ACCOUNT_FORM.CHOOSE_CURRENCY' | translate }} </mat-label>
+                <mat-select formControlName="currency_code">
+                    @for (currency of currencies; track currency) {
+                        <mat-option [value]="currency.code"> {{ currency.code }} ( {{ currency.symbol }} ) </mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
 
-        <p> {{ 'ACCOUNT_FORM.DESCRIPTION' | translate }} </p>
-        <mat-form-field appearance="outline">
-            <textarea 
-                matInput
-                formControlName="description"
-            ></textarea>
-        </mat-form-field>
+            <p> {{ 'ACCOUNT_FORM.INITIAL_BALANCE' | translate }} </p>
+            <mat-form-field appearance="outline">
+                <input 
+                    matInput
+                    formControlName="initial_balance"
+                    (blur)="formatAmount()"
+                />
+            </mat-form-field>
 
-        @if(error) {
-            <div>
-                <p class="error-message"> {{ errorMessage | translate }} </p>
-            </div>
-        }
-    </div>
+            <p> {{ 'ACCOUNT_FORM.DESCRIPTION' | translate }} </p>
+            <mat-form-field appearance="outline">
+                <textarea 
+                    matInput
+                    formControlName="description"
+                ></textarea>
+            </mat-form-field>
 
-    <mat-divider></mat-divider>
-    
-    <div class="modal-footer">
-        <div class="modal-actions">
-            <button mat-raised-button color="secondary" (click)="this.close()"> {{ 'BUTTONS.CANCEL' | translate }} </button>
-            <button
-                mat-raised-button color="primary"
-                (click)="saveAccount()"
-                [disabled]="accountForm.invalid"
-            > {{ 'BUTTONS.SAVE' | translate }} </button>
+            @if(error) {
+                <div>
+                    <p class="error-message"> {{ errorMessage | translate }} </p>
+                </div>
+            }
         </div>
-    </div>
+
+        <mat-divider></mat-divider>
+        
+        <div class="modal-footer">
+            <div class="modal-actions">
+                <button mat-raised-button color="secondary" (click)="this.close()"> {{ 'BUTTONS.CANCEL' | translate }} </button>
+                <button
+                    mat-raised-button color="primary"
+                    (click)="saveAccount()"
+                    [disabled]="accountForm.invalid"
+                > {{ 'BUTTONS.SAVE' | translate }} </button>
+            </div>
+        </div>
+    } @else {
+        <h1>
+            {{ 'LOADING_FORM' | translate}}
+        </h1>
+    }
 </div>
