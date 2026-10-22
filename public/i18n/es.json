@@ -108,8 +108,12 @@
             "DISABLE_ERROR": "Ocurrió un problema eliminando la transacción",
             "NO_EDIT": "Las transacciones eliminadas no se pueden modificar",
             "NO_ACCOUNTS_ERROR": "No hay cuentas para usar. cree una para empezar",
+            "NO_OLDER_ACCOUNTS": "No hay cuentas creadas antes de la fecha seleccionada",
             "NO_CATEGORIES_ERROR": "No hay categorías para usar. cree una para empezar",
             "UNKNOWN": "desconocida"
+        },
+        "WARNINGS": {
+            "ACCOUNT_AFTER_TRANSACTION": "Esta cuenta fue creada después de la fecha de transacción"
         },
         "DELETE": {
             "TITLE": "eliminar transacción",

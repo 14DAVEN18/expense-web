@@ -103,9 +103,13 @@
             "DISABLE_SUCCESS": "A transação foi excluida corretamente",
             "DISABLE_ERROR": "Ocurreu um problema ao excluir a transação",
             "NO_EDIT": "As transações excluidas não podem ser modificadas",
-            "NO_ACCOUNTS_ERROR": "Não há contas disponiveis para utilização. crie uma para começar",
-            "NO_CATEGORIES_ERROR": "Não há categorias para utilização. crie una para começar",
+            "NO_ACCOUNTS_ERROR": "Não existem contas disponiveis para utilização. crie uma para começar",
+            "NO_OLDER_ACCOUNTS": "não existem contas criadas antes da data selecionada",
+            "NO_CATEGORIES_ERROR": "Não existem categorias para utilização. crie una para começar",
             "UNKNOWN": "desconhecida"
+        },
+        "WARNINGS": {
+            "ACCOUNT_AFTER_TRANSACTION": "Esta conta foi criada após a data da transação"
         },
         "DELETE": {
             "TITLE": "excluir transação",
