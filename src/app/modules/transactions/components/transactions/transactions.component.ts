@@ -12,7 +12,7 @@ import { MatRadioModule } from '@angular/material/radio'
 import { ITransaction } from '@modules/transactions/interfaces/transactions'
 import { TransactionMapper } from '@modules/transactions/mappers/transaction.mapper'
 import { MatIconModule } from '@angular/material/icon'
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { AdministrationService } from '@modules/administration/services/administration.service'
 import { IAccount } from '@modules/accounts/interfaces/accounts'
 import { AccountsService } from '@modules/accounts/services/accounts.service'
@@ -20,6 +20,9 @@ import { TRANSACTION_TYPES, TransactionType } from '../../../../local/constants/
 import { TranslatePipe } from '@ngx-translate/core'
 import { ICategory } from '@modules/administration/interfaces/category'
 import { JsonPipe } from '@angular/common'
+import { AccountUtil } from '@shared/utils/account.utils'
+import { ConfirmationModalComponent } from '@shared/components/confirmation-modal/confirmation-modal.component'
+import { firstValueFrom } from 'rxjs'
 import { DateUtil } from '@shared/utils/date.util'
 
 
@@ -70,6 +73,7 @@ export class TransactionsComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { transaction?: ITransaction },
     public dialogRef: MatDialogRef<TransactionsComponent>,
+    private readonly dialog: MatDialog,
     private readonly fb: FormBuilder,
     private readonly transactionsService: TransactionsService,
     private readonly administrationService: AdministrationService,
@@ -223,6 +227,7 @@ export class TransactionsComponent implements OnInit {
    */
   public async saveTransaction() {
     this.transactionForm.markAllAsTouched()
+
     if(this.transactionForm.invalid) {
       this.errorMessages.push('TRANSACTIONS.MESSAGES.REQUIRED_ERROR')
       this.error = true
@@ -233,6 +238,10 @@ export class TransactionsComponent implements OnInit {
       this.transactionForm.getRawValue(),
       this.isEditing ? this.data.transaction : undefined
     )
+
+    const confirmed = await this.confirmNegativeBalance(transaction)
+
+    if(!confirmed) return
 
     try {
       if (this.isEditing) await this.updateTransaction(transaction)
@@ -266,6 +275,63 @@ export class TransactionsComponent implements OnInit {
       ...transaction,
       id: original?.id
     })
+  }
+
+  /**
+   * Gets the resulting balance of the account after the transaction that's being created
+   * @param transaction transaction to create
+   * @returns number representing the resulting balance after the transaction
+   */
+  private async getResultingBalance(transaction: ITransaction): Promise<number> {
+    const currentBalance = await this.accountService.getCurrentBalance(
+      transaction.source_account_id,
+      this.isEditing ? this.data.transaction?.id : undefined
+    );
+
+    return AccountUtil.getResultingBalance(currentBalance, transaction.amount);
+  }
+
+  /**
+   * It gets what the balance will be if it becomes negative
+   * @param transaction transaction to be used
+   * @returns return the balance if negative or null if not
+   */
+  private async getNegativeResultingBalance(transaction: ITransaction): Promise<number | null> {
+    if (transaction.type === 'INCOME') return null
+
+    const resultingBalance = await this.getResultingBalance(transaction);
+
+    return resultingBalance < 0
+      ? resultingBalance
+      : null;
+  }
+
+  /**
+   * Opens the confirmation modal if the transaction that's going to be created
+   * leaves the account with negative balance
+   * @param transaction transaction to created
+   * @returns 
+   */
+  private async confirmNegativeBalance(transaction: ITransaction): Promise<boolean> {
+    const resultingBalance = await this.getNegativeResultingBalance(transaction);
+    if (resultingBalance === null) return true
+
+    const account = this.accounts.find(account => account.id === transaction.source_account_id)
+
+    const dialogRef = this.dialog.open(ConfirmationModalComponent, {
+      data: {
+        title: 'TRANSACTIONS.NEGATIVE_BALANCE.TITLE',
+        message: 'TRANSACTIONS.NEGATIVE_BALANCE.MESSAGE',
+        messageParams: {
+          account: account?.name,
+          balance: resultingBalance
+        }
+      }
+    });
+
+    const confirmed = await firstValueFrom(dialogRef.afterClosed());
+
+    return confirmed === true;
   }
 
   /**
