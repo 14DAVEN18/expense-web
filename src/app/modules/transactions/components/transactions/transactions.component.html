@@ -92,8 +92,8 @@
                 <div>
                     <p> {{ 'TRANSACTION_FORM.SOURCE_ACCOUNT' | translate }} </p>
                     <mat-form-field appearance="outline">
-                        <mat-select formControlName="source_account_id">
-                            @for (account of accounts; track account) {
+                        <mat-select formControlName="source_account_id" [disabled]="!dateFilteredAccounts.length">
+                            @for (account of dateFilteredAccounts; track account.id) {
                                 <mat-option 
                                     [value]="account.id"
                                     [disabled]="transactionForm.get('destination_account_id')?.value === account.id"
@@ -102,6 +102,11 @@
                                 </mat-option>
                             }
                         </mat-select>
+                        @if(sourceAccountDateWarning) {
+                            <mat-hint class="warning-message">
+                                <mat-icon class="warning-icon">warning_amber</mat-icon>{{ 'TRANSACTIONS.WARNINGS.ACCOUNT_AFTER_TRANSACTION' | translate }}
+                            </mat-hint>
+                        }
                     </mat-form-field>
                 </div>
 
@@ -109,8 +114,8 @@
                     <div>
                         <p> {{ 'TRANSACTION_FORM.DESTINATION_ACCOUNT' | translate }} </p>
                         <mat-form-field appearance="outline">
-                            <mat-select formControlName="destination_account_id">
-                                @for (account of accounts; track account) {
+                            <mat-select formControlName="destination_account_id" [disabled]="!dateFilteredAccounts.length">
+                                @for (account of dateFilteredAccounts; track account) {
                                     <mat-option
                                         [value]="account.id"
                                         [disabled]="transactionForm.get('source_account_id')?.value === account.id"
@@ -119,6 +124,11 @@
                                     </mat-option>
                                 }
                             </mat-select>
+                            @if(destinationAccountDateWarning) {
+                            <mat-hint class="warning-message">
+                                <mat-icon class="warning-icon">warning_amber</mat-icon>{{ 'TRANSACTIONS.WARNINGS.ACCOUNT_AFTER_TRANSACTION' | translate }}
+                            </mat-hint>
+                        }
                         </mat-form-field>
                     </div>
                 }

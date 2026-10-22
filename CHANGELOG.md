@@ -2,6 +2,14 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.13.2] 2026-10-22
+### Added
+- Warning message for editing transactions in which the account is older than the associated account 
+
+### Changed
+- Date validation added to source and destination accounts, the transaction date can't be older than the creation of the account
+- When editing accounts, the original account will be kept even if the transactions is older than the account
+
 ## [0.13.1] 2026-10-22
 ### Changed
 - Changed which columns look narrow in the accounts table

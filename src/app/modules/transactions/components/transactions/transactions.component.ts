@@ -20,6 +20,7 @@ import { TRANSACTION_TYPES, TransactionType } from '../../../../local/constants/
 import { TranslatePipe } from '@ngx-translate/core'
 import { ICategory } from '@modules/administration/interfaces/category'
 import { JsonPipe } from '@angular/common'
+import { DateUtil } from '@shared/utils/date.util'
 
 
 @Component({
@@ -50,7 +51,10 @@ export class TransactionsComponent implements OnInit {
   public categories: ICategory[] = []
   public typeFilteredCategories: ICategory[] = []
   public accounts: IAccount[] = []
+  public dateFilteredAccounts: IAccount[] = []
   public transactionForm!: FormGroup
+  private originalSourceAccountId: number | null = null
+  private originalDestinationAccountId: number | null = null
   
 
   // ******************************* ERROR HANDLING *******************************
@@ -60,6 +64,8 @@ export class TransactionsComponent implements OnInit {
   public noAccounts: boolean = false
   public errorMessages: string[] = []
   public loading: boolean = false
+  public sourceAccountDateWarning = false
+  public destinationAccountDateWarning = false
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { transaction?: ITransaction },
@@ -88,6 +94,7 @@ export class TransactionsComponent implements OnInit {
     ]) 
     
     this.listenToTransactionType()
+    this.listenToDate()
     this.transactionForm.valueChanges.subscribe(() => {
       this.transactionForm.markAsUntouched()
     })
@@ -104,6 +111,9 @@ export class TransactionsComponent implements OnInit {
     const transaction = this.data.transaction
     if(!transaction) return
 
+    this.originalSourceAccountId = transaction.source_account_id
+    this.originalDestinationAccountId = transaction.destination_account_id
+
     this.transactionForm.patchValue({
       type: transaction.type,
       date: new Date(transaction.date),
@@ -113,6 +123,9 @@ export class TransactionsComponent implements OnInit {
       source_account_id: transaction.source_account_id,
       destination_account_id: transaction.destination_account_id
     })
+
+    this.filterAccounts(this.transactionForm.get('date')?.value)
+
     this.transactionForm.enable()
   }
 
@@ -138,7 +151,8 @@ export class TransactionsComponent implements OnInit {
    */
   private async getAccounts() {
     this.accounts = (await this.accountService.getAccounts()).filter(account => account.active)
-
+    this.dateFilteredAccounts = this.accounts
+    
     if(!this.accounts.length) {
       this.transactionForm.disable()
       this.errorMessages.push('TRANSACTIONS.MESSAGES.NO_ACCOUNTS_ERROR')
@@ -159,6 +173,25 @@ export class TransactionsComponent implements OnInit {
       description: new FormControl({ value: null, disabled: true }, Validators.required),
       source_account_id: new FormControl({ value: null, disabled: true }, Validators.required),
       destination_account_id: new FormControl({ value: null, disabled: true})
+    })
+  }
+
+  /**
+   * It listens to changes in the date field
+   */
+  private listenToDate() {
+    this.transactionForm.get('date')?.valueChanges.subscribe(value => {
+      if(!value) return
+
+      this.filterAccounts(value)
+      
+      if(!this.dateFilteredAccounts.length) {
+        this.errorMessages.push('TRANSACTIONS.MESSAGES.NO_OLDER_ACCOUNTS')
+        this.error = true
+      } else {
+        this.error = false
+        this.errorMessages = []
+      }
     })
   }
 
@@ -281,5 +314,48 @@ export class TransactionsComponent implements OnInit {
     const control = this.transactionForm.get(controlPath)
     control?.removeValidators(this.requiredValidator)
     control?.updateValueAndValidity()
+  }
+
+  /**
+   * Checks the account validity
+   * @param accountId 
+   * @param transactionDate 
+   * @returns 
+   */
+  private isAccountAfterTransaction(accountId: number | null, transactionDate: string): boolean {
+    if (!accountId) return false
+    const account = this.accounts.find(account => account.id === accountId)
+    return !!account && account.date > transactionDate
+  }
+
+  private checkAccountDates(transactionDate: string): void {
+    const sourceAccountId = this.transactionForm.get('source_account_id')?.value;
+    const destinationAccountId = this.transactionForm.get('destination_account_id')?.value;
+
+    this.sourceAccountDateWarning = this.isAccountAfterTransaction(sourceAccountId, transactionDate);
+    this.destinationAccountDateWarning = this.isAccountAfterTransaction(destinationAccountId, transactionDate);
+  }
+
+  /**
+   * Filters accounts based on date and whether it's te original account
+   * @param selectedDate date selected in the date field
+   */
+  private filterAccounts(selectedDate: Date): void {
+    const date = DateUtil.dateToString(selectedDate);
+
+    this.dateFilteredAccounts = this.accounts.filter(account => {
+      const isValidByDate = account.date <= date;
+
+      const isOriginalAccount =
+        this.isEditing &&
+        (
+          account.id === this.originalSourceAccountId ||
+          account.id === this.originalDestinationAccountId
+        );
+
+      return isValidByDate || isOriginalAccount;
+    });
+
+    this.checkAccountDates(date);
   }
 }
