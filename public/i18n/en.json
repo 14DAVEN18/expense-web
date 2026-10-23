@@ -41,6 +41,24 @@
 
 
 
+    "HOME": {
+        "SECTIONS": {
+            "FILTERS": {
+                "TITLE": "filters",
+                "CURRENCY": "currency",
+                "MONTH": "month"
+            },
+            "SUMMARY": {
+                "TITLE": "general summary",
+                "SECTIONS": {
+                    "INCOME": "income",
+                    "EXPENSES": "expenses",
+                    "NET_FLOW": "net flow"
+                }
+            }
+        }
+    },
+
 
     "ACCOUNTS": {
         "TITLE": "accounts",

@@ -41,6 +41,24 @@
 
 
 
+    "HOME": {
+        "SECTIONS": {
+            "FILTERS": {
+                "TITLE": "filtros",
+                "CURRENCY": "moeda",
+                "MONTH": "mês"
+            },
+            "SUMMARY": {
+                "TITLE": "resumo geral",
+                "SECTIONS": {
+                    "INCOME": "renda",
+                    "EXPENSES": "despesas",
+                    "NET_FLOW": "fluxo líquido"
+                }
+            }
+        }
+    },
+
 
     "ACCOUNTS": {
         "TITLE": "Contas",
