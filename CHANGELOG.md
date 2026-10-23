@@ -2,6 +2,11 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.14.0] 2026-10-23
+### Added
+- Currency and month filters in the home page for a Dashboard
+- Card for visualization of general money data 
+
 ## [0.13.6] 2026-10-22
 ## Added
 - Added MoneyPipe for money formatting
