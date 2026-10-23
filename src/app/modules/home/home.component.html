@@ -1,3 +1,139 @@
-<div class="home-container">    
-    
+<div class="filter-container">
+    <h2> {{ 'HOME.SECTIONS.FILTERS.TITLE' | translate }} </h2>
+
+    <div class="filters">
+        <mat-form-field>
+            <mat-label>{{ 'HOME.SECTIONS.FILTERS.CURRENCY' | translate }}</mat-label>
+
+            <mat-select [(ngModel)]="selectedCurrency" (selectionChange)="loadDashboard()">
+                @for (currency of currencies; track currency.code) {
+                    <mat-option [value]="currency.code">
+                        {{ currency.code }} {{ currency.symbol }}
+                    </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label> {{ 'HOME.SECTIONS.FILTERS.MONTH' | translate }} </mat-label>
+            <input matInput [matDatepicker]="datepicker" [value]="selectedDate" readonly/>
+            <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker startView="multi-year" (yearSelected)="chosenYearHandler($event)" (monthSelected)="chosenMonthHandler($event, datepicker)"/>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="dashboard">
+    <div class="card">
+        <h1 class="card-title"> {{ 'HOME.SECTIONS.SUMMARY.TITLE' | translate }} </h1>
+
+        <div class="card-content horizontal">
+            <div class="content-section">
+                <h2> {{ 'HOME.SECTIONS.SUMMARY.SECTIONS.INCOME' | translate}} </h2>
+                <div class="content-content">
+                    <h1> {{ summary.income | money:selectedCurrency:'symbol' }} </h1>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2> {{ 'HOME.SECTIONS.SUMMARY.SECTIONS.EXPENSES' | translate}} </h2>
+                <div class="content-content">
+                    <h1> {{ summary.expenses | money:selectedCurrency:'symbol' }} </h1>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2> {{ 'HOME.SECTIONS.SUMMARY.SECTIONS.NET_FLOW' | translate}} </h2>
+                <div class="content-content">
+                    <h1> {{ summary.netFlow | money:selectedCurrency:'symbol' }} </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h1 class="card-title"> {{ 'HOME.SECTIONS.TOP_EXPENSES.TITLE' | translate }} </h1>
+
+        <div class="chart-container">
+            <canvas
+                baseChart
+                [data]="expenseCategoryData"
+                [options]="expenseCategoryOptions"
+                type="bar">
+            </canvas>
+        </div>
+    </div>
+
+    <div class="card">
+        <h1 class="card-title"> {{ 'HOME.SECTIONS.INCOME_VS_EXPENSES.TITLE' | translate }} </h1>
+
+        <div class="chart-container">
+            <canvas
+            baseChart
+            [data]="incomeVsExpensesData"
+            [options]="incomeVsExpensesOptions"
+            type="line">
+            </canvas>
+        </div>
+    </div>
+
+    <div class="card">
+        <h1 class="card-title"> {{ 'HOME.SECTIONS.BALANCES.TITLE' | translate }} </h1>
+
+        <div class="card-content horizontal-flex">
+            @for (account of accountBalances; track $index) {
+                <div class="content-section">
+                    <div class="balance">
+                        <h3> {{ account.accountName }} </h3>
+                        <h2> {{ account.balance | money:selectedCurrency:'symbol' }} </h2>
+                    </div>           
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="card">
+        <h1 class="card-title"> {{ 'HOME.SECTIONS.RECENT_TRANSACTIONS.TITLE' | translate }} </h1>
+
+        <div class="transactions">
+            @for (transaction of recentTransactions; track transaction.id) {
+                <div class="transaction">
+                    <div class="transaction-info">
+                        <span class="transaction-date"> {{ transaction.date }} </span>
+
+                        <strong>
+                            @if (transaction.type === 'TRANSFER') {
+                                {{ transaction.source_account_name }}
+                                →
+                                {{ transaction.destination_account_name }}
+                            } @else {
+                                {{ transaction.category_name }}
+                            }
+                        </strong>
+
+                        <span> {{ transaction.description }} </span>
+                    </div>
+
+                    <span
+                        class="transaction-amount"
+                        [class.income]="transaction.type === 'INCOME'"
+                        [class.expense]="transaction.type === 'EXPENSE'">
+
+                        @if (transaction.type === 'INCOME') {
+                            +
+                        } @else if (transaction.type === 'EXPENSE') {
+                            -
+                        }
+
+                        {{ transaction.amount | money:selectedCurrency:'symbol' }}
+                    </span>
+
+                </div>
+            } @empty {
+                <div class="empty-state">
+                    {{ 'HOME.SECTIONS.RECENT_TRANSACTIONS.EMPTY' | translate }}
+                </div>
+            }
+        </div>
+    </div>
 </div>

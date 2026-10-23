@@ -2,6 +2,25 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.14.0] 2026-10-23
+### Added
+- Added ng2-charts dependency for dashboard charts
+- Currency and month filters in the home page for a Dashboard
+- Card for visualization of general money data
+- Added chart for top five categories 
+- Chart income vs expenses in the last 6 months
+- Chart with all account balances
+- Chart with the five most recent transactions
+- Updated internationalization files
+- Added respective services in the dashboard service
+- Added interfaces for the data displayed in charts
+
+### Change
+- The table paginator is hidden when there's no data available
+
+### Fixed
+- Path to messages in the administration page
+
 ## [0.13.6] 2026-10-22
 ## Added
 - Added MoneyPipe for money formatting

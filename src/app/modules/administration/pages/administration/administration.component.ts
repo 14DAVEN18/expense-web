@@ -113,10 +113,10 @@ export class AdministrationComponent implements OnInit {
       if(!result) return
       
       if(result.success) {
-        this.toastService.showSuccess('ADMINISTRATION.CATEGORY.MESSAGES.CREATION_SUCCESS')
+        this.toastService.showSuccess('ADMINISTRATION.CATEGORIES.MESSAGES.CREATION_SUCCESS')
         await this.loadData()
       } 
-      else this.toastService.showError('ADMINISTRATION.CATEGORY.MESSAGES.CREATION_ERROR')
+      else this.toastService.showError('ADMINISTRATION.CATEGORIES.MESSAGES.CREATION_ERROR')
     })
   }
 
