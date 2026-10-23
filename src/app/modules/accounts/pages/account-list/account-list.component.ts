@@ -18,6 +18,7 @@ import { IFilter } from '@shared/components/filters/interfaces/filter.interface'
 import { ConfirmationModalComponent } from '@shared/components/confirmation-modal/confirmation-modal.component';
 import { AccountUtil } from '@shared/utils/account.utils';
 import { PaginatorSize } from '@shared/components/table/types/paginator';
+import { MoneyPipe } from '@shared/pipes/money.pipe';
 
 @Component({
   selector: 'our-account-list',
@@ -25,7 +26,7 @@ import { PaginatorSize } from '@shared/components/table/types/paginator';
     CommonModule,
     MatButtonModule, MatTooltipModule, MatIconModule,
     TableComponent, FiltersComponent,
-    TranslatePipe
+    MoneyPipe, TranslatePipe
   ],
   templateUrl: './account-list.component.html',
   styleUrl: './account-list.component.sass'

@@ -2,6 +2,14 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.13.6] 2026-10-22
+## Added
+- Added MoneyPipe for money formatting
+
+## Changed
+- Added the currency_code property to the ITransactionDisplay interface
+- Implemented the MoneyPipe in both account and transaction tables
+
 ## [0.13.5] 2026-10-22
 ### Changed
 - Changed the settings option for an icon and aligned it to the right side of the navbar

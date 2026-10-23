@@ -18,6 +18,7 @@ export interface ITransactionDisplay extends ITransaction {
     source_account_name: string
     destination_account_name: string
     category_name: string
+    currency_code: string
 }
 
 export interface ITransactionFormModel {

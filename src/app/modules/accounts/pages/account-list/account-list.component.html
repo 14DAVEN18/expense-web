@@ -61,7 +61,7 @@
 
 
                         <ng-container *ngSwitchCase="'initial_balance'">
-                            <span> {{ element.current_balance | currency: 'COP' : 'symbol-narrow':'1.2-2' }} </span>
+                            <span> {{ element.current_balance | money: element.currency_code }} </span>
                         </ng-container>
 
                         <ng-container *ngSwitchCase="'type'">

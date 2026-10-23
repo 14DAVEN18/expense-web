@@ -19,6 +19,7 @@ import { ICategory } from '@modules/administration/interfaces/category';
 import { FiltersComponent } from '@shared/components/filters/filters.component';
 import { IFilter } from '@shared/components/filters/interfaces/filter.interface';
 import { PaginatorSize } from '@shared/components/table/types/paginator';
+import { MoneyPipe } from '@shared/pipes/money.pipe';
 
 @Component({
   selector: 'our-expense-list',
@@ -26,7 +27,7 @@ import { PaginatorSize } from '@shared/components/table/types/paginator';
     CommonModule,
     MatButtonModule, MatTooltipModule, MatIconModule,
     TableComponent, FiltersComponent,
-    TranslatePipe 
+    TranslatePipe, MoneyPipe
   ],
   templateUrl: './transaction-list.component.html',
   styleUrl: './transaction-list.component.sass'
@@ -140,7 +141,8 @@ export class TransactionListComponent implements OnInit {
         ...transaction,
         source_account_name: source?.name ?? '-',
         destination_account_name: destination?.name ?? '-',
-        category_name: category?.name ?? '-'
+        category_name: category?.name ?? '-',
+        currency_code: source?.currency_code ?? 'COP'
       };
     });
   }
