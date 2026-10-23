@@ -1,7 +1,27 @@
 <div class="navbar-container">
-    @for (option of navbarOption; track option) {
-        <div class="option" [routerLink]="option.path" routerLinkActive="active-option">
-            {{ option.label | translate }}
-        </div>
-    }
+    <div class="options">
+        @for (tab of navbarTabs; track tab) {
+            <div class="option" [routerLink]="tab.path" routerLinkActive="active-option">
+                {{ tab.label | translate }}
+            </div>
+        }
+    </div>
+    
+    <div class="options">
+        @for (icon of navbarIcons; track icon) {
+            <div 
+                class="option icon"
+                [routerLink]="icon.path"
+                routerLinkActive="active-option"
+                [matTooltip]="icon.label | translate"
+                [matTooltipPosition]="'before'"
+            >
+                @if (icon.icon) {
+                    <mat-icon> {{ icon.icon }} </mat-icon>
+                } @else {
+                    {{ icon.label | translate }}
+                }
+            </div>
+        }
+    </div>
 </div>

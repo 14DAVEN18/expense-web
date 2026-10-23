@@ -2,6 +2,11 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.13.5] 2026-10-22
+### Changed
+- Changed the settings option for an icon and aligned it to the right side of the navbar
+- Changed the INavbar interface to include an icon property
+
 ## [0.13.4] 2026-10-22
 ### Added
 - Paginator to the table component
