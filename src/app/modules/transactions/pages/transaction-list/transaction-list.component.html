@@ -62,7 +62,7 @@
                                     'income': element.type === 'INCOME',
                                     'transfer': element.type === 'TRANSFER'
                                 }"
-                            > {{ element.amount | currency: 'COP' : 'symbol-narrow':'1.2-2' }} </span>
+                            > {{ element.amount | money: element.currency_code }} </span>
                             
                         </ng-container>
 
