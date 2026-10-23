@@ -1,6 +1,7 @@
 {
     "NO_DATA": "Não há dados para mostrar",
     "LOADING_FORM": "carregando",
+    "UNKNOWN": "desconhecida",
     "BUTTONS": {
         "CANCEL": "cancelar",
         "SAVE": "salvar",
@@ -55,6 +56,19 @@
                     "EXPENSES": "despesas",
                     "NET_FLOW": "fluxo líquido"
                 }
+            },
+            "TOP_EXPENSES": {
+                "TITLE": "principais despesas"
+            },
+            "INCOME_VS_EXPENSES": {
+                "TITLE": "rendas vs despesas"
+            },
+            "BALANCES": {
+                "TITLE": "saldos de conta"
+            },
+            "RECENT_TRANSACTIONS": {
+                "TITLE": "transações recentes",
+                "EMPTY": "vacio"
             }
         }
     },

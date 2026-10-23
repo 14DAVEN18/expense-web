@@ -23,8 +23,7 @@
     </div>
 </div>
 
-<div class="dashboard-summary">
-    
+<div class="dashboard">
     <div class="card">
         <h1 class="card-title"> {{ 'HOME.SECTIONS.SUMMARY.TITLE' | translate }} </h1>
 
@@ -49,6 +48,92 @@
                     <h1> {{ summary.netFlow | money:selectedCurrency:'symbol' }} </h1>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h1 class="card-title"> {{ 'HOME.SECTIONS.TOP_EXPENSES.TITLE' | translate }} </h1>
+
+        <div class="chart-container">
+            <canvas
+                baseChart
+                [data]="expenseCategoryData"
+                [options]="expenseCategoryOptions"
+                type="bar">
+            </canvas>
+        </div>
+    </div>
+
+    <div class="card">
+        <h1 class="card-title"> {{ 'HOME.SECTIONS.INCOME_VS_EXPENSES.TITLE' | translate }} </h1>
+
+        <div class="chart-container">
+            <canvas
+            baseChart
+            [data]="incomeVsExpensesData"
+            [options]="incomeVsExpensesOptions"
+            type="line">
+            </canvas>
+        </div>
+    </div>
+
+    <div class="card">
+        <h1 class="card-title"> {{ 'HOME.SECTIONS.BALANCES.TITLE' | translate }} </h1>
+
+        <div class="card-content horizontal-flex">
+            @for (account of accountBalances; track $index) {
+                <div class="content-section">
+                    <div class="balance">
+                        <h3> {{ account.accountName }} </h3>
+                        <h2> {{ account.balance | money:selectedCurrency:'symbol' }} </h2>
+                    </div>           
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="card">
+        <h1 class="card-title"> {{ 'HOME.SECTIONS.RECENT_TRANSACTIONS.TITLE' | translate }} </h1>
+
+        <div class="transactions">
+            @for (transaction of recentTransactions; track transaction.id) {
+                <div class="transaction">
+                    <div class="transaction-info">
+                        <span class="transaction-date"> {{ transaction.date }} </span>
+
+                        <strong>
+                            @if (transaction.type === 'TRANSFER') {
+                                {{ transaction.source_account_name }}
+                                →
+                                {{ transaction.destination_account_name }}
+                            } @else {
+                                {{ transaction.category_name }}
+                            }
+                        </strong>
+
+                        <span> {{ transaction.description }} </span>
+                    </div>
+
+                    <span
+                        class="transaction-amount"
+                        [class.income]="transaction.type === 'INCOME'"
+                        [class.expense]="transaction.type === 'EXPENSE'">
+
+                        @if (transaction.type === 'INCOME') {
+                            +
+                        } @else if (transaction.type === 'EXPENSE') {
+                            -
+                        }
+
+                        {{ transaction.amount | money:selectedCurrency:'symbol' }}
+                    </span>
+
+                </div>
+            } @empty {
+                <div class="empty-state">
+                    {{ 'HOME.SECTIONS.RECENT_TRANSACTIONS.EMPTY' | translate }}
+                </div>
+            }
         </div>
     </div>
 </div>

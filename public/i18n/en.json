@@ -1,6 +1,7 @@
 {
     "NO_DATA": "There is no data to display",
     "LOADING_FORM": "loading",
+    "UNKNOWN": "unknown",
     "BUTTONS": {
         "CANCEL": "cancel",
         "SAVE": "save",
@@ -55,6 +56,19 @@
                     "EXPENSES": "expenses",
                     "NET_FLOW": "net flow"
                 }
+            },
+            "TOP_EXPENSES": {
+                "TITLE": "top expenses"
+            },
+            "INCOME_VS_EXPENSES": {
+                "TITLE": "income vs expenses"
+            },
+            "BALANCES": {
+                "TITLE": "account balances"
+            },
+            "RECENT_TRANSACTIONS": {
+                "TITLE": "recent transactions",
+                "EMPTY": "empty"
             }
         }
     },
@@ -190,7 +204,9 @@
                 "CREATION_SUCCESS":"The category was successfully created",
                 "CREATION_ERROR": "There was a problem creating the category",
                 "UPDATE_SUCCESS": "The category was updated successfully",
-                "UPDATE_ERROR": "There was a problem updating the category"
+                "UPDATE_ERROR": "There was a problem updating the category",
+                "DISABLE_SUCCESS": "The category was deleted successfully",
+                "DISABLE_ERROR": "There was a problem deleting the category"
             },
             "TOOLTIPS": {
                 "CREATE": "create category",

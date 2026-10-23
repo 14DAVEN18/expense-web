@@ -9,6 +9,8 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
 import { PaginatorIntl } from '@shared/components/table/internationalization/language-intl';
 import { provideNativeDateAdapter } from '@angular/material/core';
 
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts'
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -27,6 +29,7 @@ export const appConfig: ApplicationConfig = {
       provide: MatPaginatorIntl,
       useClass: PaginatorIntl
     },
-    provideNativeDateAdapter()
+    provideNativeDateAdapter(),
+    provideCharts(withDefaultRegisterables())
   ]
 };

@@ -1,5 +1,5 @@
-<div class="table-container">
-    @if (data.length) {
+@if (data.length) {
+    <div class="table-container">
         <mat-table [dataSource]="dataSource" matSort>
             @for (column of realColumnNames; let i = $index; track column) {
                 {{column | json }}
@@ -29,17 +29,14 @@
             <mat-header-row *matHeaderRowDef="realColumnNames"></mat-header-row>
             <mat-row *matRowDef="let row; let i = index; columns: realColumnNames;"></mat-row>
         </mat-table>
-    }
-    @else {
-        <div class="empty-message">
-            <h1> {{ 'NO_DATA' | translate }} </h1>
-        </div>
-    }
-    
-</div>
+    </div>
 
-<mat-paginator [pageSize]="pageSize" [pageSizeOptions]="[10, 25, 50, 100]" [disabled]="loading" showFirstLastButtons></mat-paginator>
-
+    <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="[10, 25, 50, 100]" [disabled]="loading" showFirstLastButtons></mat-paginator>
+} @else {
+    <div class="empty-message">
+        <h1> {{ 'NO_DATA' | translate }} </h1>
+    </div>
+}
 <ng-template #defaultCellTemplate let-element='element' let-column="column">
     {{element[column]}} 
 </ng-template>
