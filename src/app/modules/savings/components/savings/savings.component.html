@@ -13,7 +13,7 @@
     </div>
     
     @if (!loading) {
-        <div class="modal-body" [formGroup]="savingForm">
+        <div #body class="modal-body" [formGroup]="savingForm">
             <div class="two-column-row">
                 <div>
                     <p> {{ 'SAVING_FORM.NAME' | translate }} </p>
@@ -28,7 +28,7 @@
                 <div>
                     <p> {{ 'SAVING_FORM.START_DATE' | translate }} </p>
                     <mat-form-field appearance="outline">
-                        <input matInput [matDatepicker]="datepicker" formControlName="date" [min]="maxDate" readonly/>
+                        <input matInput [matDatepicker]="datepicker" formControlName="date" [min]="minDate" readonly/>
                         <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
                         <mat-datepicker #datepicker startView="multi-year" (yearSelected)="chosenYearHandler($event, 'date')" (monthSelected)="chosenMonthHandler($event, 'date', datepicker)"/>
                     </mat-form-field>
@@ -78,7 +78,7 @@
                     <div>
                         <p> {{ 'SAVING_FORM.TARGET_DATE' | translate }} </p>
                         <mat-form-field appearance="outline">
-                            <input matInput [matDatepicker]="datepicker2" formControlName="target_date" [min]="maxDate" readonly/>
+                            <input matInput [matDatepicker]="datepicker2" formControlName="target_date" [min]="minDate" readonly/>
                             <mat-datepicker-toggle matIconSuffix [for]="datepicker2"></mat-datepicker-toggle>
                             <mat-datepicker #datepicker2 startView="multi-year" (yearSelected)="chosenYearHandler($event, 'target_date')" (monthSelected)="chosenMonthHandler($event, 'target_date', datepicker2)"/>
                         </mat-form-field>
@@ -121,6 +121,10 @@
                         </mat-form-field>
                     </div>
                 </div>
+
+                @if (estimatedDate) {
+                    <p class="warning-message"> {{ 'SAVINGS.MESSAGES.DATE_ESTIMATE' | translate:params }} </p>
+                }
             }
 
             @if (isIndefinite) {
@@ -156,6 +160,8 @@
                     }
                 </div>
             }
+
+            {{getFormErrors() | json}}
         </div>
 
         <mat-divider></mat-divider>

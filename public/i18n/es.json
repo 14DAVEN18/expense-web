@@ -218,7 +218,13 @@
             "NO_ACCOUNTS_ERROR": "no hay cuentas para usar. cree una para empezar",
             "NO_OLDER_ACCOUNTS": "no hay cuentas creadas antes de la fecha seleccionada",
             "CONTRIBUTION_ESTIMATE": "debería ahorre cerca de {{amount}} por mes",
+            "DATE_ESTIMATE": "va a completar su objetivo alrededor de {{date}}",
+            "CONTRIBUTION_ERROR": "el valor de contribución no puede ser más grande que el valor objetivo",
             "UNKNOWN": "unknown"
+        },
+        "DELETE": {
+            "TITLE": "eliminar ahorro",
+            "MESSAGE": "¿Está seguro de que desea eliminar el ahorro para '{{name}}'?"
         }
     },
     "SAVING_FORM": {

@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -35,7 +35,8 @@ import { debounceTime } from 'rxjs';
     {
       provide: MAT_DATE_FORMATS,
       useValue: MONTH_YEAR_FORMATS
-    }
+    },
+    DatePipe
   ],
   templateUrl: './savings.component.html',
   styleUrl: './savings.component.sass'
@@ -56,8 +57,16 @@ export class SavingsComponent implements OnInit {
   public estimatedDate: Date | null = null
   public params: any = {}
 
+
+  @ViewChild('body') private body!: ElementRef<HTMLElement>
+
   // ******************************* ERROR HANDLING *******************************
-  public maxDate: Date = new Date();
+  private readonly today: Date = new Date()
+  public minDate: Date = new Date(
+    this.today.getFullYear(),
+    this.today.getMonth(),
+    1
+  );
   public loading: boolean = false
   public error: boolean = false
   public noAccounts: boolean = false
@@ -69,7 +78,8 @@ export class SavingsComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly accountService: AccountsService,
     private readonly savingService: SavingService,
-    private readonly moneyPipe: MoneyPipe
+    private readonly moneyPipe: MoneyPipe,
+    private readonly datePipe: DatePipe,
   ) { }
 
 
@@ -89,8 +99,9 @@ export class SavingsComponent implements OnInit {
     
     this.listenToCreationDate()
     this.listenToSavingPlanType()
+    this.listenToContributionAmount()
 
-    this.savingForm.valueChanges.subscribe(async() => {
+    this.savingForm.valueChanges.pipe(debounceTime(1000)).subscribe(async() => {
       await this.calculateEstimates()
     })
 
@@ -169,6 +180,29 @@ export class SavingsComponent implements OnInit {
     })
   }
 
+  private listenToContributionAmount() {
+    this.savingForm.get('contribution_amount')?.valueChanges.subscribe(value => {
+      if(!value) return
+
+      const target = this.savingForm.get('target_amount')?.value
+      if(!target) return
+
+      if(Number(value) > Number(target)) {
+        this.savingForm.get('contribution_amount')?.markAsTouched()
+        this.errorMessages.push('SAVINGS.MESSAGES.CONTRIBUTION_ERROR')
+        this.error = true
+        this.savingForm.get('contribution_amount')?.setValue(null)
+        setTimeout(() => {
+          this.scrollToBottom()
+        })
+        return
+      }
+
+      this.errorMessages = []
+      this.error = false
+    })
+  }
+
   /**
    * Sends the value to be saved in the indexedDB table
    */
@@ -237,6 +271,7 @@ export class SavingsComponent implements OnInit {
 
   private async calculateEstimates() {
     if(this.isTargetDate) await this.calculateEstimateAmount()
+    if(this.isContributionAmount) this.calculateEstimatedDate()
   }
 
   /**
@@ -278,6 +313,7 @@ export class SavingsComponent implements OnInit {
   public chosenYearHandler(normalizedYear: Date, controlPath: string) {
     const ctrlValue = this.savingForm.get(controlPath)?.value ?? new Date()
     ctrlValue.setFullYear(normalizedYear.getFullYear())
+    ctrlValue.setDate(1)
     this.savingForm.get(controlPath)?.setValue(ctrlValue)
   }
 
@@ -288,6 +324,18 @@ export class SavingsComponent implements OnInit {
     datepicker.close()
   }
 
+  private scrollToBottom() {
+    const element = this.body.nativeElement
+
+    element.scrollTo({
+      top: element.scrollHeight,
+      behavior: 'smooth'
+    })
+  }
+
+  /**
+   * It calculates and format the estimated amount of contribution when the saving plan type is target date
+   */
   private async calculateEstimateAmount() {
     this.estimatedContribution = null
 
@@ -313,5 +361,36 @@ export class SavingsComponent implements OnInit {
     this.params = {
       amount: this.moneyPipe.transform(this.estimatedContribution, account?.currency_code, 'symbol')
     }
+  }
+
+  private calculateEstimatedDate() {
+    this.estimatedDate = null
+
+    const creationDate = this.savingForm.get('date')?.value
+    if(!creationDate) return
+
+    const contributionStart = this.savingForm.get('contribution_start')?.value
+    if(!contributionStart) return
+
+    const targetAmount = this.savingForm.get('target_amount')?.value
+    if(!targetAmount) return
+
+    const contributionAmount = this.savingForm.get('contribution_amount')?.value
+    if(!contributionAmount) return
+
+    this.estimatedDate = SavingUtil.calculateEstimateDate(targetAmount, contributionAmount, creationDate, contributionStart)
+
+    this.params = {
+      date: this.datePipe.transform(this.estimatedDate, 'yyyy/MM/dd')
+    }
+  }
+
+  public getFormErrors() {
+    return Object.entries(this.savingForm.controls)
+      .filter(([_, control]) => control.errors)
+      .map(([field, control]) => ({
+        field,
+        errors: control.errors
+      }))
   }
 }

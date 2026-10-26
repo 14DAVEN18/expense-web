@@ -218,7 +218,13 @@
             "NO_ACCOUNTS_ERROR": "there are no accounts to use. create one to start",
             "NO_OLDER_ACCOUNTS": "there are no accounts created before the selected date",
             "CONTRIBUTION_ESTIMATE": "you should save around {{amount}} per month",
+            "DATE_ESTIMATE": "you will complete your goal around {{date}}",
+            "CONTRIBUTION_ERROR": "the contribution amount can't be greater than the target amount",
             "UNKNOWN": "unknown"
+        },
+        "DELETE": {
+            "TITLE": "delete saving",
+            "MESSAGE": "Are you sure you want to delete the saving for '{{name}}'?"
         }
     },
     "SAVING_FORM": {

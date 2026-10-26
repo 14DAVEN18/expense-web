@@ -1,4 +1,4 @@
-import { SavingContributionStart, SavingPlanType } from "../../../local/constants/saving"
+import { SavingContributionStart, SavingPlanType, SavingProgress } from "../../../local/constants/saving"
 
 export interface ISaving {
     id?: number
@@ -19,10 +19,8 @@ export interface ISaving {
 }
 
 export interface ISavingDisplay extends ISaving {
-    source_account_name: string
-    destination_account_name: string
-    category_name: string
-    currency_code: string
+    associates_account_name: string
+    progress: SavingProgress
 }
 
 export interface ISavingFormModel {

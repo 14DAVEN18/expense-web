@@ -30,8 +30,6 @@
             <div class="filters">
                 <our-filters
                     [parameters]="filterParameters"
-                    [fixedFilters]="transactionFixedFilters"
-                    (filter)="applyFilter($event)"
                     (active)="applyStatus($event)"
                     (search)="applySearch($event)"
                 />
@@ -44,7 +42,6 @@
                 [data]="data"
                 [emptyDataColumnName]="shortColumns"
                 [noDataColumn]="true"
-                [selectedFilter]="selectedFilter"
                 [searchValue]="searchValue"
                 [active]="showActive"
                 [pageSize]="pageSize"

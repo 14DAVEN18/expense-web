@@ -214,7 +214,13 @@
             "NO_ACCOUNTS_ERROR": "não existem contas disponiveis para utilização. crie uma para começar",
             "NO_OLDER_ACCOUNTS": "não existem contas criadas antes da data selecionada",
             "CONTRIBUTION_ESTIMATE": "deverá poupar cerca de {{amount}} por mês",
+            "DATE_ESTIMATE": "vai completar seu objetivo até {{date}}",
+            "CONTRIBUTION_ERROR": "o valor da contribuição não pode ser superior ao valor-alvo",
             "UNKNOWN": "unknown"
+        },
+        "DELETE": {
+            "TITLE": "excluir poupança",
+            "MESSAGE": "¿tem certeza de que deseja excluir a poupança para '{{name}}'?"
         }
     },
     "SAVING_FORM": {

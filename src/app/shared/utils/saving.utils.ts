@@ -14,11 +14,16 @@ export class SavingUtil {
     }
 
     static calculateEstimateDate(targetAmount: number, contributionAmount: number, selectedDate: Date, startMonth: SavingContributionStart) {
-        const amountMonths = targetAmount / contributionAmount
+        if((targetAmount / contributionAmount) < 1) return null
+        const amountMonths = Math.ceil(targetAmount / contributionAmount)
 
-        const estimateDate = new Date(
-            selectedDate.getFullYear(),
-            
-        )
+        let estimatedDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1)
+
+        if(startMonth === 'START_MONTH') 
+            estimatedDate.setMonth(selectedDate.getMonth() + (amountMonths - 1))
+        else
+            estimatedDate.setMonth(selectedDate.getMonth() + amountMonths)
+
+        return estimatedDate
     }
 }
