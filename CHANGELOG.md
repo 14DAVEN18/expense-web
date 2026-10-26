@@ -2,6 +2,15 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.15.0] 2026-10-23
+### Added
+- Added the savings section in the navbar and created the respective page component
+- Added the savings list component to list savings
+- Added saving service to handle Dexie interactions with savings table
+
+### Changed
+- Updated internationalization files
+
 ## [0.14.0] 2026-10-23
 ### Added
 - Added ng2-charts dependency for dashboard charts

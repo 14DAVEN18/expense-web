@@ -1,0 +1,185 @@
+<div class="container">
+    <div class="modal-header">
+        <h2> 
+            {{
+                (isEditing
+                    ? 'SAVING_FORM.EDIT.TITLE'
+                    : 'SAVING_FORM.CREATE.TITLE'
+                ) | translate    
+            }}
+        </h2>
+
+        <mat-icon (click)="this.close()" class="close-icon">close</mat-icon>
+    </div>
+    
+    @if (!loading) {
+        <div class="modal-body" [formGroup]="savingForm">
+            <div class="two-column-row">
+                <div>
+                    <p> {{ 'SAVING_FORM.NAME' | translate }} </p>
+                    <mat-form-field appearance="outline">
+                        <input 
+                            matInput
+                            formControlName="name"
+                        />
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <p> {{ 'SAVING_FORM.START_DATE' | translate }} </p>
+                    <mat-form-field appearance="outline">
+                        <input matInput [matDatepicker]="datepicker" formControlName="date" [min]="maxDate" readonly/>
+                        <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                        <mat-datepicker #datepicker startView="multi-year" (yearSelected)="chosenYearHandler($event, 'date')" (monthSelected)="chosenMonthHandler($event, 'date', datepicker)"/>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="two-column-row">
+                <div>
+                    <p> {{ 'SAVING_FORM.ACCOUNT' | translate }} </p>
+                    <mat-form-field appearance="outline">
+                        <mat-select formControlName="account_id">
+                            @for (account of accounts; track account.id) {
+                                <mat-option [value]="account.id">
+                                    {{ account.name }}
+                                </mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <p> {{ 'SAVING_FORM.SAVING_PLAN_TYPE' | translate }} </p>
+                    <mat-form-field appearance="outline">
+                        <mat-select formControlName="saving_plan_type">
+                            @for (type of savingPlanTypes; track type) {
+                                <mat-option [value]="type">
+                                    {{ 'SAVING_PLAN_TYPES.' + type | translate}}
+                                </mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <p> {{ 'SAVING_FORM.CONTRIBUTION_START' | translate }} </p>
+            <mat-radio-group
+                formControlName="contribution_start">
+                @for (start of savingContributionStart; track start) {
+                    <mat-radio-button [value]="start" [disabled]="isFutureCreationMonth && start === 'NEXT_MONTH'">
+                        {{ 'SAVING_CONTRIBUTION_START.' + start | translate }}
+                    </mat-radio-button>
+                }
+            </mat-radio-group>
+
+            @if (isTargetDate) {
+                <div class="two-column-row">
+                    <div>
+                        <p> {{ 'SAVING_FORM.TARGET_DATE' | translate }} </p>
+                        <mat-form-field appearance="outline">
+                            <input matInput [matDatepicker]="datepicker2" formControlName="target_date" [min]="maxDate" readonly/>
+                            <mat-datepicker-toggle matIconSuffix [for]="datepicker2"></mat-datepicker-toggle>
+                            <mat-datepicker #datepicker2 startView="multi-year" (yearSelected)="chosenYearHandler($event, 'target_date')" (monthSelected)="chosenMonthHandler($event, 'target_date', datepicker2)"/>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <p> {{ 'SAVING_FORM.TARGET_AMOUNT' | translate }} </p>
+                        <mat-form-field appearance="outline">
+                            <input 
+                                matInput
+                                formControlName="target_amount"
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                @if (estimatedContribution) {
+                    <p class="warning-message"> {{ 'SAVINGS.MESSAGES.CONTRIBUTION_ESTIMATE' | translate:params }} </p>
+                }
+            }
+
+            @if (isContributionAmount) {
+                <div class="two-column-row">
+                    <div>
+                        <p> {{ 'SAVING_FORM.TARGET_AMOUNT' | translate }} </p>
+                        <mat-form-field appearance="outline">
+                            <input 
+                                matInput
+                                formControlName="target_amount"
+                            />
+                        </mat-form-field>
+                    </div>
+
+                    <div>
+                        <p> {{ 'SAVING_FORM.CONTRIBUTION_AMOUNT' | translate }} </p>
+                        <mat-form-field appearance="outline">
+                            <input 
+                                matInput
+                                formControlName="contribution_amount"
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+            }
+
+            @if (isIndefinite) {
+                <p> {{ 'SAVING_FORM.CONTRIBUTION_AMOUNT' | translate }} </p>
+                <mat-form-field appearance="outline">
+                    <input 
+                        matInput
+                        formControlName="contribution_amount"
+                    />
+                </mat-form-field>
+            }
+
+            <p> {{ 'SAVING_FORM.LINK' | translate }} </p>
+            <mat-form-field appearance="outline">
+                <input 
+                    matInput
+                    formControlName="link"
+                />
+            </mat-form-field>
+
+            <p> {{ 'SAVING_FORM.DESCRIPTION' | translate }} </p>
+            <mat-form-field appearance="outline">
+                <textarea 
+                    matInput
+                    formControlName="description"
+                ></textarea>
+            </mat-form-field>
+            
+            @if(error) {
+                <div>
+                    @for (error of errorMessages; track $index) {
+                        <p class="error-message"> {{ error | translate }} </p>
+                    }
+                </div>
+            }
+        </div>
+
+        <mat-divider></mat-divider>
+        
+        <div class="modal-footer">
+            <div class="modal-actions">
+                <button mat-raised-button color="secondary" (click)="this.close()"> {{ 'BUTTONS.CANCEL' | translate }} </button>
+                <button 
+                    mat-raised-button color="primary"
+                    (click)="saveSaving()"
+                    [disabled]="savingForm.invalid || savingForm.disabled"
+                > 
+                    {{
+                        (isEditing
+                            ? 'BUTTONS.SAVE'
+                            : 'BUTTONS.CREATE'
+                        ) | translate
+                    }}
+                </button>
+            </div>
+        </div>
+    } @else {
+        <h1>
+            {{ 'LOADING_FORM' | translate}}
+        </h1>
+    }
+</div>

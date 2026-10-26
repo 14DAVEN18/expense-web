@@ -23,6 +23,7 @@ export class NavbarComponent {
     { path: '/home', label: 'NAVBAR.HOME' },
     { path: '/accounts', label: 'NAVBAR.ACCOUNTS' },
     { path: '/transactions', label: 'NAVBAR.TRANSACTIONS' },
+    { path: '/savings', label: 'NAVBAR.SAVINGS' },
     { path: '/administration', label: 'NAVBAR.ADMINISTRATION' },
   ]
 

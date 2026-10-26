@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IAccount } from '@modules/accounts/interfaces/accounts';
 import { ICategory } from '@modules/administration/interfaces/category';
+import { ISaving } from '@modules/savings/interfaces/savings.interface';
 import { ISetting } from '@modules/settings/interfaces/settings';
 import { ITransaction } from '@modules/transactions/interfaces/transactions';
 import { DateUtil } from '@shared/utils/date.util';
@@ -10,10 +11,12 @@ import Dexie, { Table } from 'dexie';
   providedIn: 'root'
 })
 export class ExpenseTrackerDbService extends Dexie {
-  transactions!: Table<ITransaction>
   accounts!: Table<IAccount>
+  transactions!: Table<ITransaction>
+  savings!: Table<ISaving, number>
   categories!: Table<ICategory>
   settings!: Table<ISetting>
+  
 
 
   constructor() {
@@ -54,6 +57,14 @@ export class ExpenseTrackerDbService extends Dexie {
             ? DateUtil.dateToString(new Date(account.created_at))
             : DateUtil.dateToString(new Date())
         })
+    })
+
+    this.version(5).stores({
+      accounts: '++id, date, name, type, currency_code',
+      transactions: '++id, date, type, amount, category_id, source_account_id, destination_account_id',
+      savings: '++id, account_id, saving_plan_type, active, completed',
+      categories: '++id, name, type',
+      settings: '&key'
     })
   }
 }

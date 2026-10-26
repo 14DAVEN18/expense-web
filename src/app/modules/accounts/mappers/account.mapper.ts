@@ -8,7 +8,7 @@ export class AccountMapper {
             date: DateUtil.dateToString(account.date),
             name: account.name.trim().toUpperCase(),
             type: account.type,
-            currency_code: account.currency_code.toUpperCase(),
+            currency_code: account.currency_code,
             initial_balance: Number.parseFloat(account.initial_balance),
             description: account.description.trim().toUpperCase(),
             active: row?.active ?? true,
