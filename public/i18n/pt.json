@@ -200,7 +200,17 @@
             "CREATE": "criar poupança",
             "EXPORT": "exportar poupanças para arquivo CSV",
             "EDIT": "editar poupança",
-            "DELETE": "exluir poupança"
+            "DELETE": "exluir poupança",
+            "WATCH_LINK": "ver link",
+            "MARK_AS_COMPLETE": "marcar como concluido"
+        },
+        "COLUMNS": {
+            "DATE": "data de inicio",
+            "NAME": "nome",
+            "DESCRIPTION": "descrição",
+            "ASSOCIATED_ACCOUNT_NAME": "conta associada",
+            "PROGRESS": "progresso",
+            "ACTIONS": "ações"
         },
         "MESSAGES": {
             "REQUIRED_ERROR": "todos os campos obrigatórios devem ser preenchidos",

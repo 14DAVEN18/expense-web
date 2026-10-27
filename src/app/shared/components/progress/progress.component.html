@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="top">
+        {{ current | money:currencyCode:'symbol' }} / {{ target | money:currencyCode:'symbol' }}
+    </div>
+
+    <div class="progress">
+        <div 
+            class="progress-bar incomplete"
+            [ngStyle]="{'width': getProgress()}"
+            [class.complete]="current >= target"
+        ></div>
+        <span class="progress-text"> {{ getProgress() }} </span>
+    </div>
+</div>

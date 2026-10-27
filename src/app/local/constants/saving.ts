@@ -1,6 +1,6 @@
 export type SavingPlanType = 'TARGET_DATE' | 'CONTRIBUTION_AMOUNT' | 'INDEFINITE'
 export type SavingContributionStart = 'START_MONTH' | 'NEXT_MONTH'
-export type SavingProgress = { current: number, target: number }
+export type SavingProgress = { current: number, target: number | null }
 
 export const SAVING_PLAN_TYPES: SavingPlanType[] = [
     'TARGET_DATE',

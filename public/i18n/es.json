@@ -25,7 +25,7 @@
         "INDEFINITE": "indefinido"
     },
     "SAVING_CONTRIBUTION_START": {
-        "START_MONTH": "mes de incio",
+        "START_MONTH": "mes de inicio",
         "NEXT_MONTH": "próximo mes"
     },
     "NAVBAR": {
@@ -204,7 +204,17 @@
             "CREATE": "crear ahorro",
             "EXPORT": "exportar ahorros a archivo CSV",
             "EDIT": "editar ahorro",
-            "DELETE": "eliminar ahorro"
+            "DELETE": "eliminar ahorro",
+            "WATCH_LINK": "ver link",
+            "MARK_AS_COMPLETE": "marcar como completado"
+        },
+        "COLUMNS": {
+            "DATE": "fecha de inicio",
+            "NAME": "nombre",
+            "DESCRIPTION": "descripción",
+            "ASSOCIATED_ACCOUNT_NAME": "cuenta asociada",
+            "PROGRESS": "progreso",
+            "ACTIONS": "acciones"
         },
         "MESSAGES": {
             "REQUIRED_ERROR": "todos los campos requeridos deben completarse",

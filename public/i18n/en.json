@@ -204,7 +204,17 @@
             "CREATE": "create saving",
             "EXPORT": "export savings to CSV File",
             "EDIT": "edit saving",
-            "DELETE": "delete saving"
+            "DELETE": "delete saving",
+            "WATCH_LINK": "watch link",
+            "MARK_AS_COMPLETE": "mark as complete"
+        },
+        "COLUMNS": {
+            "DATE": "start date",
+            "NAME": "name",
+            "DESCRIPTION": "description",
+            "ASSOCIATED_ACCOUNT_NAME": "associated account",
+            "PROGRESS": "progress",
+            "ACTIONS": "actions"
         },
         "MESSAGES": {
             "REQUIRED_ERROR": "all required fields must be filled",

@@ -13,29 +13,32 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { ConfirmationModalComponent } from '@shared/components/confirmation-modal/confirmation-modal.component';
 import { FiltersComponent } from '@shared/components/filters/filters.component';
 import { IFilter } from '@shared/components/filters/interfaces/filter.interface';
+import { ProgressComponent } from '@shared/components/progress/progress.component';
 import { TableComponent } from '@shared/components/table/table.component';
 import { PaginatorSize } from '@shared/components/table/types/paginator';
-import { MoneyPipe } from '@shared/pipes/money.pipe';
 import { ToastService } from '@shared/services/toast.service';
+import { SavingContributionStart, SavingPlanType } from '../../../../local/constants/saving';
+import { DateUtil } from '@shared/utils/date.util';
 
 @Component({
   selector: 'app-savings-list',
   imports: [
     CommonModule,
     MatTooltipModule, MatIconModule, MatButtonModule,
-    FiltersComponent, TableComponent,
-    TranslatePipe, MoneyPipe
+    FiltersComponent, TableComponent, ProgressComponent,
+    TranslatePipe
   ],
   templateUrl: './savings-list.component.html',
   styleUrl: './savings-list.component.sass'
 })
 export class SavingsListComponent implements OnInit {
   // ******************************* TABLE RELATED PROPERTIES *******************************
-  public realColumnNames: string[] = ['active', 'date', 'name', 'associated_account_name', 'progress', 'actions']
+  public realColumnNames: string[] = ['active', 'real_date', 'name', 'description', 'associated_account_name', 'progress', 'actions']
   public displayHeaders: string[] = [
     '',
     'SAVINGS.COLUMNS.DATE',
     'SAVINGS.COLUMNS.NAME',
+    'SAVINGS.COLUMNS.DESCRIPTION',
     'SAVINGS.COLUMNS.ASSOCIATED_ACCOUNT_NAME',
     'SAVINGS.COLUMNS.PROGRESS',
     'SAVINGS.COLUMNS.ACTIONS'
@@ -50,16 +53,9 @@ export class SavingsListComponent implements OnInit {
   public filterParameters: string[] = [
     'SAVINGS.COLUMNS.NAME',
     'SAVINGS.COLUMNS.ASSOCIATED_ACCOUNT_NAME',
-    'SAVINGS.COLUMNS.DESCRIPTION',
-    'SAVINGS.COLUMNS.TARGET_DATE'
+    'SAVINGS.COLUMNS.DESCRIPTION'
   ]
-  // public transactionFixedFilters: IFilter[] = [
-  //   { label: 'TRANSACTION_TYPES.ALL', column: 'type', allowedValues: [] },
-  //   { label: 'TRANSACTION_TYPES.INCOME', column: 'type', allowedValues: ['INCOME'] },
-  //   { label: 'TRANSACTION_TYPES.EXPENSE', column: 'type', allowedValues: ['EXPENSE'] },
-  //   { label: 'TRANSACTION_TYPES.TRANSFER', column: 'type', allowedValues: ['TRANSFER'] }
-  // ]
-  // public selectedFilter: IFilter = { label: 'TRANSACTION_TYPES.ALL', column: 'type', allowedValues: ['INCOME', 'EXPENSE', 'TRANSFER'] }
+  
   public showActive: boolean = true
   public searchValue: string = ''
   public searchColumns: string[] = ['name', 'associated_account_name', 'description', 'target_date']
@@ -89,7 +85,7 @@ export class SavingsListComponent implements OnInit {
       this.getSavings(),
       this.getAccounts()
     ]);
-    console.log(this.savings)
+
     this.mapNames()
     
     this.isLoadingSavings = false;
@@ -106,15 +102,33 @@ export class SavingsListComponent implements OnInit {
     this.accounts = await this.accountService.getAccounts()
   }
 
+  /**
+   * Maps additional information
+   */
   private mapNames() {
     this.data = this.savings.map(saving => ({
       ...saving,
-      associates_account_name: this.accounts.find(account => account.id === saving.account_id)?.name ?? '-',
+      real_date: saving.contribution_start ? this.mapStartDate(saving.date, saving.contribution_start) : saving.date,
+      associated_account_name: this.accounts.find(account => account.id === saving.account_id)?.name ?? '-',
       progress: {
-        current: 0,
-        target: saving.target_amount ?? 0
+        current: saving.target_amount ?? 0,
+        target: saving.target_amount ?? null
       }
     }))
+  }
+
+  /**
+   * It modifies the start date of the saving depending on the value contribution_start
+   * @param date original date of the saving
+   * @param contributionStart value of contribution start
+   * @returns the string of the updated date
+   */
+  private mapStartDate(date: string, contributionStart: SavingContributionStart) {
+    if(contributionStart === 'START_MONTH') return date
+
+    const creationDate = new Date(date)
+    creationDate.setMonth(creationDate.getMonth() + 1)
+    return DateUtil.dateToString(creationDate)
   }
 
   /**
@@ -201,7 +215,7 @@ export class SavingsListComponent implements OnInit {
     if (!saving.id) return
 
     try {
-      // await this.savingService.disableSaving(transaction?.id)
+      await this.savingService.disableSaving(saving?.id)
       this.toastService.showSuccess('SAVINGS.MESSAGES.DISABLE_SUCCESS')
       await this.initialize()
     }
@@ -212,10 +226,24 @@ export class SavingsListComponent implements OnInit {
   }
 
   /**
+   * Opens a new page with the link of the saving
+   * @param link URL added at the moment of creation
+   */
+  public openLink(link?: string) {
+    if(!link) return
+
+    window.open(link, '_blank', 'noopener,noreferrer')
+  }
+
+  public confirmCompletion(saving: ISavingDisplay) {
+    console.log(saving)
+  }
+
+  /**
    * Exports all existing savings in CSV format
    */
   public async exportCSV(): Promise<void> {
-    
+    await this.savingService.exportSavingsToCSV()
   }
 
   /**

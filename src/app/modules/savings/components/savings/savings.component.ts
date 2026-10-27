@@ -61,12 +61,7 @@ export class SavingsComponent implements OnInit {
   @ViewChild('body') private body!: ElementRef<HTMLElement>
 
   // ******************************* ERROR HANDLING *******************************
-  private readonly today: Date = new Date()
-  public minDate: Date = new Date(
-    this.today.getFullYear(),
-    this.today.getMonth(),
-    1
-  );
+  public minDate!: Date 
   public loading: boolean = false
   public error: boolean = false
   public noAccounts: boolean = false
@@ -94,6 +89,8 @@ export class SavingsComponent implements OnInit {
    */
   private async initialize() {
     this.loading = true
+
+    this.setMinDate()
     
     await this.getAccounts()
     
@@ -105,8 +102,51 @@ export class SavingsComponent implements OnInit {
       await this.calculateEstimates()
     })
 
+    if(this.isEditing) this.loadSaving()
+
     this.loading = false
-    if (!this.noAccounts) this.savingForm.enable()
+    if (!this.noAccounts) this.savingForm.disable()
+    this.savingForm.enable()
+  }
+
+  /**
+   * It sets the minimum date allowed for the form validation, it varies depending on whether I'm editing or creating
+   */
+  private setMinDate() {
+    const today = new Date()
+    const saving = this.data?.saving
+
+    if (saving) {
+      const savingDate = new Date(saving.date)
+
+      this.minDate = new Date(savingDate.getFullYear(), savingDate.getMonth(), 1)
+      return
+    }
+
+    this.minDate = new Date(today.getFullYear(), today.getMonth(), 1)
+  }
+
+  /**
+   * Load the saving details into the form for edition
+   */
+  private loadSaving() {
+    const saving = this.data.saving
+    if(!saving) return
+    
+    this.savingForm.patchValue({
+      name: saving.name,
+      date: new Date(saving.date),
+      account_id: saving.account_id,
+      saving_plan_type: saving.saving_plan_type,
+      contribution_start: saving.contribution_start,
+      target_amount: saving.target_amount,
+      target_date: saving.target_date ? new Date(saving.target_date) : null,
+      contribution_amount: saving.contribution_amount,
+      link: saving.link,
+      description: saving.description,
+      completed: saving.completed
+    }, {emitEvent: false})
+    
     this.savingForm.enable()
   }
 
@@ -157,6 +197,11 @@ export class SavingsComponent implements OnInit {
       const currentMonth = new Date(today.getFullYear(), today.getMonth(), 1)
 
       this.isFutureCreationMonth = selectedMonth > currentMonth
+
+      const contributionStart = this.savingForm.get('contribution_start')?.value
+
+      if (this.isFutureCreationMonth && contributionStart === 'NEXT_MONTH')
+        this.savingForm.get('contribution_start')?.reset()
     })
   }
 
@@ -383,14 +428,5 @@ export class SavingsComponent implements OnInit {
     this.params = {
       date: this.datePipe.transform(this.estimatedDate, 'yyyy/MM/dd')
     }
-  }
-
-  public getFormErrors() {
-    return Object.entries(this.savingForm.controls)
-      .filter(([_, control]) => control.errors)
-      .map(([field, control]) => ({
-        field,
-        errors: control.errors
-      }))
   }
 }

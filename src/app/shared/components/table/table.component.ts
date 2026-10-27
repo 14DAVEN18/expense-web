@@ -25,9 +25,9 @@ export class TableComponent implements OnInit, OnChanges {
   @Input() data: any[] = []
   @Input() noDataColumn: boolean = false
   @Input() emptyDataColumnName: string[] = ['selection']
-  @Input() selectedFilter!: IFilter
-  @Input() active!: boolean
-  @Input() searchValue!: string
+  @Input() selectedFilter?: IFilter
+  @Input() active?: boolean
+  @Input() searchValue?: string
 
   @Input() pageSize: PaginatorSize = 10
   @Input() loading: boolean = false
@@ -68,25 +68,27 @@ export class TableComponent implements OnInit, OnChanges {
    * @returns 
    */
   private applyFilter() {
-    if(!this.selectedFilter) return
-
     this.dataSource.filterPredicate = (data) => {
       if (!data) return false;
-      const active = data['active'] === this.active
-      const value = (data[this.selectedFilter.column]?.toString() || '').toString().toUpperCase();
-      const valueMatch = !this.selectedFilter.allowedValues.length || this.selectedFilter.allowedValues.includes(value);
 
-      const matchSearch = this.searchValue
-        ? this.searchColumns.some((column) => {
+      const activeMatch = this.active === undefined || data['active'] === this.active
+
+      const valueMatch =
+        !this.selectedFilter?.allowedValues.length || 
+        this.selectedFilter.allowedValues.includes(
+          (data[this.selectedFilter.column]?.toString() || '').toUpperCase()
+        )
+
+      const matchSearch = !this.searchValue || 
+        this.searchColumns.some((column) => {
             const val = data[column] ?? '';
             return val
               .toString()
               .toLowerCase()
-              .includes(this.searchValue.trim().toLowerCase());
+              .includes(this.searchValue!.trim().toLowerCase());
           })
-        : true;
 
-      return active && valueMatch && matchSearch
+      return activeMatch && valueMatch && matchSearch
     };
 
     this.dataSource.filter = Date.now().toString();

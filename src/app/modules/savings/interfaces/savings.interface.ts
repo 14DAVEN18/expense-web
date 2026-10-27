@@ -19,7 +19,8 @@ export interface ISaving {
 }
 
 export interface ISavingDisplay extends ISaving {
-    associates_account_name: string
+    real_date: string
+    associated_account_name: string
     progress: SavingProgress
 }
 
