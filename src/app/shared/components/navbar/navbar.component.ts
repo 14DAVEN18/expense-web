@@ -1,23 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { INavbar } from './interfaces/navbar';
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'our-navbar',
   imports: [
     CommonModule, 
     RouterLink, RouterLinkActive,
-    MatTooltip, MatIconModule,
+    MatTooltip, MatIconModule, MatButtonModule,
     TranslatePipe
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.sass'
 })
 export class NavbarComponent {
+  @Output() toggleDrawer = new EventEmitter<void>()
 
   public navbarTabs: INavbar[] = [
     { path: '/home', label: 'NAVBAR.HOME' },

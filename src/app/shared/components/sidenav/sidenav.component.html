@@ -1,0 +1,31 @@
+<div class="sidenav">
+    <div class="drawer-header"></div>
+
+    <div class="drawer-content">
+        <mat-list>
+            @for (category of menu; track category.name) {
+                <div>
+                    <div mat-subheader class="section-header">
+                        {{ category.name | translate }}
+                    </div>
+
+                    @for (item of category.options | keyvalue: originalOrder; track item.key) {
+                        <mat-list-item
+                            class="item-button"
+                            routerLinkActive="selected"
+                            [routerLink]="item.value"
+                            [class.mat-elevation-z2]="currentTab === item.key"
+                            (keydown.enter)="close()"
+                            (click)="close()"
+                        >
+                            <mat-icon matListItemIcon class="item-icon"> {{icons[item.key]}} </mat-icon>
+                            <div matListItemTitle class="item-label">
+                                {{ item.key | translate }}
+                            </div>
+                        </mat-list-item>
+                    }
+                </div>
+            }
+        </mat-list>
+    </div>
+</div>

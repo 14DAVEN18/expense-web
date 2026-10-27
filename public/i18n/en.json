@@ -21,7 +21,7 @@
     },
     "SAVING_PLAN_TYPES": {
         "TARGET_DATE": "target date",
-        "CONTRIBUTION_AMOUNT": "contribution amount",
+        "TARGET_AMOUNT": "contribution amount",
         "INDEFINITE": "indefinite"
     },
     "SAVING_CONTRIBUTION_START": {
@@ -209,7 +209,7 @@
             "MARK_AS_COMPLETE": "mark as complete"
         },
         "COLUMNS": {
-            "DATE": "start date",
+            "DATE": "start",
             "NAME": "name",
             "DESCRIPTION": "description",
             "ASSOCIATED_ACCOUNT_NAME": "associated account",
@@ -229,6 +229,7 @@
             "NO_OLDER_ACCOUNTS": "there are no accounts created before the selected date",
             "CONTRIBUTION_ESTIMATE": "you should save around {{amount}} per month",
             "DATE_ESTIMATE": "you will complete your goal around {{date}}",
+            "CONTRIBUTION_HINT": "if you provide a contribution amount, we'll be able to provide an estimated date to achieve the saving goal",
             "CONTRIBUTION_ERROR": "the contribution amount can't be greater than the target amount",
             "UNKNOWN": "unknown"
         },

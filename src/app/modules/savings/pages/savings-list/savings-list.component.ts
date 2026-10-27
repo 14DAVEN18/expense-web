@@ -43,7 +43,7 @@ export class SavingsListComponent implements OnInit {
     'SAVINGS.COLUMNS.PROGRESS',
     'SAVINGS.COLUMNS.ACTIONS'
   ]
-  public shortColumns: string[] = ['active', 'date']
+  public shortColumns: string[] = ['active', 'real_date']
   public savings: ISaving[] = []
   private accounts: IAccount[] = []
   public data: ISavingDisplay[] = []

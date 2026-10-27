@@ -21,7 +21,7 @@
     },
     "SAVING_PLAN_TYPES": {
         "TARGET_DATE": "data alvo",
-        "CONTRIBUTION_AMOUNT": "valor da contribuição",
+        "TARGET_AMOUNT": "valor da contribuição",
         "INDEFINITE": "indeterminado"
     },
     "SAVING_CONTRIBUTION_START": {
@@ -205,7 +205,7 @@
             "MARK_AS_COMPLETE": "marcar como concluido"
         },
         "COLUMNS": {
-            "DATE": "data de inicio",
+            "DATE": "inicio",
             "NAME": "nome",
             "DESCRIPTION": "descrição",
             "ASSOCIATED_ACCOUNT_NAME": "conta associada",
@@ -225,6 +225,7 @@
             "NO_OLDER_ACCOUNTS": "não existem contas criadas antes da data selecionada",
             "CONTRIBUTION_ESTIMATE": "deverá poupar cerca de {{amount}} por mês",
             "DATE_ESTIMATE": "vai completar seu objetivo até {{date}}",
+            "CONTRIBUTION_HINT": "Se você digitar o valor de contribuição, poderemos fornecer uma data estimada para atingir a meta da poupança",
             "CONTRIBUTION_ERROR": "o valor da contribuição não pode ser superior ao valor-alvo",
             "UNKNOWN": "unknown"
         },

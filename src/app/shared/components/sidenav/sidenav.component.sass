@@ -1,0 +1,103 @@
+:host
+    display: flex
+    height: 100%
+    font-size: 1.2rem
+    width: 100%
+
+.sidenav
+    background-color: var(--mat-sys-primary)
+    color: white
+    height: 100%
+    overflow-x: hidden
+    overflow-y: hidden
+    width: 100%
+
+.drawer-header
+    height: 7vh
+
+.drawer-content
+    display: flex
+    flex: 1
+    //height: 93vh
+    flex-direction: column
+    overflow-y: auto
+    overflow-x: hidden
+    padding: 0.5rem 0
+
+.section-header
+    font-weight: bold
+
+.list-menu
+    display: flex
+    flex-direction: column
+    gap: 0.5rem
+    list-style: none
+    margin: 0
+    padding: 5px 1rem
+
+.list-menu__item
+    display: flex
+    justify-content: center
+    width: 100%
+
+.item-wrapper
+    overflow: visible
+    display: flex
+    justify-content: center
+    width: 100%
+
+.item-button
+    align-items: center
+    border-radius: 5px
+    color: white !important
+    cursor: pointer !important
+    display: flex
+    flex-direction: row
+    justify-content: flex-start
+    height: 30px
+    padding: 0 1rem
+    text-decoration: none
+    transition: background-color 0.2s ease
+    width: 100%
+    &:hover
+        background-color: rgb(23, 181, 2)
+        .mdc-list-item__primary-text
+            color: white
+
+.item-icon
+    font-size: 24px
+    color: white
+    margin: 0
+
+.selected
+    background-color: rgb(17, 143, 0)
+    color: #fff
+
+.item-label
+    align-items: center
+    color: white
+    display: flex
+    font-size: 15px
+    height: 30px
+    justify-content: flex-start
+    top: auto
+    white-space: nowrap
+
+.mat-mdc-list-item.cdk-focused,
+.mat-mdc-list-item:focus,
+.mat-mdc-list-item.cdk-program-focused,
+.mat-mdc-list-item.cdk-focused .mdc-list-item__primary-text,
+.mat-mdc-list-item:focus .mdc-list-item__primary-text,
+.mat-mdc-list-item.cdk-program-focused .mdc-list-item__primary-text,
+.mat-mdc-list-item.cdk-focused mat-icon,
+.mat-mdc-list-item:focus mat-icon
+    color: white !important
+
+.mdc-list-group__subheader
+    margin: 0 calc((3rem - 1.5rem)/2)
+
+.mdc-list-item__primary-text
+    color: white
+
+.mdc-list-item--with-leading-icon .mdc-list-item__start
+    color: white

@@ -99,7 +99,7 @@
                 }
             }
 
-            @if (isContributionAmount) {
+            @if (isTargetAmount) {
                 <div class="two-column-row">
                     <div>
                         <p> {{ 'SAVING_FORM.TARGET_AMOUNT' | translate }} </p>
@@ -124,6 +124,8 @@
 
                 @if (estimatedDate) {
                     <p class="warning-message"> {{ 'SAVINGS.MESSAGES.DATE_ESTIMATE' | translate:params }} </p>
+                } @else {
+                    <p class="warning-message"> {{ 'SAVINGS.MESSAGES.CONTRIBUTION_HINT' | translate }} </p>
                 }
             }
 

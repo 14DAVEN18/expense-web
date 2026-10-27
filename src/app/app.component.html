@@ -1,9 +1,19 @@
 <div class="app-container">
-    <div class="navbar-header">
-        <our-navbar></our-navbar>
-    </div>
+    <mat-drawer-container>
 
-    <div class="app-content">
-        <router-outlet />
-    </div>
+        <mat-drawer #drawer class="sidenav" mode="over">
+            <our-sidenav (closeDrawer)="drawer.close()"/>
+        </mat-drawer>
+
+        <mat-drawer-content>
+            <div class="navbar-header">
+                <our-navbar (toggleDrawer)="drawer.toggle()"/>
+            </div>
+
+            <div class="app-content">
+                <router-outlet />
+            </div>
+        </mat-drawer-content>
+
+    </mat-drawer-container>
 </div>

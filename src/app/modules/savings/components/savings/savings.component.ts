@@ -19,7 +19,6 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { SavingMapper } from '@modules/savings/mappers/savings.mapper';
 import { SavingService } from '@modules/savings/services/saving.service';
 import { SavingUtil } from '@shared/utils/saving.utils';
-import { CURRENCIES, CurrencyCode } from '../../../../local/constants/currencies';
 import { MoneyPipe } from '@shared/pipes/money.pipe';
 import { debounceTime } from 'rxjs';
 
@@ -44,7 +43,7 @@ import { debounceTime } from 'rxjs';
 export class SavingsComponent implements OnInit {
   // ******************************* PROPERTIES *******************************
   public isTargetDate: boolean = false
-  public isContributionAmount: boolean = false
+  public isTargetAmount: boolean = false
   public isIndefinite: boolean = false
   public isFutureCreationMonth: boolean = false
   public savingForm!: FormGroup
@@ -211,11 +210,11 @@ export class SavingsComponent implements OnInit {
   private listenToSavingPlanType() {
     this.savingForm.get('saving_plan_type')?.valueChanges.subscribe(value => {
       this.isTargetDate = value === 'TARGET_DATE'
-      this.isContributionAmount = value === 'CONTRIBUTION_AMOUNT'
+      this.isTargetAmount = value === 'TARGET_AMOUNT'
       this.isIndefinite = value === 'INDEFINITE'
 
       if(this.isTargetDate) this.savingForm.get('contribution_amount')?.setValue(null)
-      if(this.isContributionAmount) this.savingForm.get('target_date')?.setValue(null)
+      if(this.isTargetAmount) this.savingForm.get('target_date')?.setValue(null)
       if(this.isIndefinite) {
         this.savingForm.get('target_amount')?.setValue(null)
         this.savingForm.get('target_date')?.setValue(null)
@@ -316,7 +315,7 @@ export class SavingsComponent implements OnInit {
 
   private async calculateEstimates() {
     if(this.isTargetDate) await this.calculateEstimateAmount()
-    if(this.isContributionAmount) this.calculateEstimatedDate()
+    if(this.isTargetAmount) this.calculateEstimatedDate()
   }
 
   /**
@@ -328,9 +327,6 @@ export class SavingsComponent implements OnInit {
     
     if(this.isTargetDate) this.makeRequired('target_date')
     else this.makeOptional('target_date')
-
-    if(this.isContributionAmount) this.makeRequired('contribution_amount')
-    else this.makeOptional('contribution_amount')
   }
 
   /**
