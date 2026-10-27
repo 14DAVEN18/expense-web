@@ -5,8 +5,10 @@ This document contains the change log of the Expenses Web App. from its very fir
 ## [0.15.0] 2026-10-23
 ### Added
 - Added the savings section in the navbar and created the respective page component
-- Added the savings list component to list savings
+- Added the savings list component to list savings, with complete, see link, edit and delete actions
 - Added saving service to handle Dexie interactions with savings table
+- Added modal for creation and deletion
+- Created the progress component to show a progress bar and current / target amount
 
 ### Changed
 - Updated internationalization files
