@@ -12,6 +12,7 @@ This document contains the change log of the Expenses Web App. from its very fir
 
 ### Changed
 - Updated internationalization files
+- Moved pages from the navbar to a sidebar component
 
 ## [0.14.0] 2026-10-23
 ### Added
