@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -40,10 +40,13 @@ export class AccountComponent implements OnInit, AfterViewInit {
   public readonly accountTypes = ACCOUNT_TYPES
   public readonly currencies = CURRENCIES
 
+  // ******************************* VIEW CHILD *******************************
+  @ViewChild('body') private body!: ElementRef<HTMLElement>
+
   // ******************************* ERROR HANDLING *******************************
   public maxDate: Date = new Date();
   public error: boolean = false
-  public errorMessage: string = ''
+  public errorMessages: string[] = []
   public loading: boolean = false
 
   constructor(
@@ -70,6 +73,7 @@ export class AccountComponent implements OnInit, AfterViewInit {
   private initialize() {
     this.loading = true
         
+    this.listenToCreationDate()
     this.accountForm.valueChanges.subscribe(() => {
       this.accountForm.markAsUntouched()
     })
@@ -112,13 +116,36 @@ export class AccountComponent implements OnInit, AfterViewInit {
   }
 
   /**
+   * Sets listener for creation date
+   */
+  private listenToCreationDate() {
+    this.accountForm.get('date')?.valueChanges.subscribe((value: Date | null) => {
+      if(!value) return
+
+      const today = new Date()
+
+      const message = 'ACCOUNTS.MESSAGES.FUTURE_DATE'
+      if(value > today) {
+        if(!this.errorMessages.includes(message)) this.errorMessages.push(message)
+        this.error = this.errorMessages.length > 0
+        setTimeout(() => {
+          this.scrollToBottom()
+        })
+      } else this.errorMessages = []
+    })
+  }
+
+  /**
    * Sends the value to be saved in the indexedDB table
    */
   public async saveAccount() {
     this.accountForm.markAllAsTouched()
+
+    const message = 'ACCOUNTS.MESSAGES.REQUIRED_ERROR'
+
     if(this.accountForm.invalid) {
-      this.errorMessage = 'ACCOUNTS.MESSAGES.REQUIRED_ERROR'
-      this.error = true
+      if(!this.errorMessages.includes(message)) this.errorMessages.push(message)
+      this.error = this.errorMessages.length > 0
       return
     }
 
@@ -176,6 +203,19 @@ export class AccountComponent implements OnInit, AfterViewInit {
   public get isEditing(): boolean {
     return !!this.data?.account
   }
+
+  /**
+   * Scroll tot he bottom of the form
+   */
+  private scrollToBottom() {
+    const element = this.body.nativeElement
+
+    element.scrollTo({
+      top: element.scrollHeight,
+      behavior: 'smooth'
+    })
+  }
+
   /**
    * Formats the amount entered to add decimal point and 2 decimal positions
    */

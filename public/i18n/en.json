@@ -108,7 +108,8 @@
             "UPDATE_SUCCESS": "The account was updated successfully",
             "UPDATE_ERROR":"There was a problem updating the account",
             "DISABLE_SUCCESS": "The account was deleted successfully",
-            "DISABLE_ERROR": "There was a problem deleting the account"
+            "DISABLE_ERROR": "There was a problem deleting the account",
+            "FUTURE_DATE": "the account cannot be created on a future date"
         },
         "DELETE": {
             "TITLE": "delete account",
@@ -269,12 +270,9 @@
             "DELETE": "delete contribution"
         },
         "COLUMNS": {
-            "DATE": "start",
-            "NAME": "name",
-            "DESCRIPTION": "description",
-            "ASSOCIATED_ACCOUNT_NAME": "associated account",
-            "PROGRESS": "progress",
-            "ACTIONS": "actions"
+            "DATE": "date",
+            "SAVING": "saving",
+            "AMOUNT": "amount"
         },
         "MESSAGES": {
             "REQUIRED_ERROR": "all required fields must be filled",
@@ -285,17 +283,32 @@
             "DISABLE_SUCCESS": "the contribution was deleted successfully",
             "DISABLE_ERROR": "there was a problem deleting the contribution",
             "NO_EDIT": "deleted contributions can't be modified",
-            "NO_ACCOUNTS_ERROR": "there are no contribution to use. create one to start",
-            "NO_OLDER_ACCOUNTS": "there are no accounts created before the selected date",
+            "NO_SAVINGS_ERROR": "there are no savings to use. create one to start",
+            "NO_OLDER_SAVINGS": "there are no savings created before the selected date",
             "CONTRIBUTION_ESTIMATE": "you should save around {{amount}} per month",
             "DATE_ESTIMATE": "you will complete your goal around {{date}}",
             "CONTRIBUTION_HINT": "if you provide a contribution amount, we'll be able to provide an estimated date to achieve the saving goal",
-            "CONTRIBUTION_ERROR": "the contribution amount can't be greater than the target amount",
+            "CONTRIBUTION_ERROR": "the contribution amount can't be greater than the saving amount",
             "UNKNOWN": "unknown"
         },
+        "WARNINGS": {
+            "SAVING_AFTER_CONTRIBUTION": "this saving was created after the contribution date"
+        },
         "DELETE": {
-            "TITLE": "delete saving",
-            "MESSAGE": "Are you sure you want to delete the saving for '{{name}}'?"
+            "TITLE": "delete contribution",
+            "MESSAGE": "Are you sure you want to delete the contribution of {{amount}} for '{{name}}'?"
+        }
+    },
+    "CONTRIBUTION_FORM": {
+        "DATE": "date",
+        "SAVING": "saving",
+        "AMOUNT": "amount",
+
+        "CREATE": {
+            "TITLE": "create contribution"
+        },
+        "EDIT": {
+            "TITLE": "edit contribution"
         }
     },
 

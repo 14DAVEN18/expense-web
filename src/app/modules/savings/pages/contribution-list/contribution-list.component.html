@@ -26,8 +26,8 @@
     </div>
 
     <div class="content">
-        <!-- @if (!isLoadingSavings) {
-            <div class="filters">
+        @if (!isLoadingSavings) {
+            <!-- <div class="filters">
                 <our-filters
                     [parameters]="filterParameters"
                     (active)="applyStatus($event)"
@@ -59,28 +59,6 @@
                         <ng-container *ngSwitchCase="'actions'">
                             <div class="actions-container" *ngIf="element.active; else disabledTransaction">
                                 <button
-                                    *ngIf="element.progress.current >= element.target_amount"
-                                    mat-mini-fab
-                                    color="primary"
-                                    [matTooltip]="'SAVINGS.TOOLTIPS.MARK_AS_COMPLETE' | translate"
-                                    [matTooltipPosition]="'before'"
-                                    (click)="confirmCompletion(element)"
-                                >
-                                    <mat-icon>check</mat-icon>
-                                </button>
-
-                                <button
-                                    *ngIf="element.link"
-                                    mat-mini-fab
-                                    color="primary"
-                                    [matTooltip]="'SAVINGS.TOOLTIPS.WATCH_LINK' | translate"
-                                    [matTooltipPosition]="'before'"
-                                    (click)="openLink(element.link)"
-                                >
-                                    <mat-icon>link</mat-icon>
-                                </button>
-
-                                <button
                                     *ngIf="element.active"
                                     mat-mini-fab
                                     color="primary"
@@ -109,7 +87,7 @@
                         <ng-container *ngSwitchDefault> {{element[column]}} </ng-container>
                     </ng-container>
                 </ng-template>
-            </our-table>
+            </our-table> -->
         }
         @else {
             <ng-template>
@@ -117,6 +95,6 @@
                     LOADING ACCOUNTS...
                 </div>
             </ng-template>
-        } -->
+        }
     </div>
 </div>

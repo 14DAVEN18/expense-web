@@ -108,7 +108,8 @@
             "UPDATE_SUCCESS": "La cuenta se actualizó exitosamente",
             "UPDATE_ERROR": "Ocurrió un problema actualizando la cuenta",
             "DISABLE_SUCCESS": "La cuenta se eliminó correctamente",
-            "DISABLE_ERROR": "Ocurrió un problema eliminando la cuenta"
+            "DISABLE_ERROR": "Ocurrió un problema eliminando la cuenta",
+            "FUTURE_DATE": "la cuenta no puede ser creada en una fecha futura"
         },
         "DELETE": {
             "TITLE": "eliminar cuenta",
@@ -225,10 +226,10 @@
             "UPDATE_ERROR": "ocurrió un problema actualizando el ahorro",
             "DISABLE_SUCCESS": "el ahorro se eliminó correctamente",
             "DISABLE_ERROR": "ocurrió un problema eliminando el ahorro",
-            "NO_EDIT": "los ahorros eliminadas no se pueden modificar",
+            "NO_EDIT": "los ahorros eliminados no se pueden modificar",
             "NO_ACCOUNTS_ERROR": "no hay cuentas para usar. cree una para empezar",
             "NO_OLDER_ACCOUNTS": "no hay cuentas creadas antes de la fecha seleccionada",
-            "CONTRIBUTION_ESTIMATE": "debería ahorre cerca de {{amount}} por mes",
+            "CONTRIBUTION_ESTIMATE": "debería ahorrar cerca de {{amount}} por mes",
             "DATE_ESTIMATE": "va a completar su objetivo alrededor de {{date}}",
             "CONTRIBUTION_HINT": "Si proporciona una cantidad para su contribución, podremos darle una fecha estimada para alcanzar su objetivo de ahorro",
             "CONTRIBUTION_ERROR": "el valor de contribución no puede ser más grande que el valor objetivo",
@@ -267,6 +268,47 @@
             "EXPORT": "exportar contribuciones a archivo CSV",
             "EDIT": "editar contribución",
             "DELETE": "eliminar contribution"
+        },
+        "COLUMNS": {
+            "DATE": "fecha",
+            "SAVING": "ahorro",
+            "AMOUNT": "valor"
+        },
+        "MESSAGES": {
+            "REQUIRED_ERROR": "todos los campos requeridos deben completarse",
+            "CREATION_SUCCESS": "la contribución fue creada exitosamente",
+            "CREATION_ERROR": "ocurrió un problema creando la contribución",
+            "UPDATE_SUCCESS": "la contribución se actualizó exitosamente",
+            "UPDATE_ERROR": "ocurrió un problema actualizando la contribución",
+            "DISABLE_SUCCESS": "la contribución se eliminó correctamente",
+            "DISABLE_ERROR": "ocurrió un problema eliminando la contribución",
+            "NO_EDIT": "las contribuciones eliminadas no se pueden modificar",
+            "NO_SAVINGS_ERROR": "no hay ahorros para usar. cree uno para empezar",
+            "NO_OLDER_SAVINGS": "no hay ahorros creados antes de la fecha seleccionada",
+            "CONTRIBUTION_ESTIMATE": "debería ahorrar cerca de {{amount}} por mes",
+            "DATE_ESTIMATE": "va a completar su objetivo alrededor de {{date}}",
+            "CONTRIBUTION_HINT": "Si proporciona una cantidad para su contribución, podremos darle una fecha estimada para alcanzar su objetivo de ahorro",
+            "CONTRIBUTION_ERROR": "el valor de contribución no puede ser más grande que el valor objetivo",
+            "UNKNOWN": "unknown"
+        },
+        "WARNINGS": {
+            "SAVING_AFTER_CONTRIBUTION": "este ahorro fue creado después de la fecha de contribución"
+        },
+        "DELETE": {
+            "TITLE": "eliminar contribución",
+            "MESSAGE": "¿Está seguro de que desea eliminar la contribución por {{amount}} para '{{name}}'?"
+        }
+    },
+    "CONTRIBUTION_FORM": {
+        "DATE": "fecha",
+        "SAVING": "ahorro",
+        "AMOUNT": "valor",
+
+        "CREATE": {
+            "TITLE": "crear contribución"
+        },
+        "EDIT": {
+            "TITLE": "editar contribución"
         }
     },
 

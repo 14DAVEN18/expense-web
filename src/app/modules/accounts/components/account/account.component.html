@@ -17,7 +17,7 @@
     </div>
 
     @if (!loading) {
-        <div class="modal-body" [formGroup]="accountForm">
+        <div #body class="modal-body" [formGroup]="accountForm">
             <p> {{ 'ACCOUNT_FORM.CREATION_DATE' | translate }} </p>
             <mat-form-field appearance="outline">
                 <mat-label> {{ 'ACCOUNT_FORM.DATE_LABEL' | translate }} </mat-label>
@@ -78,7 +78,9 @@
 
             @if(error) {
                 <div>
-                    <p class="error-message"> {{ errorMessage | translate }} </p>
+                    @for (error of errorMessages; track $index) {
+                        <p class="error-message"> {{ error | translate }} </p>
+                    }
                 </div>
             }
         </div>

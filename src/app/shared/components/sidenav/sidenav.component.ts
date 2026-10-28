@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { MenuItem } from './types/meu-item';
+import { MenuItem } from './types/menu-item';
 import { MatListModule } from '@angular/material/list'
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';

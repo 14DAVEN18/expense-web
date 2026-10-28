@@ -2,6 +2,13 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.17.0] 2026-10-28
+### Added
+- Added contributions list and contribution componentes to view, create and edit contributions
+
+### Fixed
+- Fixed error detection and display in the account and savings form
+
 ## [0.16.0] 2026-10-28
 ### Added
 - Contributions page and component to create contributions
