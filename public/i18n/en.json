@@ -33,6 +33,7 @@
         "ACCOUNTS": "accounts",
         "TRANSACTIONS": "transactions",
         "SAVINGS": "savings",
+        "CONTRIBUTIONS": "contributions",
         "ADMINISTRATION": "administration",
         "SETTINGS": "configuration"
     },
@@ -255,6 +256,46 @@
         },
         "EDIT": {
             "TITLE": "edit saving"
+        }
+    },
+
+
+    "CONTRIBUTIONS": {
+        "TITLE": "contributions",
+        "TOOLTIPS": {
+            "CREATE": "create contribution",
+            "EXPORT": "export contributions to CSV File",
+            "EDIT": "edit contribution",
+            "DELETE": "delete contribution"
+        },
+        "COLUMNS": {
+            "DATE": "start",
+            "NAME": "name",
+            "DESCRIPTION": "description",
+            "ASSOCIATED_ACCOUNT_NAME": "associated account",
+            "PROGRESS": "progress",
+            "ACTIONS": "actions"
+        },
+        "MESSAGES": {
+            "REQUIRED_ERROR": "all required fields must be filled",
+            "CREATION_SUCCESS": "the contribution was created successfully",
+            "CREATION_ERROR": "there was a problem creating the contribution",
+            "UPDATE_SUCCESS": "the contribution was updated successfully",
+            "UPDATE_ERROR": "there was a problem updating the contribution",
+            "DISABLE_SUCCESS": "the contribution was deleted successfully",
+            "DISABLE_ERROR": "there was a problem deleting the contribution",
+            "NO_EDIT": "deleted contributions can't be modified",
+            "NO_ACCOUNTS_ERROR": "there are no contribution to use. create one to start",
+            "NO_OLDER_ACCOUNTS": "there are no accounts created before the selected date",
+            "CONTRIBUTION_ESTIMATE": "you should save around {{amount}} per month",
+            "DATE_ESTIMATE": "you will complete your goal around {{date}}",
+            "CONTRIBUTION_HINT": "if you provide a contribution amount, we'll be able to provide an estimated date to achieve the saving goal",
+            "CONTRIBUTION_ERROR": "the contribution amount can't be greater than the target amount",
+            "UNKNOWN": "unknown"
+        },
+        "DELETE": {
+            "TITLE": "delete saving",
+            "MESSAGE": "Are you sure you want to delete the saving for '{{name}}'?"
         }
     },
 

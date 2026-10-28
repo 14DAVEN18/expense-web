@@ -33,6 +33,7 @@
         "ACCOUNTS": "Contas",
         "TRANSACTIONS": "Transações",
         "SAVINGS": "poupanças",
+        "CONTRIBUTIONS": "contributions",
         "ADMINISTRATION": "Administração",
         "SETTINGS": "Configuração"
     },
@@ -251,6 +252,17 @@
         },
         "EDIT": {
             "TITLE": "editar poupança"
+        }
+    },
+
+
+    "CONTRIBUTIONS": {
+        "TITLE": "contribuições",
+        "TOOLTIPS": {
+            "CREATE": "criar contribuição",
+            "EXPORT": "exportar contribuições para arquivo CSV",
+            "EDIT": "editar contribuição",
+            "DELETE": "exluir contribuição"
         }
     },
 
