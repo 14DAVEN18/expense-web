@@ -1,0 +1,80 @@
+:host
+    align-items: center
+    display: flex
+    flex-direction: row
+    height: 100%
+    justify-content: center
+    width: 100%
+
+.container
+    align-items: center
+    display: flex
+    flex-direction: column
+    height: 100%
+    justify-content: center
+    width: 100%
+
+.top
+    align-items: center
+    display: flex
+    flex-direction: row
+    height: 50%
+    justify-content: center
+    width: 100%
+
+.progress
+    background: rgb(149, 255, 149)
+    border-radius: 5px
+    display: flex
+    flex-direction: row
+    height: 50%
+    position: relative
+    text-align: center
+    width: 100%
+
+.progress-bar
+    background: rgb(17, 143, 0)
+    display: flex
+    flex-direction: row
+    height: 100%
+    left: 0
+    position: absolute
+
+.progress-text
+    color: black
+    display: flex
+    flex-direction: row
+    font-weight: bold
+    left: 50%
+    position: absolute
+    text-shadow: 0 0 10px rgb(149, 255, 149)
+    top: 50%
+    transform: translate(-50%, -50%)
+    
+.incomplete
+    border-radius: 5px 0 0 5px
+
+.complete
+    border-radius: 5px
+
+.progress-bar.complete::after
+    animation: shine 1s infinite
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.6),
+        transparent
+    )
+    content: ''
+    height: 100%
+    left: -50%
+    position: absolute
+    top: 0
+    width: 50%
+
+@keyframes shine
+    0%
+        left: -50%
+
+    100%
+        left: 100%

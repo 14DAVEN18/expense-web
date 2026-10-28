@@ -3,11 +3,26 @@
     padding: 0
     box-sizing: border-box
 
+
+
 .app-container
     display: flex
     flex-direction: column
     height: 100%
+    overflow: hidden
     width: 100%
+
+mat-drawer-container
+    background-color: white
+    height: 100%
+    width: 100%
+
+mat-drawer-content
+    background-color: white
+    height: 100%
+
+.sidenav
+    width: auto
 
 .navbar-header
     align-items: center
@@ -15,9 +30,13 @@
     flex-direction: row
     height: 5%
     min-height: 50px
+    position: relative
     width: 100%
+    z-index: 1000
 
 .app-content
+    background: white
+    color: black
     display: flex
     height: 95%
     overflow-y: hidden

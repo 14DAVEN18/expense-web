@@ -1,0 +1,122 @@
+<div class="savings-list-container">
+    <div class="header">
+        <h1> {{ 'SAVINGS.TITLE' | translate }} </h1>
+
+        <div class="actions">
+            <button
+                mat-mini-fab
+                color="primary"
+                [matTooltip]="'SAVINGS.TOOLTIPS.CREATE' | translate"
+                [matTooltipPosition]="'before'"
+                (click)="openCreationModal('1000', '1000')"
+            >
+                <mat-icon>add</mat-icon>
+            </button>
+
+            <button
+                mat-mini-fab
+                color="primary"
+                [matTooltip]="'SAVINGS.TOOLTIPS.EXPORT' | translate"
+                [matTooltipPosition]="'before'"
+                (click)="exportCSV()"
+            >
+                <mat-icon>download</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div class="content">
+        @if (!isLoadingSavings) {
+            <div class="filters">
+                <our-filters
+                    [parameters]="filterParameters"
+                    (active)="applyStatus($event)"
+                    (search)="applySearch($event)"
+                />
+            </div>
+
+            <our-table
+                [realColumnNames]="realColumnNames"
+                [displayHeaders]="displayHeaders"
+                [searchColumns]="searchColumns"
+                [data]="data"
+                [emptyDataColumnName]="shortColumns"
+                [noDataColumn]="true"
+                [searchValue]="searchValue"
+                [active]="showActive"
+                [pageSize]="pageSize"
+            >
+                <ng-template #cellTemplate let-element='element' let-column="column" let-index="index">
+                    <ng-container [ngSwitch]="column">
+                        <ng-container *ngSwitchCase="'active'">
+                            <div class="flag" [ngClass]="{'active-flag': element.active, 'inactive-flag': !element.active}"></div>
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="'progress'">
+                             <our-progress [current]="2500000" [target]="element.target_amount"/>
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="'actions'">
+                            <div class="actions-container" *ngIf="element.active; else disabledTransaction">
+                                <button
+                                    *ngIf="element.progress.current >= element.target_amount"
+                                    mat-mini-fab
+                                    color="primary"
+                                    [matTooltip]="'SAVINGS.TOOLTIPS.MARK_AS_COMPLETE' | translate"
+                                    [matTooltipPosition]="'before'"
+                                    (click)="confirmCompletion(element)"
+                                >
+                                    <mat-icon>check</mat-icon>
+                                </button>
+
+                                <button
+                                    *ngIf="element.link"
+                                    mat-mini-fab
+                                    color="primary"
+                                    [matTooltip]="'SAVINGS.TOOLTIPS.WATCH_LINK' | translate"
+                                    [matTooltipPosition]="'before'"
+                                    (click)="openLink(element.link)"
+                                >
+                                    <mat-icon>link</mat-icon>
+                                </button>
+
+                                <button
+                                    *ngIf="element.active"
+                                    mat-mini-fab
+                                    color="primary"
+                                    [matTooltip]="'SAVINGS.TOOLTIPS.EDIT' | translate"
+                                    [matTooltipPosition]="'before'"
+                                    (click)="openEditionModal('1000', '1000', element)"
+                                >
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+
+                                <button
+                                    *ngIf="element.active"
+                                    mat-mini-fab
+                                    color="primary"
+                                    [matTooltip]="'SAVINGS.TOOLTIPS.DELETE' | translate"
+                                    [matTooltipPosition]="'before'"
+                                    (click)="confirmDeletion( '1000', '1000', element)"
+                                >
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                            <ng-template #disabledTransaction>
+                                -
+                            </ng-template>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault> {{element[column]}} </ng-container>
+                    </ng-container>
+                </ng-template>
+            </our-table>
+        }
+        @else {
+            <ng-template>
+                <div class="loading-message">
+                    LOADING ACCOUNTS...
+                </div>
+            </ng-template>
+        }
+    </div>
+</div>

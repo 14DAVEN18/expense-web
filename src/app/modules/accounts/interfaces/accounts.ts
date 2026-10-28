@@ -1,11 +1,12 @@
 import { AccountType } from "../../../local/constants/account-type"
+import { CurrencyCode } from "../../../local/constants/currencies"
 
 export interface IAccount {
     id?: number
     date: string
     name: string
     type: AccountType
-    currency_code: string
+    currency_code: CurrencyCode
     initial_balance: number
     description: string
     active: boolean
@@ -21,7 +22,7 @@ export interface IAccountFormModel {
     date: Date
     name: string
     type: AccountType
-    currency_code: string
+    currency_code: CurrencyCode
     initial_balance: string
     description: string
 }

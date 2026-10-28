@@ -19,10 +19,20 @@
         "TRANSFER": "transferencia",
         "ALL": "todo"
     },
+    "SAVING_PLAN_TYPES": {
+        "TARGET_DATE": "fecha objetivo",
+        "TARGET_AMOUNT": "monto de contribución",
+        "INDEFINITE": "indefinido"
+    },
+    "SAVING_CONTRIBUTION_START": {
+        "START_MONTH": "mes de inicio",
+        "NEXT_MONTH": "próximo mes"
+    },
     "NAVBAR": {
         "HOME": "inicio",
         "ACCOUNTS": "cuentas",
         "TRANSACTIONS": "transacciones",
+        "SAVINGS": "ahorros",
         "ADMINISTRATION": "administración",
         "SETTINGS": "configuración"
     },
@@ -123,6 +133,7 @@
         }
     },
 
+
     "TRANSACTIONS": {
         "TITLE": "transacciones",
         "TOOLTIPS": {
@@ -185,6 +196,68 @@
             "TITLE": "editar transacción"
         }
     },
+
+
+    "SAVINGS": {
+        "TITLE": "ahorros",
+        "TOOLTIPS": {
+            "CREATE": "crear ahorro",
+            "EXPORT": "exportar ahorros a archivo CSV",
+            "EDIT": "editar ahorro",
+            "DELETE": "eliminar ahorro",
+            "WATCH_LINK": "ver link",
+            "MARK_AS_COMPLETE": "marcar como completado"
+        },
+        "COLUMNS": {
+            "DATE": "inicio",
+            "NAME": "nombre",
+            "DESCRIPTION": "descripción",
+            "ASSOCIATED_ACCOUNT_NAME": "cuenta asociada",
+            "PROGRESS": "progreso",
+            "ACTIONS": "acciones"
+        },
+        "MESSAGES": {
+            "REQUIRED_ERROR": "todos los campos requeridos deben completarse",
+            "CREATION_SUCCESS": "el ahorro fue creada exitosamente",
+            "CREATION_ERROR": "ocurrió un problema creando el ahorro",
+            "UPDATE_SUCCESS": "el ahorro se actualizó exitosamente",
+            "UPDATE_ERROR": "ocurrió un problema actualizando el ahorro",
+            "DISABLE_SUCCESS": "el ahorro se eliminó correctamente",
+            "DISABLE_ERROR": "ocurrió un problema eliminando el ahorro",
+            "NO_EDIT": "los ahorros eliminadas no se pueden modificar",
+            "NO_ACCOUNTS_ERROR": "no hay cuentas para usar. cree una para empezar",
+            "NO_OLDER_ACCOUNTS": "no hay cuentas creadas antes de la fecha seleccionada",
+            "CONTRIBUTION_ESTIMATE": "debería ahorre cerca de {{amount}} por mes",
+            "DATE_ESTIMATE": "va a completar su objetivo alrededor de {{date}}",
+            "CONTRIBUTION_HINT": "Si proporciona una cantidad para su contribución, podremos darle una fecha estimada para alcanzar su objetivo de ahorro",
+            "CONTRIBUTION_ERROR": "el valor de contribución no puede ser más grande que el valor objetivo",
+            "UNKNOWN": "unknown"
+        },
+        "DELETE": {
+            "TITLE": "eliminar ahorro",
+            "MESSAGE": "¿Está seguro de que desea eliminar el ahorro para '{{name}}'?"
+        }
+    },
+    "SAVING_FORM": {
+        "NAME": "nombre",
+        "START_DATE": "fecha de inicio",
+        "ACCOUNT": "cuenta",
+        "SAVING_PLAN_TYPE": "tipo de plan de ahorro",
+        "CONTRIBUTION_START": "inicio de contribución",
+        "TARGET_AMOUNT": "cantidad objetivo",
+        "TARGET_DATE": "fecha objetivo",
+        "CONTRIBUTION_AMOUNT": "monto de contribución",
+        "LINK": "link",
+        "DESCRIPTION": "descripción",
+
+        "CREATE": {
+            "TITLE": "crear ahorro"
+        },
+        "EDIT": {
+            "TITLE": "editar ahorro"
+        }
+    },
+
 
     "ADMINISTRATION": {
         "CATEGORIES": {

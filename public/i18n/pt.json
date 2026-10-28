@@ -19,10 +19,20 @@
         "TRANSFER": "transferência",
         "ALL": "todo"
     },
+    "SAVING_PLAN_TYPES": {
+        "TARGET_DATE": "data alvo",
+        "TARGET_AMOUNT": "valor da contribuição",
+        "INDEFINITE": "indeterminado"
+    },
+    "SAVING_CONTRIBUTION_START": {
+        "START_MONTH": "mês de inicio",
+        "NEXT_MONTH": "próximo mês"
+    },
     "NAVBAR": {
         "HOME": "Início",
         "ACCOUNTS": "Contas",
         "TRANSACTIONS": "Transações",
+        "SAVINGS": "poupanças",
         "ADMINISTRATION": "Administração",
         "SETTINGS": "Configuração"
     },
@@ -119,6 +129,7 @@
         }
     },
 
+
     "TRANSACTIONS": {
         "TITLE": "transações",
         "TOOLTIPS": {
@@ -181,6 +192,68 @@
             "TITLE": "editar transação"
         }
     },
+
+
+    "SAVINGS": {
+        "TITLE": "poupança",
+        "TOOLTIPS": {
+            "CREATE": "criar poupança",
+            "EXPORT": "exportar poupanças para arquivo CSV",
+            "EDIT": "editar poupança",
+            "DELETE": "exluir poupança",
+            "WATCH_LINK": "ver link",
+            "MARK_AS_COMPLETE": "marcar como concluido"
+        },
+        "COLUMNS": {
+            "DATE": "inicio",
+            "NAME": "nome",
+            "DESCRIPTION": "descrição",
+            "ASSOCIATED_ACCOUNT_NAME": "conta associada",
+            "PROGRESS": "progresso",
+            "ACTIONS": "ações"
+        },
+        "MESSAGES": {
+            "REQUIRED_ERROR": "todos os campos obrigatórios devem ser preenchidos",
+            "CREATION_SUCCESS": "a poupança foi criada com sucesso",
+            "CREATION_ERROR": "ocurreu um problema ao criar a poupança",
+            "UPDATE_SUCCESS": "a poupança foi atualizada com sucesso",
+            "UPDATE_ERROR": "ocurreu um problema ao atualizar a poupança",
+            "DISABLE_SUCCESS": "apoupança foi excluida corretamente",
+            "DISABLE_ERROR": "ocurreu um problema ao excluir a poupança",
+            "NO_EDIT": "as poupanças excluidas não podem ser modificadas",
+            "NO_ACCOUNTS_ERROR": "não existem contas disponiveis para utilização. crie uma para começar",
+            "NO_OLDER_ACCOUNTS": "não existem contas criadas antes da data selecionada",
+            "CONTRIBUTION_ESTIMATE": "deverá poupar cerca de {{amount}} por mês",
+            "DATE_ESTIMATE": "vai completar seu objetivo até {{date}}",
+            "CONTRIBUTION_HINT": "Se você digitar o valor de contribuição, poderemos fornecer uma data estimada para atingir a meta da poupança",
+            "CONTRIBUTION_ERROR": "o valor da contribuição não pode ser superior ao valor-alvo",
+            "UNKNOWN": "unknown"
+        },
+        "DELETE": {
+            "TITLE": "excluir poupança",
+            "MESSAGE": "¿tem certeza de que deseja excluir a poupança para '{{name}}'?"
+        }
+    },
+    "SAVING_FORM": {
+        "NAME": "nome",
+        "START_DATE": "data de inicio",
+        "ACCOUNT": "conta",
+        "SAVING_PLAN_TYPE": "tipo de plano de poupança",
+        "CONTRIBUTION_START": "inicio da contribuição",
+        "TARGET_AMOUNT": "valor alvo",
+        "TARGET_DATE": "data alvo",
+        "CONTRIBUTION_AMOUNT": "valor da contribuição",
+        "LINK": "link",
+        "DESCRIPTION": "descrição",
+
+        "CREATE": {
+            "TITLE": "criar poupança"
+        },
+        "EDIT": {
+            "TITLE": "editar poupança"
+        }
+    },
+
 
     "ADMINISTRATION": {
         "CATEGORIES": {

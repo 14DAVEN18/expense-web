@@ -1,10 +1,8 @@
 <div class="navbar-container">
     <div class="options">
-        @for (tab of navbarTabs; track tab) {
-            <div class="option" [routerLink]="tab.path" routerLinkActive="active-option">
-                {{ tab.label | translate }}
-            </div>
-        }
+        <button mat-icon-button  (click)="toggleDrawer.emit()">
+            <mat-icon>menu</mat-icon>
+        </button>
     </div>
     
     <div class="options">

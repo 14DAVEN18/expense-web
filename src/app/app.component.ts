@@ -3,10 +3,16 @@ import { RouterOutlet } from '@angular/router';
 import { SettingsService } from '@modules/settings/services/settings.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NavbarComponent } from '@shared/components/navbar/navbar.component';
+import { MatSidenavModule } from '@angular/material/sidenav'
+import { SidenavComponent } from '@shared/components/sidenav/sidenav.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComponent],
+  imports: [
+    RouterOutlet,
+    NavbarComponent, SidenavComponent,
+    MatSidenavModule
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.sass'
 })

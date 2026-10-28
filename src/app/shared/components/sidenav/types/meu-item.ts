@@ -1,0 +1,1 @@
+export type MenuItem = { name: string, options: Map<string, string> }

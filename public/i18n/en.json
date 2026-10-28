@@ -19,10 +19,20 @@
         "TRANSFER": "transfer",
         "ALL": "all"
     },
+    "SAVING_PLAN_TYPES": {
+        "TARGET_DATE": "target date",
+        "TARGET_AMOUNT": "contribution amount",
+        "INDEFINITE": "indefinite"
+    },
+    "SAVING_CONTRIBUTION_START": {
+        "START_MONTH": "start month",
+        "NEXT_MONTH": "next month"
+    },
     "NAVBAR": {
         "HOME": "home",
         "ACCOUNTS": "accounts",
         "TRANSACTIONS": "transactions",
+        "SAVINGS": "savings",
         "ADMINISTRATION": "administration",
         "SETTINGS": "configuration"
     },
@@ -123,6 +133,7 @@
         }
     },
 
+
     "TRANSACTIONS": {
         "TITLE": "transactions",
         "TOOLTIPS": {
@@ -185,6 +196,68 @@
             "TITLE": "edit transaction"
         }
     },
+
+
+    "SAVINGS": {
+        "TITLE": "savings",
+        "TOOLTIPS": {
+            "CREATE": "create saving",
+            "EXPORT": "export savings to CSV File",
+            "EDIT": "edit saving",
+            "DELETE": "delete saving",
+            "WATCH_LINK": "watch link",
+            "MARK_AS_COMPLETE": "mark as complete"
+        },
+        "COLUMNS": {
+            "DATE": "start",
+            "NAME": "name",
+            "DESCRIPTION": "description",
+            "ASSOCIATED_ACCOUNT_NAME": "associated account",
+            "PROGRESS": "progress",
+            "ACTIONS": "actions"
+        },
+        "MESSAGES": {
+            "REQUIRED_ERROR": "all required fields must be filled",
+            "CREATION_SUCCESS": "the saving was created successfully",
+            "CREATION_ERROR": "there was a problem creating the saving",
+            "UPDATE_SUCCESS": "the saving was updated successfully",
+            "UPDATE_ERROR": "there was a problem updating the saving",
+            "DISABLE_SUCCESS": "the saving was deleted successfully",
+            "DISABLE_ERROR": "there was a problem deleting the saving",
+            "NO_EDIT": "deleted savings can't be modified",
+            "NO_ACCOUNTS_ERROR": "there are no accounts to use. create one to start",
+            "NO_OLDER_ACCOUNTS": "there are no accounts created before the selected date",
+            "CONTRIBUTION_ESTIMATE": "you should save around {{amount}} per month",
+            "DATE_ESTIMATE": "you will complete your goal around {{date}}",
+            "CONTRIBUTION_HINT": "if you provide a contribution amount, we'll be able to provide an estimated date to achieve the saving goal",
+            "CONTRIBUTION_ERROR": "the contribution amount can't be greater than the target amount",
+            "UNKNOWN": "unknown"
+        },
+        "DELETE": {
+            "TITLE": "delete saving",
+            "MESSAGE": "Are you sure you want to delete the saving for '{{name}}'?"
+        }
+    },
+    "SAVING_FORM": {
+        "NAME": "name",
+        "START_DATE": "start date",
+        "ACCOUNT": "account",
+        "SAVING_PLAN_TYPE": "saving plan type",
+        "CONTRIBUTION_START": "contribution start",
+        "TARGET_AMOUNT": "target amount",
+        "TARGET_DATE": "target date",
+        "CONTRIBUTION_AMOUNT": "contribution amount",
+        "LINK": "link",
+        "DESCRIPTION": "description",
+
+        "CREATE": {
+            "TITLE": "create saving"
+        },
+        "EDIT": {
+            "TITLE": "edit saving"
+        }
+    },
+
 
     "ADMINISTRATION": {
         "CATEGORIES": {

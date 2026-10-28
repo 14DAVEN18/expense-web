@@ -4,11 +4,13 @@ import { TransactionListComponent } from '@modules/transactions/pages/transactio
 import { AccountListComponent } from '@modules/accounts/pages/account-list/account-list.component';
 import { AdministrationComponent } from '@modules/administration/pages/administration/administration.component';
 import { SettingsComponent } from '@modules/settings/pages/settings/settings.component';
+import { SavingsListComponent } from '@modules/savings/pages/savings-list/savings-list.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'accounts', component: AccountListComponent },
     { path: 'transactions', component: TransactionListComponent },
+    { path: 'savings', component: SavingsListComponent },
     { path: 'administration', component: AdministrationComponent },
     { path: 'settings', component: SettingsComponent },
     { path: '**', redirectTo: 'home' }
