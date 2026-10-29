@@ -91,6 +91,9 @@ export class SavingsListComponent implements OnInit {
     this.isLoadingSavings = false;
   }
 
+  /**
+   * Retrieves the existing savings
+   */
   private async getSavings() {
     this.savings = await this.savingService.getSavings()
   }
@@ -245,15 +248,6 @@ export class SavingsListComponent implements OnInit {
   public async exportCSV(): Promise<void> {
     await this.savingService.exportSavingsToCSV()
   }
-
-  /**
-   * Updates the value of the selected filter to send to the table
-   * @param index index of the filter to select
-   */
-  // public applyFilter(index: number) {
-  //   if(index === null || index === undefined) return
-  //   this.selectedFilter = this.transactionFixedFilters[index]
-  // }
 
   /**
    * Updates the value of the selected filter to send to the table

@@ -26,13 +26,13 @@
     </div>
 
     <div class="content">
-        @if (!isLoadingSavings) {
+        @if (!isLoadingContributions) {
             <div class="filters">
-                <!-- <our-filters
+                <our-filters
                     [parameters]="filterParameters"
                     (active)="applyStatus($event)"
                     (search)="applySearch($event)"
-                /> -->
+                />
             </div>
 
             <our-table
@@ -40,7 +40,6 @@
                 [displayHeaders]="displayHeaders"
                 [searchColumns]="searchColumns"
                 [data]="data"
-                [emptyDataColumnName]="shortColumns"
                 [noDataColumn]="true"
                 [searchValue]="searchValue"
                 [active]="showActive"
@@ -52,17 +51,17 @@
                             <div class="flag" [ngClass]="{'active-flag': element.active, 'inactive-flag': !element.active}"></div>
                         </ng-container>
 
-                        <!-- <ng-container *ngSwitchCase="'progress'">
-                             <our-progress [current]="2500000" [target]="element.target_amount"/>
-                        </ng-container> -->
+                        <ng-container *ngSwitchCase="'amount'">
+                            <span> {{ element.amount | money: element.currency_code }} </span>
+                        </ng-container>
 
-                        <!-- <ng-container *ngSwitchCase="'actions'">
+                        <ng-container *ngSwitchCase="'actions'">
                             <div class="actions-container" *ngIf="element.active; else disabledTransaction">
                                 <button
                                     *ngIf="element.active"
                                     mat-mini-fab
                                     color="primary"
-                                    [matTooltip]="'SAVINGS.TOOLTIPS.EDIT' | translate"
+                                    [matTooltip]="'CONTRIBUTIONS.TOOLTIPS.EDIT' | translate"
                                     [matTooltipPosition]="'before'"
                                     (click)="openEditionModal('1000', '1000', element)"
                                 >
@@ -73,7 +72,7 @@
                                     *ngIf="element.active"
                                     mat-mini-fab
                                     color="primary"
-                                    [matTooltip]="'SAVINGS.TOOLTIPS.DELETE' | translate"
+                                    [matTooltip]="'CONTRIBUTIONS.TOOLTIPS.DELETE' | translate"
                                     [matTooltipPosition]="'before'"
                                     (click)="confirmDeletion( '1000', '1000', element)"
                                 >
@@ -83,7 +82,7 @@
                             <ng-template #disabledTransaction>
                                 -
                             </ng-template>
-                        </ng-container> -->
+                        </ng-container>
                         <ng-container *ngSwitchDefault> {{element[column]}} </ng-container>
                     </ng-container>
                 </ng-template>

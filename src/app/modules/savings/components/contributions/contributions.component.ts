@@ -43,7 +43,8 @@ export class ContributionsComponent {
 
 
   // ******************************* ERROR HANDLING *******************************
-  public minDate!: Date 
+  public minDate!: Date
+  public maxDate!: Date
   public loading: boolean = false
   public error: boolean = false
   public noSavings: boolean = false
@@ -77,6 +78,7 @@ export class ContributionsComponent {
     this.loading = true
 
     this.setMinDate()
+    this.setMaxDate()
     
     await this.getSavings()
 
@@ -110,7 +112,24 @@ export class ContributionsComponent {
       return
     }
 
-    this.minDate = today
+    this.minDate = new Date(today.getFullYear(), today.getMonth(), 1)
+  }
+
+  /**
+   * It sets the minimum date allowed for the form validation, it varies depending on whether I'm editing or creating
+   */
+  private setMaxDate() {
+    const today = new Date()
+    const contribution = this.data?.contribution
+
+    if (contribution) {
+      const savingDate = new Date(contribution.date)
+
+      this.maxDate = new Date(savingDate.getFullYear(), savingDate.getMonth() + 1, 0)
+      return
+    }
+
+    this.maxDate = new Date(today.getFullYear(), today.getMonth() + 1, 0)
   }
 
   /**

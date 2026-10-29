@@ -37,12 +37,12 @@ export class ContributionService {
    * It deletes (disables) a contribution
    * @param id ID of the contribution to delete
    */
-//   public async disableContribution(id: number) {
-//     return this.expensesWebDb.contributions.update(id, {
-//       active: false,
-//       updated_at: DateUtil.currentTimeStamp()
-//     })
-//   }
+  public async disableContribution(id: number) {
+    return this.expensesWebDb.contributions.update(id, {
+      active: false,
+      updated_at: DateUtil.currentTimeStamp()
+    })
+  }
 
   /**
    * Retrieves the existing contributions

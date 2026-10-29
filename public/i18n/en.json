@@ -271,8 +271,10 @@
         },
         "COLUMNS": {
             "DATE": "date",
-            "SAVING": "saving",
-            "AMOUNT": "amount"
+            "SAVING_NAME": "saving",
+            "ACCOUNT_NAME": "account",
+            "AMOUNT": "amount",
+            "ACTIONS": "actions"
         },
         "MESSAGES": {
             "REQUIRED_ERROR": "all required fields must be filled",
@@ -296,7 +298,7 @@
         },
         "DELETE": {
             "TITLE": "delete contribution",
-            "MESSAGE": "Are you sure you want to delete the contribution of {{amount}} for '{{name}}'?"
+            "MESSAGE": "Are you sure you want to delete the contribution of {{currency}} {{amount}} for '{{saving}}'?"
         }
     },
     "CONTRIBUTION_FORM": {

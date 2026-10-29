@@ -271,8 +271,10 @@
         },
         "COLUMNS": {
             "DATE": "fecha",
-            "SAVING": "ahorro",
-            "AMOUNT": "valor"
+            "SAVING_NAME": "ahorro",
+            "ACCOUNT_NAME": "cuenta",
+            "AMOUNT": "valor",
+            "ACTIONS": "acciones"
         },
         "MESSAGES": {
             "REQUIRED_ERROR": "todos los campos requeridos deben completarse",
@@ -296,7 +298,7 @@
         },
         "DELETE": {
             "TITLE": "eliminar contribución",
-            "MESSAGE": "¿Está seguro de que desea eliminar la contribución por {{amount}} para '{{name}}'?"
+            "MESSAGE": "¿Está seguro de que desea eliminar la contribución por {{currency}} {{amount}} para '{{saving}}'?"
         }
     },
     "CONTRIBUTION_FORM": {

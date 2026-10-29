@@ -271,8 +271,10 @@
         },
         "COLUMNS": {
             "DATE": "data",
-            "SAVING": "poupança",
-            "AMOUNT": "valor"
+            "SAVING_NAME": "poupança",
+            "ACCOUNT_NAME": "conta",
+            "AMOUNT": "valor",
+            "ACTIONS": "ações"
         },
         "MESSAGES": {
             "REQUIRED_ERROR": "todos os campos obrigatórios devem ser preenchidos",
@@ -296,7 +298,7 @@
         },
         "DELETE": {
             "TITLE": "excluir contribuição",
-            "MESSAGE": "¿tem certeza de que deseja excluir a contribuição de {{amount}} para '{{name}}'?"
+            "MESSAGE": "¿tem certeza de que deseja excluir a contribuição de {{currency}} {{amount}} para '{{saving}}'?"
         }
     },
     "CONTRIBUTION_FORM": {

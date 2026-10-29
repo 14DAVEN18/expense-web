@@ -18,7 +18,7 @@
                 <div>
                     <p> {{ 'CONTRIBUTION_FORM.DATE' | translate }} </p>
                     <mat-form-field appearance="outline">
-                        <input matInput [matDatepicker]="datepicker" [max]="minDate" formControlName="date"/>
+                        <input matInput [matDatepicker]="datepicker" [min]="minDate" [max] ="maxDate" formControlName="date"/>
                         <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
                         <mat-datepicker #datepicker>
                             <mat-datepicker-actions>

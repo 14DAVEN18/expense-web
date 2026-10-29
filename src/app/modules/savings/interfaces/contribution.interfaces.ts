@@ -1,5 +1,3 @@
-import { CurrencyCode } from "../../../local/constants/currencies"
-
 export interface IContribution {
     id?: number,
     saving_id: number
@@ -13,7 +11,7 @@ export interface IContribution {
 export interface IContributionDisplay extends IContribution {
     saving_name: string
     account_name: string
-    currency_doe: CurrencyCode
+    currency_code?: string
 }
 
 export interface IContributionFormModel {
