@@ -5,9 +5,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ContributionsComponent } from '@modules/savings/components/contributions/contributions.component';
+import { IContributionDisplay } from '@modules/savings/interfaces/contribution.interfaces';
+import { ISaving } from '@modules/savings/interfaces/savings.interface';
 import { TranslatePipe } from '@ngx-translate/core';
 import { FiltersComponent } from '@shared/components/filters/filters.component';
 import { TableComponent } from '@shared/components/table/table.component';
+import { PaginatorSize } from '@shared/components/table/types/paginator';
 import { ToastService } from '@shared/services/toast.service';
 
 @Component({
@@ -22,6 +25,28 @@ import { ToastService } from '@shared/services/toast.service';
   styleUrl: './contribution-list.component.sass'
 })
 export class ContributionListComponent {
+  // ******************************* TABLE RELATED PROPERTIES *******************************
+    public realColumnNames: string[] = ['date', 'associated_saving_name', 'amount']
+    public displayHeaders: string[] = [
+      'SAVINGS.COLUMNS.DATE',
+      'SAVINGS.COLUMNS.ASSOCIATED_ACCOUNT_NAME',
+      'SAVINGS.COLUMNS.AMOUNT',
+    ]
+    public shortColumns: string[] = ['date', 'amount']
+    public savings: ISaving[] = []
+    public data: IContributionDisplay[] = []
+    public pageSize: PaginatorSize = 10
+  
+    // ******************************* FILTER RELATED PROPERTIES *******************************
+    public filterParameters: string[] = [
+      'SAVINGS.COLUMNS.NAME',
+      'SAVINGS.COLUMNS.ASSOCIATED_ACCOUNT_NAME',
+      'SAVINGS.COLUMNS.DESCRIPTION'
+    ]
+    
+    public showActive: boolean = true
+    public searchValue: string = ''
+    public searchColumns: string[] = ['date', 'associated_saving_name', 'amount']
 
   // ******************************* PROPERTIES *******************************
   public isLoadingSavings: boolean = false
@@ -54,8 +79,8 @@ export class ContributionListComponent {
    */
   public openCreationModal(enterAnimationDuration: string, exitAnimationDuration: string) {
     const dialogRef = this.dialog.open(ContributionsComponent, {
-      maxHeight: '80vh',
-      minHeight: '60vh',
+      maxHeight: '60vh',
+      minHeight: '30vh',
       width: '45vw',
       enterAnimationDuration,
       exitAnimationDuration

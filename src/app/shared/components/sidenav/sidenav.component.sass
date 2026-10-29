@@ -5,8 +5,8 @@
     width: 100%
 
 .sidenav
-    background-color: var(--mat-sys-primary)
-    color: white
+    background-color: rgb(17, 143, 0)
+    color: black
     height: 100%
     overflow-x: hidden
     overflow-y: hidden
@@ -18,11 +18,13 @@
 .drawer-content
     display: flex
     flex: 1
-    //height: 93vh
     flex-direction: column
     overflow-y: auto
     overflow-x: hidden
     padding: 0.5rem 0
+
+.section
+    border-bottom: 1px solid var(--mat-sys-primary)
 
 .section-header
     font-weight: bold
@@ -55,7 +57,7 @@
     flex-direction: row
     justify-content: flex-start
     height: 30px
-    padding: 0 1rem
+    padding: 0 2rem 0 1rem
     text-decoration: none
     transition: background-color 0.2s ease
     width: 100%
@@ -70,12 +72,11 @@
     margin: 0
 
 .selected
-    background-color: rgb(17, 143, 0)
+    background-color: var(--mat-sys-primary)
     color: #fff
 
 .item-label
     align-items: center
-    color: white
     display: flex
     font-size: 15px
     height: 30px

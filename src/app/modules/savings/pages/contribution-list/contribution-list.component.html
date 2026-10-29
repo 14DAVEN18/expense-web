@@ -27,12 +27,12 @@
 
     <div class="content">
         @if (!isLoadingSavings) {
-            <!-- <div class="filters">
-                <our-filters
+            <div class="filters">
+                <!-- <our-filters
                     [parameters]="filterParameters"
                     (active)="applyStatus($event)"
                     (search)="applySearch($event)"
-                />
+                /> -->
             </div>
 
             <our-table
@@ -52,11 +52,11 @@
                             <div class="flag" [ngClass]="{'active-flag': element.active, 'inactive-flag': !element.active}"></div>
                         </ng-container>
 
-                        <ng-container *ngSwitchCase="'progress'">
+                        <!-- <ng-container *ngSwitchCase="'progress'">
                              <our-progress [current]="2500000" [target]="element.target_amount"/>
-                        </ng-container>
+                        </ng-container> -->
 
-                        <ng-container *ngSwitchCase="'actions'">
+                        <!-- <ng-container *ngSwitchCase="'actions'">
                             <div class="actions-container" *ngIf="element.active; else disabledTransaction">
                                 <button
                                     *ngIf="element.active"
@@ -83,11 +83,11 @@
                             <ng-template #disabledTransaction>
                                 -
                             </ng-template>
-                        </ng-container>
+                        </ng-container> -->
                         <ng-container *ngSwitchDefault> {{element[column]}} </ng-container>
                     </ng-container>
                 </ng-template>
-            </our-table> -->
+            </our-table>
         }
         @else {
             <ng-template>
