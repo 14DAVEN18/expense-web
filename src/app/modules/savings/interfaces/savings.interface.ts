@@ -36,11 +36,3 @@ export interface ISavingFormModel {
     link: string
     description: string
 }
-
-export interface ISavingContribution {
-    id?: number
-    saving_id: number
-    amount: number
-    date: string
-    created_at: string
-}

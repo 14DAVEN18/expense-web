@@ -18,7 +18,7 @@ export class ConfirmationModalComponent {
     @Inject(MAT_DIALOG_DATA) public data: ConfirmationModalData,
     private dialogRef: MatDialogRef<ConfirmationModalComponent>
   ) {
-
+    console.log(this.data.messageParams)
   }
 
   // ******************************* MAIN METHODS *******************************

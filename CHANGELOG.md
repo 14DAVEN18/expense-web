@@ -2,7 +2,19 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
-## [0.15.0] 2026-10-23
+## [0.16.0] 2026-10-29
+### Added
+- Contributions page and component to create contributions
+- Contributions services and related interfaces
+
+### Changed
+- Updated internationalization files
+- Added input to progress component to control whether the progress text is visible or not
+
+### Fixed
+- Fixed error detection and display in the account and savings form
+
+## [0.15.0] 2026-10-28
 ### Added
 - Added the savings section in the navbar and created the respective page component
 - Added the savings list component to list savings, with complete, see link, edit and delete actions
