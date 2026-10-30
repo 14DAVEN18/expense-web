@@ -102,4 +102,22 @@ export class ContributionService {
     a.click()
     window.URL.revokeObjectURL(url)
   }
+
+  /**
+   * Retrieves the total of a saving
+   * @param savingId id to be requested
+   * @returns the current value of a saving
+   */
+  public async getSavingTotal(savingId: number): Promise<number> {
+    const contributions = await this.expensesWebDb.contributions
+      .where('saving_id')
+      .equals(savingId)
+      .toArray()
+
+    return contributions
+      .filter(contribution => contribution.active)
+      .reduce((total, contribution) => {
+        return total + contribution.amount
+      }, 0)
+  }
 }

@@ -139,7 +139,7 @@ export class ContributionListComponent implements OnInit {
    */
   public openCreationModal(enterAnimationDuration: string, exitAnimationDuration: string) {
     const dialogRef = this.dialog.open(ContributionsComponent, {
-      maxHeight: '60vh',
+      maxHeight: '40vh',
       minHeight: '30vh',
       width: '45vw',
       enterAnimationDuration,

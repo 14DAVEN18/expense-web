@@ -290,7 +290,10 @@
             "CONTRIBUTION_ESTIMATE": "deverá poupar cerca de {{amount}} por mês",
             "DATE_ESTIMATE": "vai completar seu objetivo até {{date}}",
             "CONTRIBUTION_HINT": "Se você digitar o valor de contribuição, poderemos fornecer uma data estimada para atingir a meta da poupança",
-            "CONTRIBUTION_ERROR": "o valor da contribuição não pode ser superior ao valor-alvo",
+            "PROGRESS_ESTIMATE": "selecione uma poupança e insira um valor para ver uma estimativa do seu progresso",
+            "INDEFINITE_ESTIMATE": "total poupado aós esta contribuição",
+            "EXCEEDS_TARGET": "o valor da contribuição não pode ser superior ao valor alvo",
+            "EXCEEDS_REMAINING": "o valor da contribuição não pode ser superior ao valor restante",
             "UNKNOWN": "unknown"
         },
         "WARNINGS": {
@@ -305,6 +308,8 @@
         "DATE": "data",
         "SAVING": "poupança",
         "AMOUNT": "valor",
+
+        "CONTRIBUTION_DETAILS": "com essa contribuição, sua poupança ficará assim:",
 
         "CREATE": {
             "TITLE": "criar contribuição"

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -15,7 +15,10 @@ import { ContributionMapper } from '@modules/savings/mappers/contribution.mapper
 import { ContributionService } from '@modules/savings/services/contribution.service';
 import { SavingService } from '@modules/savings/services/saving.service';
 import { TranslatePipe } from '@ngx-translate/core';
+import { ProgressComponent } from '@shared/components/progress/progress.component';
+import { MoneyPipe } from '@shared/pipes/money.pipe';
 import { DateUtil } from '@shared/utils/date.util';
+import { SavingUtil } from '@shared/utils/saving.utils';
 
 @Component({
   selector: 'app-contributions',
@@ -23,18 +26,21 @@ import { DateUtil } from '@shared/utils/date.util';
     CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule, MatDatepickerModule, MatSelectModule, MatInputModule, MatIconModule, MatDividerModule, MatButtonModule,
-    TranslatePipe
+    ProgressComponent,
+    TranslatePipe, MoneyPipe
   ],
   templateUrl: './contributions.component.html',
   styleUrl: './contributions.component.sass'
 })
-export class ContributionsComponent {
+export class ContributionsComponent implements OnInit {
   // ******************************* PROPERTIES *******************************
   public contributionForm!: FormGroup
   private savings: ISaving[] = []
   public dateFilteredSavings: ISaving[] = []
   private originalSourceSavingId: number | null = null
-
+  public selectedSaving?: ISaving
+  public savedAmount: number = 0
+  public remainingAmount: number = 0
 
 
   // ******************************* VIEW CHILD *******************************
@@ -83,6 +89,8 @@ export class ContributionsComponent {
     await this.getSavings()
 
     this.listenToDate()
+    this.listenToSaving()
+    this.listenToAmount()
 
     if(this.isEditing) this.loadContribution()
     this.loading = false
@@ -199,6 +207,66 @@ export class ContributionsComponent {
   }
 
   /**
+   * Sets listener for saivng_id
+   */
+  private listenToSaving() {
+    this.contributionForm.get('saving_id')?.valueChanges.subscribe(async value => {
+      if(!value) return
+
+      this.selectedSaving = this.dateFilteredSavings.find(saving => saving.id === value)
+      if(!this.selectedSaving?.id) return
+      console.log(this.selectedSaving)
+      this.savedAmount = Number(await this.contributionService.getSavingTotal(value))
+      console.log(this.savedAmount)
+      this.remainingAmount = this.selectedSaving.target_amount !== null
+        ? Math.max(this.selectedSaving.target_amount - this.savedAmount, 0)
+        : 0
+    })
+  }
+
+  private listenToAmount() {
+    this.contributionForm.get('amount')?.valueChanges.subscribe(value => {      
+      if(!value || !this.selectedSaving) return
+
+      const target = this.selectedSaving.target_amount
+      if(target === null) return
+
+      const amount = Number(value)
+      const remaining = target - this.savedAmount
+
+      let message: string | null = null
+
+      if (amount > remaining)
+        message = 'CONTRIBUTIONS.MESSAGES.EXCEEDS_REMAINING'
+      else if (amount > target)
+        message = 'CONTRIBUTIONS.MESSAGES.EXCEEDS_TARGET'
+      
+      if(message) {
+        this.contributionForm.get('amount')?.markAsTouched()
+
+        if(!this.errorMessages.includes(message)) this.errorMessages.push(message)
+
+        this.error = true
+
+        setTimeout(() => {
+          this.scrollToBottom()
+        })
+
+        return
+      }
+
+      const amountErrors = new Set([
+        'CONTRIBUTIONS.MESSAGES.EXCEEDS_REMAINING',
+        'CONTRIBUTIONS.MESSAGES.EXCEEDS_TARGET'
+      ])
+
+      this.errorMessages = this.errorMessages.filter(error => !amountErrors.has(error))
+
+      this.error = this.errorMessages.length > 0
+    })
+  }
+
+  /**
    * Sends the value to be saved in the indexedDB table
    */
   public async saveContribution() {
@@ -307,6 +375,12 @@ export class ContributionsComponent {
     if (!savingId) return false
     const saving = this.savings.find(saving => saving.id === savingId)
     return !!saving && saving.date > contributionDate
+  }
+
+  public projectedSavedAmount() {
+    const contribution = Number(this.contributionForm.get('amount')?.value ?? 0)
+
+    return this.savedAmount + contribution
   }
 
   /**

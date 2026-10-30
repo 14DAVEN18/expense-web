@@ -57,6 +57,25 @@
                     />
                 </mat-form-field>
             </div>
+
+            @if (contributionForm.get('amount')?.value && selectedSaving) {
+                @if (selectedSaving.saving_plan_type === 'INDEFINITE') {
+                    <p> {{ 'CONTRIBUTIONS.MESSAGES.INDEFINITE_ESTIMATE' | translate }} </p>
+                    <h2> {{ projectedSavedAmount() | money }} </h2>
+                } @else {
+                    <div>
+                        <h3> {{ 'CONTRIBUTION_FORM.CONTRIBUTION_DETAILS' | translate }} </h3>
+
+                        <div class="progress-container">
+                            <our-progress
+                                [barOnly]="true"
+                                [current]="projectedSavedAmount()"
+                                [target]="selectedSaving.target_amount ?? 0"
+                            />
+                        </div>
+                    </div>
+                }
+            }
             
             @if(error) {
                 <div>

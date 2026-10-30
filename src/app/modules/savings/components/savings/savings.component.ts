@@ -124,15 +124,6 @@ export class SavingsComponent implements OnInit {
    */
   private setMinDate() {
     const today = new Date()
-    const saving = this.data?.saving
-
-    if (saving) {
-      const savingDate = new Date(saving.date)
-
-      this.minDate = new Date(savingDate.getFullYear(), savingDate.getMonth(), 1)
-      return
-    }
-
     this.minDate = new Date(today.getFullYear(), today.getMonth(), 1)
   }
 

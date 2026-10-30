@@ -290,7 +290,10 @@
             "CONTRIBUTION_ESTIMATE": "you should save around {{amount}} per month",
             "DATE_ESTIMATE": "you will complete your goal around {{date}}",
             "CONTRIBUTION_HINT": "if you provide a contribution amount, we'll be able to provide an estimated date to achieve the saving goal",
-            "CONTRIBUTION_ERROR": "the contribution amount can't be greater than the saving amount",
+            "PROGRESS_ESTIMATE": "select a saving and enter an amount to see an estimate of your progress",
+            "INDEFINITE_ESTIMATE": "total saved after this contribution",
+            "EXCEEDS_TARGET": "the contribution amount cannot be greater than the target amount",
+            "EXCEEDS_REMAINING": "the contribution amount can't be greater than the remaining amount",
             "UNKNOWN": "unknown"
         },
         "WARNINGS": {
@@ -305,6 +308,8 @@
         "DATE": "date",
         "SAVING": "saving",
         "AMOUNT": "amount",
+
+        "CONTRIBUTION_DETAILS": "with this contribution, your saving will looks like this:",
 
         "CREATE": {
             "TITLE": "create contribution"

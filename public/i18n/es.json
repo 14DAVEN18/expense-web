@@ -290,7 +290,10 @@
             "CONTRIBUTION_ESTIMATE": "debería ahorrar cerca de {{amount}} por mes",
             "DATE_ESTIMATE": "va a completar su objetivo alrededor de {{date}}",
             "CONTRIBUTION_HINT": "Si proporciona una cantidad para su contribución, podremos darle una fecha estimada para alcanzar su objetivo de ahorro",
-            "CONTRIBUTION_ERROR": "el valor de contribución no puede ser más grande que el valor objetivo",
+            "PROGRESS_ESTIMATE": "seleccione un ahorro e ingrese un valor para ver un estimado de su progreso",
+            "INDEFINITE_ESTIMATE": "total ahorrado después de esta contribución",
+            "EXCEEDS_TARGET": "el valor de la contribución no puede ser más grande que el valor objetivo",
+            "EXCEEDS_REMAINING": "el valor de la contribución no puede ser más grande que la cantidad restante",
             "UNKNOWN": "unknown"
         },
         "WARNINGS": {
@@ -305,6 +308,8 @@
         "DATE": "fecha",
         "SAVING": "ahorro",
         "AMOUNT": "valor",
+
+        "CONTRIBUTION_DETAILS": "con esta contribución, su ahorro se verá así:",
 
         "CREATE": {
             "TITLE": "crear contribución"
