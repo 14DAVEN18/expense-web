@@ -33,6 +33,7 @@
         "ACCOUNTS": "Contas",
         "TRANSACTIONS": "Transações",
         "SAVINGS": "poupanças",
+        "CONTRIBUTIONS": "contribuições",
         "ADMINISTRATION": "Administração",
         "SETTINGS": "Configuração"
     },
@@ -103,7 +104,12 @@
         "MESSAGES": {
             "REQUIRED_ERROR": "Todos os campos obrigatórios devem ser preenchidos",
             "CREATION_SUCCESS": "A conta foi criada com sucesso",
-            "CREATION_ERROR": "Ocurreu um problema ao criar a conta"
+            "CREATION_ERROR": "Ocurreu um problema ao criar a conta",
+            "UPDATE_SUCCESS": "a conta foi atualizada com sucesso",
+            "UPDATE_ERROR": "ocurreu um problema ao atualizar a conta",
+            "DISABLE_SUCCESS": "a conta foi excluida corretamente",
+            "DISABLE_ERROR": "ocurreu um problema ao excluir a conta",
+            "FUTURE_DATE": "a conta não poderá ser criada em uma data futura"
         },
         "DELETE": {
             "TITLE": "excluir cuenta",
@@ -218,7 +224,7 @@
             "CREATION_ERROR": "ocurreu um problema ao criar a poupança",
             "UPDATE_SUCCESS": "a poupança foi atualizada com sucesso",
             "UPDATE_ERROR": "ocurreu um problema ao atualizar a poupança",
-            "DISABLE_SUCCESS": "apoupança foi excluida corretamente",
+            "DISABLE_SUCCESS": "a poupança foi excluida corretamente",
             "DISABLE_ERROR": "ocurreu um problema ao excluir a poupança",
             "NO_EDIT": "as poupanças excluidas não podem ser modificadas",
             "NO_ACCOUNTS_ERROR": "não existem contas disponiveis para utilização. crie uma para começar",
@@ -251,6 +257,65 @@
         },
         "EDIT": {
             "TITLE": "editar poupança"
+        }
+    },
+
+
+    "CONTRIBUTIONS": {
+        "TITLE": "contribuições",
+        "TOOLTIPS": {
+            "CREATE": "criar contribuição",
+            "EXPORT": "exportar contribuições para arquivo CSV",
+            "EDIT": "editar contribuição",
+            "DELETE": "exluir contribuição"
+        },
+        "COLUMNS": {
+            "DATE": "data",
+            "SAVING_NAME": "poupança",
+            "ACCOUNT_NAME": "conta",
+            "AMOUNT": "valor",
+            "ACTIONS": "ações"
+        },
+        "MESSAGES": {
+            "REQUIRED_ERROR": "todos os campos obrigatórios devem ser preenchidos",
+            "CREATION_SUCCESS": "A contribuição foi criada com sucesso",
+            "CREATION_ERROR": "ocurreu um problema ao criar a contribuição",
+            "UPDATE_SUCCESS": "a contribuição foi atualizada com sucesso",
+            "UPDATE_ERROR": "ocurreu um problema ao atualizar a contribuição",
+            "DISABLE_SUCCESS": "a contribuição foi excluida corretamente",
+            "DISABLE_ERROR": "ocurreu um problema ao excluir a contribuição",
+            "NO_EDIT": "as contribuições excluidas não podem ser modificadas",
+            "NO_SAVINGS_ERROR": "não existem poupanças disponíveis para utilização, crie uma para começar",
+            "NO_OLDER_SAVINGS": "não existem poupanças criadas antes da data selecionada",
+            "CONTRIBUTION_ESTIMATE": "deverá poupar cerca de {{amount}} por mês",
+            "DATE_ESTIMATE": "vai completar seu objetivo até {{date}}",
+            "CONTRIBUTION_HINT": "Se você digitar o valor de contribuição, poderemos fornecer uma data estimada para atingir a meta da poupança",
+            "PROGRESS_ESTIMATE": "selecione uma poupança e insira um valor para ver uma estimativa do seu progresso",
+            "INDEFINITE_ESTIMATE": "total poupado aós esta contribuição",
+            "EXCEEDS_TARGET": "o valor da contribuição não pode ser superior ao valor alvo",
+            "EXCEEDS_REMAINING": "o valor da contribuição não pode ser superior ao valor restante",
+            "UNKNOWN": "unknown"
+        },
+        "WARNINGS": {
+            "SAVING_AFTER_CONTRIBUTION": "Esta poupança foi criada após a data da contribuição"
+        },
+        "DELETE": {
+            "TITLE": "excluir contribuição",
+            "MESSAGE": "¿tem certeza de que deseja excluir a contribuição de {{currency}} {{amount}} para '{{saving}}'?"
+        }
+    },
+    "CONTRIBUTION_FORM": {
+        "DATE": "data",
+        "SAVING": "poupança",
+        "AMOUNT": "valor",
+
+        "CONTRIBUTION_DETAILS": "com essa contribuição, sua poupança ficará assim:",
+
+        "CREATE": {
+            "TITLE": "criar contribuição"
+        },
+        "EDIT": {
+            "TITLE": "editar contribuição"
         }
     },
 

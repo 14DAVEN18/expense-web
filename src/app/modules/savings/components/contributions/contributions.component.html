@@ -1,0 +1,113 @@
+<div class="container">
+    <div class="modal-header">
+        <h2> 
+            {{
+                (isEditing
+                    ? 'CONTRIBUTION_FORM.EDIT.TITLE'
+                    : 'CONTRIBUTION_FORM.CREATE.TITLE'
+                ) | translate    
+            }}
+        </h2>
+
+        <mat-icon (click)="this.close()" class="close-icon">close</mat-icon>
+    </div>
+    
+    @if (!loading) {
+        <div #body class="modal-body" [formGroup]="contributionForm">
+            <div class="two-column-row">
+                <div>
+                    <p> {{ 'CONTRIBUTION_FORM.DATE' | translate }} </p>
+                    <mat-form-field appearance="outline">
+                        <input matInput [matDatepicker]="datepicker" [min]="minDate" [max] ="maxDate" formControlName="date"/>
+                        <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                        <mat-datepicker #datepicker>
+                            <mat-datepicker-actions>
+                                <button mat-button matDatepickerCancel> {{ 'BUTTONS.CANCEL' | translate }} </button>
+                                <button mat-raised-button matDatepickerApply> {{ 'BUTTONS.APPLY' | translate }} </button>
+                            </mat-datepicker-actions>
+                        </mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div>
+                    <p> {{ 'CONTRIBUTION_FORM.SAVING' | translate }} </p>
+                    <mat-form-field appearance="outline">
+                        <mat-select formControlName="saving_id">
+                            @for (saving of dateFilteredSavings; track saving.id) {
+                                <mat-option [value]="saving.id">
+                                    {{ saving.name }}
+                                </mat-option>
+                            }
+                        </mat-select>
+                        @if(savingDateWarning) {
+                            <mat-hint class="warning-message">
+                                <mat-icon class="warning-icon">warning_amber</mat-icon>{{ 'CONTRIBUTIONS.WARNINGS.SAVING_AFTER_CONTRIBUTION' | translate }}
+                            </mat-hint>
+                        }
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div>
+                <p> {{ 'CONTRIBUTION_FORM.AMOUNT' | translate }} </p>
+                <mat-form-field appearance="outline">
+                    <input 
+                        matInput
+                        formControlName="amount"
+                    />
+                </mat-form-field>
+            </div>
+
+            @if (contributionForm.get('amount')?.value && selectedSaving) {
+                @if (selectedSaving.saving_plan_type === 'INDEFINITE') {
+                    <p> {{ 'CONTRIBUTIONS.MESSAGES.INDEFINITE_ESTIMATE' | translate }} </p>
+                    <h2> {{ projectedSavedAmount() | money }} </h2>
+                } @else {
+                    <div>
+                        <h3> {{ 'CONTRIBUTION_FORM.CONTRIBUTION_DETAILS' | translate }} </h3>
+
+                        <div class="progress-container">
+                            <our-progress
+                                [barOnly]="true"
+                                [current]="projectedSavedAmount()"
+                                [target]="selectedSaving.target_amount ?? 0"
+                            />
+                        </div>
+                    </div>
+                }
+            }
+            
+            @if(error) {
+                <div>
+                    @for (error of errorMessages; track $index) {
+                        <p class="error-message"> {{ error | translate }} </p>
+                    }
+                </div>
+            }
+        </div>
+
+        <mat-divider></mat-divider>
+        
+        <div class="modal-footer">
+            <div class="modal-actions">
+                <button mat-raised-button color="secondary" (click)="this.close()"> {{ 'BUTTONS.CANCEL' | translate }} </button>
+                <button 
+                    mat-raised-button color="primary"
+                    (click)="saveContribution()"
+                    [disabled]="contributionForm.invalid || contributionForm.disabled"
+                > 
+                    {{
+                        (isEditing
+                            ? 'BUTTONS.SAVE'
+                            : 'BUTTONS.CREATE'
+                        ) | translate
+                    }}
+                </button>
+            </div>
+        </div>
+    } @else {
+        <h1>
+            {{ 'LOADING_FORM' | translate}}
+        </h1>
+    }
+</div>

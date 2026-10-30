@@ -16,6 +16,7 @@ export class ProgressComponent {
   @Input() current: number = 0
   @Input() target: number = 0
   @Input() currencyCode: CurrencyCode = 'COP'
+  @Input() barOnly: boolean = true
 
 
   public getProgress() {

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { MenuItem } from './types/meu-item';
+import { MenuItem } from './types/menu-item';
 import { MatListModule } from '@angular/material/list'
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
@@ -45,6 +45,7 @@ export class SidenavComponent {
       name: 'NAVBAR.SAVINGS',
       options: new Map<string, string>([
         ['NAVBAR.SAVINGS', "savings"],
+        ['NAVBAR.CONTRIBUTIONS', "contributions"]
       ])
     },
     {
@@ -60,6 +61,7 @@ export class SidenavComponent {
     'NAVBAR.ACCOUNTS': 'account_balance',
     'NAVBAR.TRANSACTIONS': 'attach_money',
     'NAVBAR.SAVINGS': 'savings',
+    'NAVBAR.CONTRIBUTIONS': 'wallet',
     'NAVBAR.ADMINISTRATION': 'build',
   }
 

@@ -57,7 +57,11 @@ export class SavingsComponent implements OnInit {
   public params: any = {}
 
 
+
+  // ******************************* VIEW CHILD *******************************
   @ViewChild('body') private body!: ElementRef<HTMLElement>
+
+
 
   // ******************************* ERROR HANDLING *******************************
   public minDate!: Date 
@@ -76,7 +80,7 @@ export class SavingsComponent implements OnInit {
     private readonly datePipe: DatePipe,
   ) { }
 
-
+  // ******************************* HOOKS *******************************
   ngOnInit() {
    this.createSavingForm()
    void this.initialize()
@@ -102,9 +106,16 @@ export class SavingsComponent implements OnInit {
     })
 
     if(this.isEditing) this.loadSaving()
-
     this.loading = false
-    if (!this.noAccounts) this.savingForm.disable()
+
+    if (this.noAccounts) {
+      this.savingForm.disable()
+      setTimeout(() => {
+        this.scrollToBottom()
+      })
+      return
+    }
+
     this.savingForm.enable()
   }
 
@@ -113,15 +124,6 @@ export class SavingsComponent implements OnInit {
    */
   private setMinDate() {
     const today = new Date()
-    const saving = this.data?.saving
-
-    if (saving) {
-      const savingDate = new Date(saving.date)
-
-      this.minDate = new Date(savingDate.getFullYear(), savingDate.getMonth(), 1)
-      return
-    }
-
     this.minDate = new Date(today.getFullYear(), today.getMonth(), 1)
   }
 
@@ -155,12 +157,13 @@ export class SavingsComponent implements OnInit {
   private async getAccounts() {
     this.accounts = (await this.accountService.getAccounts()).filter(account => account.active)
     this.dateFilteredAccounts = this.accounts
+
+    const message = 'SAVINGS.MESSAGES.NO_ACCOUNTS_ERROR'
     
     if(!this.accounts.length) {
-      this.savingForm.disable()
-      this.errorMessages.push('SAVINGS.MESSAGES.NO_ACCOUNTS_ERROR')
+      if(!this.errorMessages.includes(message)) this.errorMessages.push(message)
       this.noAccounts = true
-      this.error = true
+      this.error = this.errorMessages.length > 0
     }
   }
 
@@ -224,6 +227,9 @@ export class SavingsComponent implements OnInit {
     })
   }
 
+  /**
+   * Sets listener for contribution_amount
+   */
   private listenToContributionAmount() {
     this.savingForm.get('contribution_amount')?.valueChanges.subscribe(value => {
       if(!value) return
@@ -231,10 +237,12 @@ export class SavingsComponent implements OnInit {
       const target = this.savingForm.get('target_amount')?.value
       if(!target) return
 
+      const message = 'SAVINGS.MESSAGES.CONTRIBUTION_ERROR'
+
       if(Number(value) > Number(target)) {
         this.savingForm.get('contribution_amount')?.markAsTouched()
-        this.errorMessages.push('SAVINGS.MESSAGES.CONTRIBUTION_ERROR')
-        this.error = true
+        if (!this.errorMessages.includes(message)) this.errorMessages.push(message)
+        this.error = this.errorMessages.length > 0
         this.savingForm.get('contribution_amount')?.setValue(null)
         setTimeout(() => {
           this.scrollToBottom()
@@ -253,9 +261,14 @@ export class SavingsComponent implements OnInit {
   public async saveSaving() {
     this.savingForm.markAllAsTouched()
 
+    const message = 'SAVINGS.MESSAGES.REQUIRED_ERROR'
+
     if(this.savingForm.invalid) {
-      this.errorMessages.push('SAVINGS.MESSAGES.REQUIRED_ERROR')
-      this.error = true
+      if(!this.errorMessages.includes(message)) this.errorMessages.push(message)
+      this.error = this.errorMessages.length > 0
+      setTimeout(() => {
+        this.scrollToBottom()
+      })
       return
     }
     
@@ -286,8 +299,8 @@ export class SavingsComponent implements OnInit {
   }
 
   /**
-   * It updates the transaction
-   * @param transaction transaction to be updated
+   * It updates the saving
+   * @param saving saving to be updated
    */
   private async updateSaving(saving: ISaving) {
     const original = this.data.saving
@@ -305,6 +318,9 @@ export class SavingsComponent implements OnInit {
   public close() {
     this.dialogRef.close()
   }
+
+
+
   // ******************************* HELPERS *******************************
   /**
    * It determines whether the modal is in edition mode or not
@@ -351,6 +367,11 @@ export class SavingsComponent implements OnInit {
     control?.updateValueAndValidity()
   }
 
+  /**
+   * It handles the year selection of a date picker
+   * @param normalizedYear year selected by the user
+   * @param controlPath form path of the control
+   */
   public chosenYearHandler(normalizedYear: Date, controlPath: string) {
     const ctrlValue = this.savingForm.get(controlPath)?.value ?? new Date()
     ctrlValue.setFullYear(normalizedYear.getFullYear())
@@ -358,6 +379,12 @@ export class SavingsComponent implements OnInit {
     this.savingForm.get(controlPath)?.setValue(ctrlValue)
   }
 
+  /**
+   * It handles the month selection of a date picker and closes the picker
+   * @param normalizedMonth month selected by the user
+   * @param controlPath form path of the control
+   * @param datepicker datepicker that called the function
+   */
   public chosenMonthHandler(normalizedMonth: Date, controlPath: string, datepicker: MatDatepicker<Date>): void {
     const ctrlValue = this.savingForm.get(controlPath)?.value ?? new Date()
     ctrlValue.setMonth(normalizedMonth.getMonth())
@@ -365,6 +392,9 @@ export class SavingsComponent implements OnInit {
     datepicker.close()
   }
 
+  /**
+   * Scroll tot he bottom of the form
+   */
   private scrollToBottom() {
     const element = this.body.nativeElement
 
@@ -375,7 +405,7 @@ export class SavingsComponent implements OnInit {
   }
 
   /**
-   * It calculates and format the estimated amount of contribution when the saving plan type is target date
+   * It validates that there's enough data to calculate the estimated contribution
    */
   private async calculateEstimateAmount() {
     this.estimatedContribution = null
@@ -404,6 +434,10 @@ export class SavingsComponent implements OnInit {
     }
   }
 
+  /**
+   * It validates that there's enough data to calculate the estimated date
+   * @returns 
+   */
   private calculateEstimatedDate() {
     this.estimatedDate = null
 
