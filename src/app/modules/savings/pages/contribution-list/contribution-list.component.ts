@@ -128,8 +128,6 @@ export class ContributionListComponent implements OnInit {
         currency_code: account?.currency_code
       }
     })
-
-    console.log(this.data)
   }
 
   /**
@@ -188,10 +186,8 @@ export class ContributionListComponent implements OnInit {
    * @param contribution the contribution to be deleted
    */
   public confirmDeletion(enterAnimationDuration: string, exitAnimationDuration: string, contribution: IContribution) {
-    console.log(this.savings)
-    console.log(contribution)
     const saving = this.savings.find(saving => saving.id === contribution.saving_id)
-    console.log(saving)
+    
     const account = this.accounts.find(account => account.id === saving?.account_id)
 
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {

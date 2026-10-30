@@ -215,9 +215,9 @@ export class ContributionsComponent implements OnInit {
 
       this.selectedSaving = this.dateFilteredSavings.find(saving => saving.id === value)
       if(!this.selectedSaving?.id) return
-      console.log(this.selectedSaving)
+
       this.savedAmount = Number(await this.contributionService.getSavingTotal(value))
-      console.log(this.savedAmount)
+      
       this.remainingAmount = this.selectedSaving.target_amount !== null
         ? Math.max(this.selectedSaving.target_amount - this.savedAmount, 0)
         : 0
