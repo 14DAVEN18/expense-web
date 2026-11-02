@@ -1,11 +1,14 @@
 <div class="container">
     @if (barOnly) {
         <div class="top">
-            {{ current | money:currencyCode:'symbol' }} / {{ target | money:currencyCode:'symbol' }}
+            <p> {{ current | money:currencyCode:'symbol' }} </p>
+            @if(target) {
+                <p>/</p> 
+                <p>{{ target | money:currencyCode:'symbol' }}</p>}
         </div>    
     }
 
-    @if (current) {
+    @if (current && target) {
         <div class="progress">
             <div 
                 class="progress-bar incomplete"
