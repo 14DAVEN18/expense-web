@@ -53,7 +53,7 @@
                         </ng-container>
 
                         <ng-container *ngSwitchCase="'progress'">
-                             <our-progress [current]="2500000" [target]="element.target_amount"/>
+                             <our-progress [current]="element.progress" [target]="element.target_amount"/>
                         </ng-container>
 
                         <ng-container *ngSwitchCase="'actions'">
