@@ -9,16 +9,21 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { AccountsService } from '@modules/accounts/services/accounts.service';
 import { IContribution } from '@modules/savings/interfaces/contribution.interfaces';
 import { ISaving } from '@modules/savings/interfaces/savings.interface';
 import { ContributionMapper } from '@modules/savings/mappers/contribution.mapper';
 import { ContributionService } from '@modules/savings/services/contribution.service';
 import { SavingService } from '@modules/savings/services/saving.service';
+import { ITransaction } from '@modules/transactions/interfaces/transactions';
+import { TransactionsService } from '@modules/transactions/services/transactions.service';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ProgressComponent } from '@shared/components/progress/progress.component';
 import { MoneyPipe } from '@shared/pipes/money.pipe';
+import { AccountUtil } from '@shared/utils/account.utils';
 import { DateUtil } from '@shared/utils/date.util';
 import { SavingUtil } from '@shared/utils/saving.utils';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-contributions',
@@ -37,10 +42,13 @@ export class ContributionsComponent implements OnInit {
   public contributionForm!: FormGroup
   private savings: ISaving[] = []
   public dateFilteredSavings: ISaving[] = []
+  private transactions: ITransaction[] = []
   private originalSourceSavingId: number | null = null
   public selectedSaving?: ISaving
   public savedAmount: number = 0
   public remainingAmount: number = 0
+  public availableFunds: number = 0
+  public params: {} = {}
 
 
   // ******************************* VIEW CHILD *******************************
@@ -62,7 +70,10 @@ export class ContributionsComponent implements OnInit {
     public dialogRef: MatDialogRef<ContributionsComponent>,
     private readonly fb: FormBuilder,
     private readonly savingService: SavingService,
-    private readonly contributionService: ContributionService
+    private readonly transactionService: TransactionsService,
+    private readonly contributionService: ContributionService,
+    private readonly accountService: AccountsService,
+    private readonly moneyPipe: MoneyPipe,
   ) { }
 
 
@@ -86,7 +97,10 @@ export class ContributionsComponent implements OnInit {
     this.setMinDate()
     this.setMaxDate()
     
-    await this.getSavings()
+    await Promise.all([
+      this.getSavings(),
+      this.getTransactions()
+    ])
 
     this.listenToDate()
     this.listenToSaving()
@@ -173,6 +187,13 @@ export class ContributionsComponent implements OnInit {
   }
 
   /**
+   * Fetches the existing transactions created by the user
+   */
+  private async getTransactions() {
+    this.transactions = await this.transactionService.getTransactions()
+  }
+
+  /**
    * Creates the fields for the contribution form
    */
   private createContributionForm() {
@@ -215,57 +236,64 @@ export class ContributionsComponent implements OnInit {
 
       this.selectedSaving = this.dateFilteredSavings.find(saving => saving.id === value)
       if(!this.selectedSaving?.id) return
+      
+      const account = await this.accountService.getAccount(this.selectedSaving.account_id)
+      if(!account) return
+
+      const accountBalance = AccountUtil.calculateAccountBalance(account, this.transactions)
+      const allocatedAmount = await this.contributionService.getAccountAllocatedAmount(this.selectedSaving.account_id)
+      this.availableFunds = accountBalance - allocatedAmount
+
+      this.params = {
+        amount: this.moneyPipe.transform(this.availableFunds, undefined, 'symbol')
+      }
 
       this.savedAmount = Number(await this.contributionService.getSavingTotal(value))
-      
-      this.remainingAmount = this.selectedSaving.target_amount !== null
-        ? Math.max(this.selectedSaving.target_amount - this.savedAmount, 0)
-        : 0
     })
   }
 
   private listenToAmount() {
-    this.contributionForm.get('amount')?.valueChanges.subscribe(value => {      
-      if(!value || !this.selectedSaving) return
-
-      const target = this.selectedSaving.target_amount
-      if(target === null) return
-
-      const amount = Number(value)
-      const remaining = target - this.savedAmount
-
-      let message: string | null = null
-
-      if (amount > remaining)
-        message = 'CONTRIBUTIONS.MESSAGES.EXCEEDS_REMAINING'
-      else if (amount > target)
-        message = 'CONTRIBUTIONS.MESSAGES.EXCEEDS_TARGET'
-      
-      if(message) {
-        this.contributionForm.get('amount')?.markAsTouched()
-
-        if(!this.errorMessages.includes(message)) this.errorMessages.push(message)
-
-        this.error = true
-
-        setTimeout(() => {
-          this.scrollToBottom()
-        })
-
-        return
-      }
-
+    this.contributionForm.get('amount')?.valueChanges.subscribe(value => {
       const amountErrors = new Set([
+        'CONTRIBUTIONS.MESSAGES.EXCEEDS_AVAILABLE',
         'CONTRIBUTIONS.MESSAGES.EXCEEDS_REMAINING',
-        'CONTRIBUTIONS.MESSAGES.EXCEEDS_TARGET'
       ])
 
       this.errorMessages = this.errorMessages.filter(error => !amountErrors.has(error))
 
+      if (!value || !this.selectedSaving) {
+        this.error = this.errorMessages.length > 0
+        return
+      }
+
+      const amount = Number(value)
+      const target = this.selectedSaving.target_amount
+
+      let message: string | null = null
+
+      if (amount > this.availableFunds) {
+        message = 'CONTRIBUTIONS.MESSAGES.EXCEEDS_AVAILABLE'
+      } else if (target !== null) {
+        const remaining = target - this.savedAmount
+
+        if (amount > remaining) {
+          message = 'CONTRIBUTIONS.MESSAGES.EXCEEDS_REMAINING'
+        }
+      }
+
+      if (message) {
+        this.contributionForm.get('amount')?.markAsTouched()
+
+        this.errorMessages.push(message)
+
+        setTimeout(() => {
+          this.scrollToBottom()
+        })
+      }
+
       this.error = this.errorMessages.length > 0
     })
   }
-
   /**
    * Sends the value to be saved in the indexedDB table
    */

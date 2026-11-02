@@ -2,6 +2,10 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.16.2] 2026-11-2
+### Changed
+- Added validation for preventing the user from saving more than what is available to save
+
 ## [0.16.1] 2026-11-1
 ### Changed
 - Connected contributions with the savings list to show real progress for savings

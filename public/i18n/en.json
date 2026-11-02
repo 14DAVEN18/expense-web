@@ -292,8 +292,9 @@
             "CONTRIBUTION_HINT": "if you provide a contribution amount, we'll be able to provide an estimated date to achieve the saving goal",
             "PROGRESS_ESTIMATE": "select a saving and enter an amount to see an estimate of your progress",
             "INDEFINITE_ESTIMATE": "total saved after this contribution",
-            "EXCEEDS_TARGET": "the contribution amount cannot be greater than the target amount",
-            "EXCEEDS_REMAINING": "the contribution amount can't be greater than the remaining amount",
+            "EXCEEDS_AVAILABLE": "the contribution amount cannot be greater than the available funds",
+            "EXCEEDS_REMAINING": "the contribution amount cannot be greater than the remaining amount",
+            "AVAILABLE_FUNDS": "available to save: {{amount}}",
             "UNKNOWN": "unknown"
         },
         "WARNINGS": {

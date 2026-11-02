@@ -292,8 +292,9 @@
             "CONTRIBUTION_HINT": "Se você digitar o valor de contribuição, poderemos fornecer uma data estimada para atingir a meta da poupança",
             "PROGRESS_ESTIMATE": "selecione uma poupança e insira um valor para ver uma estimativa do seu progresso",
             "INDEFINITE_ESTIMATE": "total poupado aós esta contribuição",
-            "EXCEEDS_TARGET": "o valor da contribuição não pode ser superior ao valor alvo",
+            "EXCEEDS_AVAILABLE": "o valor da contribuição não pode ser superior ao valor disponível",
             "EXCEEDS_REMAINING": "o valor da contribuição não pode ser superior ao valor restante",
+            "AVAILABLE_FUNDS": "disponivel para poupar: {{amount}}",
             "UNKNOWN": "unknown"
         },
         "WARNINGS": {
