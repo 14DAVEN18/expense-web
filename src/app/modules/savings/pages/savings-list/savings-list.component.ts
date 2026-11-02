@@ -19,6 +19,8 @@ import { PaginatorSize } from '@shared/components/table/types/paginator';
 import { ToastService } from '@shared/services/toast.service';
 import { SavingContributionStart, SavingPlanType } from '../../../../local/constants/saving';
 import { DateUtil } from '@shared/utils/date.util';
+import { ContributionService } from '@modules/savings/services/contribution.service';
+import { IContribution } from '@modules/savings/interfaces/contribution.interfaces';
 
 @Component({
   selector: 'app-savings-list',
@@ -66,6 +68,7 @@ export class SavingsListComponent implements OnInit {
   constructor(
     private readonly dialog: MatDialog,
     private readonly savingService: SavingService,
+    private readonly contributionService: ContributionService,
     private readonly accountService: AccountsService,
     private readonly toastService: ToastService
   ) {
@@ -86,7 +89,7 @@ export class SavingsListComponent implements OnInit {
       this.getAccounts()
     ]);
 
-    this.mapNames()
+    await this.mapNames()
     
     this.isLoadingSavings = false;
   }
@@ -108,16 +111,26 @@ export class SavingsListComponent implements OnInit {
   /**
    * Maps additional information
    */
-  private mapNames() {
-    this.data = this.savings.map(saving => ({
-      ...saving,
-      real_date: saving.contribution_start ? this.mapStartDate(saving.date, saving.contribution_start) : saving.date,
-      associated_account_name: this.accounts.find(account => account.id === saving.account_id)?.name ?? '-',
-      progress: {
-        current: saving.target_amount ?? 0,
-        target: saving.target_amount ?? null
-      }
-    }))
+  private async mapNames() {
+    const savingsWithId = this.savings.filter((saving): saving is ISaving & { id: number } =>
+      saving.id !== undefined
+    )
+
+    this.data = await Promise.all(
+      savingsWithId.map(async saving => {
+        const loadedSaving = {
+          ...saving,
+          real_date: saving.contribution_start 
+            ? this.mapStartDate(saving.date, saving.contribution_start)
+            : saving.date,
+          associated_account_name:  
+            this.accounts.find(account => account.id === saving.account_id)?.name ?? '-',
+          progress: await this.contributionService.getSavingTotal(saving.id)
+        }
+
+        return loadedSaving
+      })
+    )
   }
 
   /**
