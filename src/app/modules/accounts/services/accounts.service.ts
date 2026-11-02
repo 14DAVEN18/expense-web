@@ -30,6 +30,7 @@ export class AccountsService {
     return await this.expensesWebDb.accounts.get(id)
   }
 
+
   /**
    * Retrieves the balance of a given account
    * @param accountId account id to be retrieved

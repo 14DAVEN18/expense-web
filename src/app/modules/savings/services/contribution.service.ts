@@ -120,4 +120,33 @@ export class ContributionService {
         return total + contribution.amount
       }, 0)
   }
+
+  public async getAccountAllocatedAmount(accountId: number): Promise<number> {
+    const savings = await this.expensesWebDb.savings
+      .where('account_id')
+      .equals(accountId)
+      .toArray()
+    console.log(savings)
+    const savingIds = savings
+      .filter(saving => saving.active && saving.id !== undefined)
+      .map(saving => saving.id!)
+    
+    console.log(savingIds)
+
+    if (!savingIds.length) return 0
+
+    const contributions = await this.expensesWebDb.contributions
+      .where('saving_id')
+      .anyOf(savingIds)
+      .toArray()
+    
+    console.log(contributions)
+
+    return contributions
+      .filter(contribution => contribution.active)
+      .reduce(
+        (total, contribution) => total + Number(contribution.amount),
+        0
+      )
+  }
 }
