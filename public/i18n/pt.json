@@ -33,6 +33,7 @@
         "ACCOUNTS": "Contas",
         "TRANSACTIONS": "Transações",
         "SAVINGS": "poupanças",
+        "SAVING_TRANSFERS": "transferências de poupança",
         "CONTRIBUTIONS": "contribuições",
         "ADMINISTRATION": "Administração",
         "SETTINGS": "Configuração"
@@ -208,7 +209,8 @@
             "EDIT": "editar poupança",
             "DELETE": "exluir poupança",
             "WATCH_LINK": "ver link",
-            "MARK_AS_COMPLETE": "marcar como concluido"
+            "MARK_AS_COMPLETE": "marcar como concluido",
+            "TRANSFER": "transferir fundos"
         },
         "COLUMNS": {
             "DATE": "inicio",
@@ -316,6 +318,56 @@
         },
         "EDIT": {
             "TITLE": "editar contribuição"
+        }
+    },
+
+
+    "SAVING_TRANSFERS": {
+        "TITLE": "transferência de poupança",
+        "TOOLTIPS": {
+            "CREATE": "criar transferência",
+            "EXPORT": "exportar transferências de poupança para arquivo CSV",
+            "EDIT": "editar transferência de poupança",
+            "DELETE": "exluir transferência de poupança"
+        },
+        "COLUMNS": {
+            "DATE": "data",
+            "AMOUNT": "valor",
+            "REASON": "razão",
+            "SOURCE_SAVING_NAME": "origem",
+            "DESTINATION_SAVING_NAME": "destino",
+            "ACTIONS": "ações"
+        },
+        "MESSAGES": {
+            "LOADING": "carregando transferências de poupanças",
+            "REQUIRED_ERROR": "todos os campos obrigatórios devem ser preenchidos",
+            "CREATION_SUCCESS": "A transferência de poupança foi criada com sucesso",
+            "CREATION_ERROR": "ocurreu um problema ao criar a transferência de poupança",
+            "UPDATE_SUCCESS": "a transferência de poupança foi atualizada com sucesso",
+            "UPDATE_ERROR": "ocurreu um problema ao atualizar a transferência de poupança",
+            "DISABLE_SUCCESS": "a transferência de poupança foi excluida corretamente",
+            "DISABLE_ERROR": "ocurreu um problema ao excluir a transferência de poupança",
+            "NO_SAVINGS_ERROR": "não existem poupanças disponíveis para utilização, crie duas para começar"
+        },
+        "DELETE": {
+            "TITLE": "excluir transferência de poupança",
+            "MESSAGE": "¿tem certeza de que deseja excluir a transferência de poupança de {{currency}} {{amount}} de {{source}} para '{{destination}}'?"
+        }
+    },
+    "SAVING_TRANSFER_FORM": {
+        "SOURCE_SAVING": "poupança de origem",
+        "DESTINATION_SAVING": "poupança de destino",
+        "AMOUNT": "valor",
+        "REASON": "razão",
+
+        "CURRENT": "atual",
+        "AFTER_TRANSFER": "após transferência",
+
+        "CREATE": {
+            "TITLE": "Criar transferência de poupança"
+        },
+        "EDIT": {
+            "TITLE": "editar transferência de poupança"
         }
     },
 

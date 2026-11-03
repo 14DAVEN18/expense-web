@@ -6,12 +6,14 @@ import { AdministrationComponent } from '@modules/administration/pages/administr
 import { SettingsComponent } from '@modules/settings/pages/settings/settings.component';
 import { SavingsListComponent } from '@modules/savings/pages/savings-list/savings-list.component';
 import { ContributionListComponent } from '@modules/savings/pages/contribution-list/contribution-list.component';
+import { TransferListComponent } from '@modules/savings/pages/transfer-list/transfer-list.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'accounts', component: AccountListComponent },
     { path: 'transactions', component: TransactionListComponent },
     { path: 'savings', component: SavingsListComponent },
+    { path: 'saving-transfers', component: TransferListComponent },
     { path: 'contributions', component: ContributionListComponent },
     { path: 'administration', component: AdministrationComponent },
     { path: 'settings', component: SettingsComponent },

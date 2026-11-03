@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { IAccount } from '@modules/accounts/interfaces/accounts';
 import { ICategory } from '@modules/administration/interfaces/category';
 import { IContribution } from '@modules/savings/interfaces/contribution.interfaces';
+import { ISavingTransfer } from '@modules/savings/interfaces/saving-transfer.interface';
 import { ISaving } from '@modules/savings/interfaces/savings.interface';
 import { ISetting } from '@modules/settings/interfaces/settings';
 import { ITransaction } from '@modules/transactions/interfaces/transactions';
@@ -16,6 +17,7 @@ export class ExpenseTrackerDbService extends Dexie {
   transactions!: Table<ITransaction>
   savings!: Table<ISaving, number>
   contributions!: Table<IContribution, number>
+  savingTransfers!: Table<ISavingTransfer, number>
   categories!: Table<ICategory>
   settings!: Table<ISetting>
   
@@ -73,6 +75,16 @@ export class ExpenseTrackerDbService extends Dexie {
       accounts: '++id, date, name, type, currency_code',
       transactions: '++id, date, type, amount, category_id, source_account_id, destination_account_id',
       savings: '++id, account_id, saving_plan_type, active, completed',
+      contributions: '++id, saving_id, amount, date',
+      categories: '++id, name, type',
+      settings: '&key'
+    })
+
+    this.version(7).stores({
+      accounts: '++id, date, name, type, currency_code',
+      transactions: '++id, date, type, amount, category_id, source_account_id, destination_account_id',
+      savings: '++id, account_id, saving_plan_type, active, completed',
+      savingTransfers: '++id, source_account_id, destination_account_id, active',
       contributions: '++id, saving_id, amount, date',
       categories: '++id, name, type',
       settings: '&key'

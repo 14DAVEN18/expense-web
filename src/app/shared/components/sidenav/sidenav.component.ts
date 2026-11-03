@@ -45,7 +45,8 @@ export class SidenavComponent {
       name: 'NAVBAR.SAVINGS',
       options: new Map<string, string>([
         ['NAVBAR.SAVINGS', "savings"],
-        ['NAVBAR.CONTRIBUTIONS', "contributions"]
+        ['NAVBAR.CONTRIBUTIONS', "contributions"],
+        ['NAVBAR.SAVING_TRANSFERS', "saving-transfers"]
       ])
     },
     {
@@ -61,6 +62,7 @@ export class SidenavComponent {
     'NAVBAR.ACCOUNTS': 'account_balance',
     'NAVBAR.TRANSACTIONS': 'attach_money',
     'NAVBAR.SAVINGS': 'savings',
+    'NAVBAR.SAVING_TRANSFERS': 'compare_arrows',
     'NAVBAR.CONTRIBUTIONS': 'wallet',
     'NAVBAR.ADMINISTRATION': 'build',
   }

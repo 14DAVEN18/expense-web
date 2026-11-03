@@ -1,7 +1,6 @@
 {
     "NO_DATA": "There is no data to display",
     "LOADING_FORM": "loading",
-    "UNKNOWN": "unknown",
     "BUTTONS": {
         "CANCEL": "cancel",
         "SAVE": "save",
@@ -33,6 +32,7 @@
         "ACCOUNTS": "accounts",
         "TRANSACTIONS": "transactions",
         "SAVINGS": "savings",
+        "SAVING_TRANSFERS": "saving transfers",
         "CONTRIBUTIONS": "contributions",
         "ADMINISTRATION": "administration",
         "SETTINGS": "configuration"
@@ -163,11 +163,9 @@
             "UPDATE_ERROR": "There was a problem updating the transaction",
             "DISABLE_SUCCESS": "The transaction was deleted successfully",
             "DISABLE_ERROR": "There was a problem deleting the transaction",
-            "NO_EDIT": "deleted transactions can't be modified",
             "NO_ACCOUNTS_ERROR": "There are no accounts to use. create one to start",
             "NO_OLDER_ACCOUNTS": "There are no accounts created before the selected date",
-            "NO_CATEGORIES_ERROR": "There are no categories to use. create one to start",
-            "UNKNOWN": "Unknown"
+            "NO_CATEGORIES_ERROR": "There are no categories to use. create one to start"
         },
         "WARNINGS": {
             "ACCOUNT_AFTER_TRANSACTION": "This account was created after the transaction date"
@@ -208,7 +206,8 @@
             "EDIT": "edit saving",
             "DELETE": "delete saving",
             "WATCH_LINK": "watch link",
-            "MARK_AS_COMPLETE": "mark as complete"
+            "MARK_AS_COMPLETE": "mark as complete",
+            "TRANSFER": "transfer funds"
         },
         "COLUMNS": {
             "DATE": "start",
@@ -226,14 +225,12 @@
             "UPDATE_ERROR": "there was a problem updating the saving",
             "DISABLE_SUCCESS": "the saving was deleted successfully",
             "DISABLE_ERROR": "there was a problem deleting the saving",
-            "NO_EDIT": "deleted savings can't be modified",
             "NO_ACCOUNTS_ERROR": "there are no accounts to use. create one to start",
             "NO_OLDER_ACCOUNTS": "there are no accounts created before the selected date",
             "CONTRIBUTION_ESTIMATE": "you should save around {{amount}} per month",
             "DATE_ESTIMATE": "you will complete your goal around {{date}}",
             "CONTRIBUTION_HINT": "if you provide a contribution amount, we'll be able to provide an estimated date to achieve the saving goal",
-            "CONTRIBUTION_ERROR": "the contribution amount can't be greater than the target amount",
-            "UNKNOWN": "unknown"
+            "CONTRIBUTION_ERROR": "the contribution amount can't be greater than the target amount"
         },
         "DELETE": {
             "TITLE": "delete saving",
@@ -284,7 +281,6 @@
             "UPDATE_ERROR": "there was a problem updating the contribution",
             "DISABLE_SUCCESS": "the contribution was deleted successfully",
             "DISABLE_ERROR": "there was a problem deleting the contribution",
-            "NO_EDIT": "deleted contributions can't be modified",
             "NO_SAVINGS_ERROR": "there are no savings to use. create one to start",
             "NO_OLDER_SAVINGS": "there are no savings created before the selected date",
             "CONTRIBUTION_ESTIMATE": "you should save around {{amount}} per month",
@@ -293,8 +289,7 @@
             "PROGRESS_ESTIMATE": "select a saving and enter an amount to see an estimate of your progress",
             "INDEFINITE_ESTIMATE": "total saved after this contribution",
             "EXCEEDS_TARGET": "the contribution amount cannot be greater than the target amount",
-            "EXCEEDS_REMAINING": "the contribution amount can't be greater than the remaining amount",
-            "UNKNOWN": "unknown"
+            "EXCEEDS_REMAINING": "the contribution amount can't be greater than the remaining amount"
         },
         "WARNINGS": {
             "SAVING_AFTER_CONTRIBUTION": "this saving was created after the contribution date"
@@ -316,6 +311,56 @@
         },
         "EDIT": {
             "TITLE": "edit contribution"
+        }
+    },
+
+
+    "SAVING_TRANSFERS": {
+        "TITLE": "saving transfers",
+        "TOOLTIPS": {
+            "CREATE": "create transfer",
+            "EXPORT": "export transfers to CSV File",
+            "EDIT": "edit transfer",
+            "DELETE": "delete transfer"
+        },
+        "COLUMNS": {
+            "DATE": "date",
+            "AMOUNT": "amount",
+            "REASON": "reason",
+            "SOURCE_SAVING_NAME": "source",
+            "DESTINATION_SAVING_NAME": "destination",
+            "ACTIONS": "actions"
+        },
+        "MESSAGES": {
+            "LOADING": "loading saving transfers",
+            "REQUIRED_ERROR": "all required fields must be filled",
+            "CREATION_SUCCESS": "the saving transfer was created successfully",
+            "CREATION_ERROR": "there was a problem creating the saving transfer",
+            "UPDATE_SUCCESS": "the saving transfer was updated successfully",
+            "UPDATE_ERROR": "there was a problem updating the saving transfer",
+            "DISABLE_SUCCESS": "the saving transfer was deleted successfully",
+            "DISABLE_ERROR": "there was a problem deleting the saving transfer",
+            "NO_SAVINGS_ERROR": "there are no savings to use. create two to start"
+        },
+        "DELETE": {
+            "TITLE": "delete saving transfer",
+            "MESSAGE": "Are you sure you want to delete the saving transfer of {{currency}} {{amount}} from '{{source}}' to '{{destination}}'?"
+        }
+    },
+    "SAVING_TRANSFER_FORM": {
+        "SOURCE_SAVING": "source saving",
+        "DESTINATION_SAVING": "destination saving",
+        "AMOUNT": "amount",
+        "REASON": "reason",
+
+        "CURRENT": "current",
+        "AFTER_TRANSFER": "after transfer",
+
+        "CREATE": {
+            "TITLE": "create saving transfer"
+        },
+        "EDIT": {
+            "TITLE": "edit saving transfer"
         }
     },
 

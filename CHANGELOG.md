@@ -2,6 +2,17 @@
 
 This document contains the change log of the Expenses Web App. from its very first version.
 
+## [0.17.0] 2026-11-2
+### Added
+- Created saving transfer list component to display saving transactions
+- Added saving transaction list to Dexie schema v7
+- Created the saving transfer service
+- Created the ISavingTransfer and ISavingTransferDisplay interfaces
+- Created the empty component saving transfer for creation/edition implementation
+
+### Changed
+- Updated internationalization files
+
 ## [0.16.1] 2026-11-1
 ### Changed
 - Connected contributions with the savings list to show real progress for savings

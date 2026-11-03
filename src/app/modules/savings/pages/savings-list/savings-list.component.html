@@ -81,6 +81,16 @@
                                 </button>
 
                                 <button
+                                    mat-mini-fab
+                                    color="primary"
+                                    [matTooltip]="'SAVINGS.TOOLTIPS.TRANSFER' | translate"
+                                    [matTooltipPosition]="'before'"
+                                    (click)="openLink(element.link)"
+                                >
+                                    <mat-icon>compare_arrows</mat-icon>
+                                </button>
+
+                                <button
                                     *ngIf="element.active"
                                     mat-mini-fab
                                     color="primary"

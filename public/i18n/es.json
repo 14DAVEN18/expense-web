@@ -33,6 +33,7 @@
         "ACCOUNTS": "cuentas",
         "TRANSACTIONS": "transacciones",
         "SAVINGS": "ahorros",
+        "SAVING_TRANSFERS": "transferencias de ahorro",
         "CONTRIBUTIONS": "contribuciones",
         "ADMINISTRATION": "administración",
         "SETTINGS": "configuración"
@@ -208,7 +209,8 @@
             "EDIT": "editar ahorro",
             "DELETE": "eliminar ahorro",
             "WATCH_LINK": "ver link",
-            "MARK_AS_COMPLETE": "marcar como completado"
+            "MARK_AS_COMPLETE": "marcar como completado",
+            "TRANSFER": "transferir fondos"
         },
         "COLUMNS": {
             "DATE": "inicio",
@@ -316,6 +318,56 @@
         },
         "EDIT": {
             "TITLE": "editar contribución"
+        }
+    },
+
+
+    "SAVING_TRANSFERS": {
+        "TITLE": "transferencia de ahorro",
+        "TOOLTIPS": {
+            "CREATE": "cretar transferencia de ahorro",
+            "EXPORT": "exportar transferencias de ahorros a archivo CSV",
+            "EDIT": "editar transferencia de ahorro",
+            "DELETE": "eliminar transferencia de ahorro"
+        },
+        "COLUMNS": {
+            "DATE": "fecha",
+            "AMOUNT": "valor",
+            "REASON": "razón",
+            "SOURCE_SAVING_NAME": "origen",
+            "DESTINATION_SAVING_NAME": "destino",
+            "ACTIONS": "acciones"
+        },
+        "MESSAGES": {
+            "LOADING": "cargando transferencias de ahorros",
+            "REQUIRED_ERROR": "todos los campos requeridos deben completarse",
+            "CREATION_SUCCESS": "la transferencia de ahorro fue creada exitosamente",
+            "CREATION_ERROR": "ocurrió un problema creando la transferencia de ahorro",
+            "UPDATE_SUCCESS": "la transferencia de ahorro se actualizó exitosamente",
+            "UPDATE_ERROR": "ocurrió un problema actualizando la transferencia de ahorro",
+            "DISABLE_SUCCESS": "la transferencia de ahorro se eliminó correctamente",
+            "DISABLE_ERROR": "ocurrió un problema eliminando la transferencia de ahorro",
+            "NO_SAVINGS_ERROR": "no hay ahorros para usar. cree dos para empezar"
+        },
+        "DELETE": {
+            "TITLE": "eliminar transferencia de ahorro",
+            "MESSAGE": "Está seguro de que desea eliminar la transferencia de ahorro de {{currency}} {{amount}} de '{{source}}' a '{{destination}}'?"
+        }
+    },
+    "SAVING_TRANSFER_FORM": {
+        "SOURCE_SAVING": "ahorro de origen",
+        "DESTINATION_SAVING": "ahorro de destino",
+        "AMOUNT": "valor",
+        "REASON": "razón",
+
+        "CURRENT": "actual",
+        "AFTER_TRANSFER": "después de transferencia",
+
+        "CREATE": {
+            "TITLE": "crear transferencia de ahorro"
+        },
+        "EDIT": {
+            "TITLE": "editar transferencia de ahorro"
         }
     },
 
